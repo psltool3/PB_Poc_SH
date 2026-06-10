@@ -106,6 +106,29 @@ try{
 					echo "Error : You have modified Template Header, please check";
 					exit();
 				}
+				// Injected Name Validation
+            if (isset($name) && $name >= 0 && isset($column[$name])) {
+                if (!preg_match('/^[a-zA-Z0-9_\-\s\/,\.\&]+$/', $column[$name])) {
+                    echo "Error : Name should only contain alphanumeric characters and allowed symbols: " . htmlspecialchars($column[$name]) . "<br>";
+                    $redirect = 0;
+                }
+            }
+            
+            // Injected ID Validation
+            if (isset($mill_id) && $mill_id >= 0 && isset($column[$mill_id])) {
+                if (!preg_match('/^[a-zA-Z0-9]+$/', $column[$mill_id])) {
+                    echo "Error : ID should be a continuous alphanumeric string: " . htmlspecialchars($column[$mill_id]) . "<br>";
+                    $redirect = 0;
+                }
+            }
+
+            // Injected Milling Process Validation
+            if (isset($milling_process) && $milling_process >= 0 && isset($column[$milling_process])) {
+                if (!is_numeric(trim($column[$milling_process]))) {
+                    echo "Error : Milling Process must be numeric: " . htmlspecialchars($column[$milling_process]) . "<br>";
+                    $redirect = 0;
+                }
+            }
 				if(!isValidCoordinate($column[$latitude],'latitude') or !isValidCoordinate($column[$longitude],'longitude')){
 					echo "Error : Check Latitude and Longitude Value Latitude: ".$column[$latitude]." Longitude: ".$column[$longitude];
 					echo "</br>";

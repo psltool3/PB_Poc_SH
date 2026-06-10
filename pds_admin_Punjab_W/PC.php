@@ -61,7 +61,7 @@ require('Header.php');
                     <div class="row">
                         <div class="col-md-12">
 
-                            <!-- START SIMPLE DATATABLE -->10.
+                            <!-- START SIMPLE DATATABLE -->
                             <div class="panel panel-default">
 							<div class="panel-heading">
                                     <h3 class="panel-title">PC</h3>

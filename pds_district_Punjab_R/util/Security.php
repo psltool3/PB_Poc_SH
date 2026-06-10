@@ -81,4 +81,34 @@ foreach ($_GET as $key => $value) {
     $_GET[$key] = validateAndDecode($value);
 }
 
+
+// Security Validation for Name, ID, and Motorable Fields
+foreach ($_POST as $key => $value) {
+    $lower_key = strtolower($key);
+    if (in_array($lower_key, ['name', 'pc_name', 'mill_name', 'warehouse_name'])) {
+        if (!preg_match('/^[a-zA-Z0-9_\-\s\/,\.\\&]+$/', $value)) {
+            http_response_code(400);
+            die("Error : Name should only contain alphanumeric characters, spaces, and allowed symbols.");
+        }
+    }
+    if (in_array($lower_key, ['id', 'pc_id', 'mill_id', 'warehouse_id'])) {
+        if (!preg_match('/^[a-zA-Z0-9]+$/', $value)) {
+            http_response_code(400);
+            die("Error : ID should be a continuous alphanumeric string.");
+        }
+    }
+    if ($lower_key === 'milling_process') {
+        if (!is_numeric($value)) {
+            http_response_code(400);
+            die("Error : Milling Process must be numeric.");
+        }
+    }
+    if ($lower_key === 'warehousetype') {
+        $val = strtolower(trim($value));
+        if (in_array($val, ['motorable', 'non-motorable', 'non motorable', 'nonmotorable'])) {
+            $_POST[$key] = str_replace(['-', ' '], '', $val);
+        }
+    }
+}
+
 ?>
