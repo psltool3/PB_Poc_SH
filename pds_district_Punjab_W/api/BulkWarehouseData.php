@@ -115,6 +115,27 @@ try{
 					echo "Error : You have modified Template Header, please check";
 					exit();
 				}
+
+if (!isset($column[$name]) || !preg_match('/^[a-zA-Z0-9_\-\s\/,\.\\\&]+$/', $column[$name])) {
+    echo "Error: Name contains invalid characters: " . ($column[$name] ?? 'Missing');
+    echo "<br>";
+    $redirect = 0;
+}
+if (!isset($column[$id]) || !preg_match('/^[A-Za-z0-9]+$/', $column[$id])) {
+    echo "Error: ID should only contain alphanumeric characters without spaces: " . ($column[$id] ?? 'Missing');
+    echo "<br>";
+    $redirect = 0;
+}
+
+if (isset($column[$warehousetype])) {
+    $wt = strtolower(preg_replace('/[\s\-]/', '', $column[$warehousetype]));
+    if (!in_array($wt, ['motorable', 'nonmotorable'])) {
+        echo "Error: Invalid Warehouse Type. Must be motorable or non-motorable: " . $column[$warehousetype];
+        echo "<br>";
+        $redirect = 0;
+    }
+}
+
 				if(!isValidCoordinate($column[$latitude],'latitude') or !isValidCoordinate($column[$longitude],'longitude')){
 					echo "Error : Check Latitude and Longitude Value Latitude: ".$column[$latitude]." Longitude: ".$column[$longitude];
 					echo "</br>";
@@ -127,33 +148,7 @@ try{
 					$redirect = 0;
 				}
 
-				// Injected Name Validation
-            if (isset($name) && $name >= 0 && isset($column[$name])) {
-                if (!preg_match('/^[a-zA-Z0-9_\-\s\/,\.\\&]+$/', $column[$name])) {
-                    echo "Error : Name should only contain alphanumeric characters and allowed symbols: " . htmlspecialchars($column[$name]) . "<br>";
-                    $redirect = 0;
-                }
-            }
-            
-            // Injected ID Validation
-            if (isset($id) && $id >= 0 && isset($column[$id])) {
-                if (!preg_match('/^[a-zA-Z0-9]+$/', $column[$id])) {
-                    echo "Error : ID should be a continuous alphanumeric string: " . htmlspecialchars($column[$id]) . "<br>";
-                    $redirect = 0;
-                }
-            }
-
-            // Injected Motorable Validation
-            if (isset($warehousetype) && $warehousetype >= 0 && isset($column[$warehousetype])) {
-                $wt = strtolower(trim($column[$warehousetype]));
-                if (in_array($wt, ['motorable', 'non-motorable', 'non motorable', 'nonmotorable'])) {
-                    $column[$warehousetype] = str_replace(['-', ' '], '', $wt);
-                } else {
-                    echo "Error : Invalid Motorable value: " . htmlspecialchars($column[$warehousetype]) . "<br>";
-                    $redirect = 0;
-                }
-            }
-            if(!in_array($column[$district], $districts)){
+				if(!in_array($column[$district], $districts)){
 					echo "Error : Check District Name: ".$column[$district];
 					echo "</br>";
 					$redirect = 0;
@@ -247,6 +242,9 @@ try{
 					$Warehouse->setId($column[$id]);
 					$Warehouse->setStoragePoint(isset($column[$Storage_Point]) ? $column[$Storage_Point] : "0");
                     $Warehouse->setCapacityAvailable(isset($column[$Capacity_Available]) ? $column[$Capacity_Available] : "0");
+					
+                    $column[$warehousetype] = strtolower(preg_replace('/[\s\-]/', '', $column[$warehousetype]));
+
 					$Warehouse->setWarehousetype($column[$warehousetype]);
 					$Warehouse->setActive($column[$active]);
 					while(true){

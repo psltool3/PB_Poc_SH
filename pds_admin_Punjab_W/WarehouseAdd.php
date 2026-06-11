@@ -53,13 +53,15 @@ require('Header.php');
                                                     <span class="help-block">Warehouse Name</span>
                                                 </div>
                                             </div>
+
+											<input type="hidden" id="warehousetype" name="warehousetype" value="motorable" />
 											
 											<div class="form-group">
                                                 <label class="col-md-3 control-label">Storage Point*</label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-info"></span></span>
-                                                        									<select class="form-control" id="Storage_Point" name="Storage_Point">
+                                                        <select class="form-control" id="Storage_Point" name="Storage_Point">
                                                     </select>
                                                     </div>
                                                     <span class="help-block">Storage Point</span>
@@ -87,6 +89,9 @@ require('Header.php');
                                                     <span class="help-block">Latitude of Warehouse</span>
                                                 </div>
                                             </div>
+
+                                        </div>
+                                        <div class="col-md-6">
 										
 											<div class="form-group">
                                                 <label class="col-md-3 control-label">Warehouse Id*</label>
@@ -100,19 +105,14 @@ require('Header.php');
                                             </div>
 											
 											<div class="form-group">
-                                                <label class="col-md-3 control-label">Type of Warehouse ( SWC, CWC, FCI, CAP, other)</label>
+                                                <label class="col-md-3 control-label">District*</label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
-												   <span class="input-group-addon"><span class="fa fa-arrow-down"></span></span>
-                                                    <select class="form-control" id="warehousetype" name="warehousetype">
-													<option value="swc">SWC</option>
-													<option value="cwc">CWC</option>
-													<option value="fci">FCI</option>
-													<option value="cap">CAP</option>
-													<option value="other">Other</option>
-                                                    </select>
-													</div>
-                                                    <span class="help-block">Type of Warehouse</span>
+                                                        <span class="input-group-addon"><span class="fa fa-arrow-down"></span></span>
+                                                        <select class="form-control" id="district" name="district">
+                                                        </select>
+                                                    </div>
+                                                    <span class="help-block">District</span>
                                                 </div>
                                             </div>
 											

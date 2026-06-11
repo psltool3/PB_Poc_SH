@@ -82,6 +82,27 @@ if (!empty($errors)) {
 	exit();
 }
 
+
+if (!preg_match('/^[a-zA-Z0-9_\-\s\/,\.\\\&]+$/', $_POST["name"])) {
+    http_response_code(400);
+    echo "Error : Name should only contain valid characters.";
+    exit();
+}
+$id_val = isset($_POST["id"]) ? $_POST["id"] : (isset($_POST["PC_ID"]) ? $_POST["PC_ID"] : (isset($_POST["mill_id"]) ? $_POST["mill_id"] : (isset($_POST["ID"]) ? $_POST["ID"] : "")));
+if ($id_val !== "" && !preg_match('/^[a-zA-Z0-9]+$/', $id_val)) {
+    http_response_code(400);
+    echo "Error : ID should only contain alphanumeric characters without spaces.";
+    exit();
+}
+
+$wt = strtolower(preg_replace('/[\s\-]/', '', $_POST["warehousetype"]));
+if (!in_array($wt, ['motorable', 'nonmotorable'])) {
+    http_response_code(400);
+    echo "Error : Invalid Warehouse Type (Motorable/Non-Motorable).";
+    exit();
+}
+$_POST["warehousetype"] = $wt;
+
 $dbHashedPassword = $row['password'];
 if(password_verify($person->getPassword(), $dbHashedPassword)){
     

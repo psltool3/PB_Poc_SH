@@ -44,8 +44,8 @@ $district = ucfirst($_SESSION["district_district"]);
                                     <div class="row">
 
                                         <div class="col-md-6">
-									
-									<div class="form-group">
+										
+											<div class="form-group">
                                                 <label class="col-md-3 control-label">Name of Warehouse*</label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
@@ -55,22 +55,33 @@ $district = ucfirst($_SESSION["district_district"]);
                                                     <span class="help-block">Warehouse Name</span>
                                                 </div>
                                             </div>
-									
-									<div class="form-group">
-                                                <label class="col-md-3 control-label">Motorable/Non-Motorable</label>
+
+											<input type="hidden" id="warehousetype" name="warehousetype" value="motorable" />
+											
+											<div class="form-group">
+                                                <label class="col-md-3 control-label">Storage Point*</label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
-								   <span class="input-group-addon"><span class="fa fa-arrow-down"></span></span>
-                                                    <select class="form-control select" id="type" name="type">
-										<option value="motorable">Motorable</option>
-										<option value="nonmotorable">Non-Motorable</option>
-                                                    </select>
-										</div>
-                                                    <span class="help-block">Motorable/Non-Motorable</span>
+                                                        <span class="input-group-addon"><span class="fa fa-arrow-down"></span></span>
+                                                        <select class="form-control" id="Storage_Point" name="Storage_Point">
+                                                        </select>
+                                                    </div>
+                                                    <span class="help-block">Storage Point</span>
                                                 </div>
                                             </div>
-									
-									<div class="form-group">
+											
+											<div class="form-group">
+                                                <label class="col-md-3 control-label">Capacity Available*</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-info"></span></span>
+                                                        <input type="text" class="form-control" id="Capacity_Available" name="Capacity_Available" required />
+                                                    </div>
+                                                    <span class="help-block">Capacity Available</span>
+                                                </div>
+                                            </div>
+											
+											<div class="form-group">
                                                 <label class="col-md-3 control-label">Latitude of Warehouse*</label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
@@ -80,46 +91,11 @@ $district = ucfirst($_SESSION["district_district"]);
                                                     <span class="help-block">Latitude of Warehouse</span>
                                                 </div>
                                             </div>
-									
-									<div class="form-group">
-                                                <label class="col-md-3 control-label">Storage Point*</label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-													   <span class="input-group-addon"><span class="fa fa-arrow-down"></span></span>
-                                                     <select class="form-control" id="Storage_Point" name="Storage_Point">
-                                                     </select>
-													</div>
-                                                     <span class="help-block">Storage Point</span>
-                                                 </div>
-                                             </div>
-
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">Capacity Available (Qtl)</label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-info"></span></span>
-                                                        <input type="text" class="form-control" id="Capacity_Available" name="Capacity_Available" />
-                                                    </div>
-                                                    <span class="help-block">Capacity Available</span>
-                                                </div>
-                                            </div>
-
 
                                         </div>
                                         <div class="col-md-6">
 
-									<div class="form-group">
-                                                <label class="col-md-3 control-label">District*</label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-info"></span></span>
-                                                        <input type="text" class="form-control" id="district" name="district" value="<?php echo $district ?>" readonly />
-                                                    </div>
-                                                    <span class="help-block">District</span>
-                                                </div>
-                                            </div>
-								
-									<div class="form-group">
+											<div class="form-group">
                                                 <label class="col-md-3 control-label">Warehouse Id*</label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
@@ -129,25 +105,19 @@ $district = ucfirst($_SESSION["district_district"]);
                                                     <span class="help-block">Warehouse ID</span>
                                                 </div>
                                             </div>
-									
-									<div class="form-group">
-                                                <label class="col-md-3 control-label">Type of Warehouse ( SWC, CWC, FCI, CAP, other)</label>
+
+											<div class="form-group">
+                                                <label class="col-md-3 control-label">District*</label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
-								   <span class="input-group-addon"><span class="fa fa-arrow-down"></span></span>
-                                                    <select class="form-control select" id="warehousetype" name="warehousetype">
-										<option value="swc">SWC</option>
-										<option value="cwc">CWC</option>
-										<option value="fci">FCI</option>
-										<option value="cap">CAP</option>
-										<option value="other">Other</option>
-                                                    </select>
-										</div>
-                                                    <span class="help-block">Type of Warehouse</span>
+                                                        <span class="input-group-addon"><span class="fa fa-info"></span></span>
+                                                        <input type="text" class="form-control" id="district" name="district" value="<?php echo $district ?>" readonly />
+                                                    </div>
+                                                    <span class="help-block">District</span>
                                                 </div>
                                             </div>
-									
-									<div class="form-group">
+
+											<div class="form-group">
                                                 <label class="col-md-3 control-label">Longitude of Warehouse*</label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
@@ -158,12 +128,11 @@ $district = ucfirst($_SESSION["district_district"]);
                                                 </div>
                                             </div>
 
-								   
                                         </div>
 
-                                    </div>
+                                    </div></div>
+                                            </div>
 
-                                </div>
                                 <div class="panel-footer">
                                     <button class="btn btn-primary pull-right" onclick="showPopup()" type="button">Submit</button>
                                 </div>
@@ -243,15 +212,16 @@ $district = ucfirst($_SESSION["district_district"]);
 		<script>
 		function showPopup() {
             
-			// Remove type selector - no longer in DB
 			var name = document.getElementById('name').value;
 			var latitude = document.getElementById('latitude').value;
             var longitude = document.getElementById('longitude').value;
 			var id = document.getElementById('id').value;
+			var Storage_Point = document.getElementById('Storage_Point').value;
+			var Capacity_Available = document.getElementById('Capacity_Available').value;
             var district = document.getElementById('district').value;
             var warehousetype = document.getElementById('warehousetype').value;
 
-            if (name === '' || latitude === '' || longitude === '' || id === '' || district === '' || warehousetype === '') {
+            if (name === '' || latitude === '' || longitude === '' || id === '' || Storage_Point === '' || Capacity_Available === '' || district === '' || warehousetype === '') {
                 alert('Please enter all fields');
                 return false;
             }
