@@ -75,10 +75,31 @@ if (
     exit();
 }
 
+
+if (!preg_match('/^[a-zA-Z0-9_\-\s\/,\.\\\&]+$/', $_POST["Name"])) {
+    http_response_code(400);
+    echo "Error : Name should only contain valid characters.";
+    exit();
+}
+$id_val = isset($_POST["id"]) ? $_POST["id"] : (isset($_POST["PC_ID"]) ? $_POST["PC_ID"] : (isset($_POST["mill_id"]) ? $_POST["mill_id"] : (isset($_POST["ID"]) ? $_POST["ID"] : "")));
+if ($id_val !== "" && !preg_match('/^[a-zA-Z0-9]+$/', $id_val)) {
+    http_response_code(400);
+    echo "Error : ID should only contain alphanumeric characters without spaces.";
+    exit();
+}
+
 $dbHashedPassword = $row['password'];
 if(password_verify($person->getPassword(), $dbHashedPassword)){
     
     $district = formatName($_POST["district"]);
+    $district_check_query = "SELECT name FROM districts WHERE LOWER(name) = LOWER('" . mysqli_real_escape_string($con, $district) . "')";
+    $district_check_result = mysqli_query($con, $district_check_query);
+    if(mysqli_num_rows($district_check_result) == 0){
+        echo "Error : Invalid District selected.";
+        exit();
+    }
+    $district_row = mysqli_fetch_assoc($district_check_result);
+    $district = $district_row['name'];
     $Latitude = $_POST["Latitude"];
     $Longitude = $_POST["Longitude"];
     $Name = $_POST["Name"];

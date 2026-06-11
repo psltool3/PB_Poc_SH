@@ -95,8 +95,9 @@ else{
                                                 <label class="col-md-3 control-label">District*</label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-info"></span></span>
-                                                        <input type="text" class="form-control" id="district" name="district" value="<?php echo $district; ?>" readonly />
+                                                        <span class="input-group-addon"><span class="fa fa-arrow-down"></span></span>
+                                                        <select class="form-control" id="district" name="district">
+                                                        </select>
                                                     </div>
                                                     <span class="help-block">District</span>
                                                 </div>
@@ -256,7 +257,9 @@ else{
         <script type="text/javascript" src="js/actions.js"></script>
 		
 		<?php
+			require('DistrictAutocomplete.php');
 			require('StoragePointAutocomplete.php');
+			echo "<script>setSelectedValue('district','$district'); </script>";
 			echo "<script>setSelectedValue('Storage_Point','$Storage_Point'); </script>";
 		?>
 		

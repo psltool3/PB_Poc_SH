@@ -112,6 +112,18 @@ try{
 						echo "Error : You have modified Template Header, please check";
 						exit();
 					}
+
+if (!isset($column[$Name]) || !preg_match('/^[a-zA-Z0-9_\-\s\/,\.\\\&]+$/', $column[$Name])) {
+    echo "Error: Name contains invalid characters: " . ($column[$Name] ?? 'Missing');
+    echo "<br>";
+    $redirect = 0;
+}
+if (!isset($column[$ID]) || !preg_match('/^[A-Za-z0-9]+$/', $column[$ID])) {
+    echo "Error: ID should only contain alphanumeric characters without spaces: " . ($column[$ID] ?? 'Missing');
+    echo "<br>";
+    $redirect = 0;
+}
+
 					if(!isValidCoordinate($column[$Latitude],'latitude') or !isValidCoordinate($column[$Longitude],'longitude')){
 						echo "Error : Check Latitude and Longitude Value Latitude: ".$column[$Latitude]." Longitude: ".$column[$Longitude];
 						echo "</br>";
@@ -124,7 +136,14 @@ try{
 						$redirect = 0;
 					}
                     
-					if(!in_array($column[$District], $districts)){
+					$district_found = false;
+					foreach ($districts as $d) {
+						if (strcasecmp(trim($column[$District]), $d) === 0) {
+							$district_found = true;
+							break;
+						}
+					}
+					if(!$district_found){
 						echo "Error : Check District Name: ".$column[$District];
 						echo "</br>";
 						$redirect = 0;
@@ -167,7 +186,14 @@ try{
 					filterData($column[$Storage_Point]);
 					filterData($column[$Capacity]);
 					filterData($column[$active]);
-					$Weighbridge->setDistrict(ucwords(strtolower($column[$District])));
+					$matched_district = ucwords(strtolower($column[$District]));
+					foreach ($districts as $d) {
+						if (strcasecmp(trim($column[$District]), $d) === 0) {
+							$matched_district = $d;
+							break;
+						}
+					}
+					$Weighbridge->setDistrict($matched_district);
 					$Weighbridge->setLatitude($column[$Latitude]);
 					$Weighbridge->setLongitude($column[$Longitude]);
 					$Weighbridge->setName($column[$Name]);
@@ -250,7 +276,14 @@ try{
 					filterData($column[$ID]);
 					filterData($column[$Storage_Point]);
 					filterData($column[$Capacity]);
-					$Weighbridge->setDistrict($column[$District]);
+					$matched_district = ucwords(strtolower($column[$District]));
+					foreach ($districts as $d) {
+						if (strcasecmp(trim($column[$District]), $d) === 0) {
+							$matched_district = $d;
+							break;
+						}
+					}
+					$Weighbridge->setDistrict($matched_district);
 					$Weighbridge->setLatitude($column[$Latitude]);
 					$Weighbridge->setLongitude($column[$Longitude]);
 					$Weighbridge->setName($column[$Name]);
