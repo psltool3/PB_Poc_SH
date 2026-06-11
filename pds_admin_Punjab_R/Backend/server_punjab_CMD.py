@@ -1283,7 +1283,8 @@ def processFile():
     FCI = pd.read_excel(input1, sheet_name='A.1 Warehouse')
     FPS = pd.read_excel(input1, sheet_name='A.2 FPS')
     
-   
+    FCI['Paddy_Procure'] = pd.to_numeric(FCI['Paddy_Procure'], errors='coerce').fillna(0)
+    FPS['Milling_Capacity'] = pd.to_numeric(FPS['Milling_Capacity'], errors='coerce').fillna(0)
 
     # ================= CHECK CONDITION =================
 
@@ -5134,7 +5135,9 @@ def processFile_leg1():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    import glob
+    app.run(host='0.0.0.0', port=5000, debug=True,
+            exclude_patterns=["*.pyc", "**/site-packages/**"])
 # -*- coding: utf-8 -*-
 
 #!/usr/bin/python
