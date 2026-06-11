@@ -2385,15 +2385,10 @@ def processFile():
 
         total_commodity = int(wheat_total)
 
-        Output_File = open('Backend//Inter_District1.csv', 'w')
-        for v in model.variables():
-            if v.value() > 0:
-                Output_File.write(v.name + '\t' + str(v.value()) + '\n')
-
-        Output_File = open('Backend//Inter_District1.csv', 'w')
-        for v in model.variables():
-            if v.value() > 0:
-                Output_File.write(v.name + '\t' + str(v.value()) + '\n')
+        with open('Backend//Inter_District1.csv', 'w') as Output_File:
+            for v in model.variables():
+                if v.value() > 0:
+                    Output_File.write(v.name + '\t' + str(v.value()) + '\n')
 
 
         if stop_process==True:
@@ -2403,6 +2398,9 @@ def processFile():
             json_data = json.dumps(data)
             json_object = json.loads(json_data)
             return json.dumps(json_object, indent=1)
+
+        if os.path.getsize('Backend//Inter_District1.csv') == 0:
+            raise Exception("Optimization produced no allocations (empty Inter_District1.csv)")
 
         df9 = pd.read_csv('Backend//Inter_District1.csv',header=None)
         df9.columns = ['Tagging']
@@ -3350,15 +3348,10 @@ def processFile_leg1():
         #data['Demand'] = int(FPS['Allocation_Wheat'].sum())
 
         
-        Output_File = open('Backend//Inter_District1_leg1.csv', 'w')
-        for v in model.variables():
-            if v.value() > 0:
-                Output_File.write(v.name + '\t' + str(v.value()) + '\n')
-
-        Output_File = open('Backend//Inter_District1_leg1.csv', 'w')
-        for v in model.variables():
-            if v.value() > 0:
-                Output_File.write(v.name + '\t' + str(v.value()) + '\n')
+        with open('Backend//Inter_District1_leg1.csv', 'w') as Output_File:
+            for v in model.variables():
+                if v.value() > 0:
+                    Output_File.write(v.name + '\t' + str(v.value()) + '\n')
 
 
         if stop_process==True:
@@ -3368,6 +3361,9 @@ def processFile_leg1():
             json_data = json.dumps(data)
             json_object = json.loads(json_data)
             return json.dumps(json_object, indent=1)
+
+        if os.path.getsize('Backend//Inter_District1_leg1.csv') == 0:
+            raise Exception("Optimization produced no allocations (empty Inter_District1_leg1.csv)")
 
         df9 = pd.read_csv('Backend//Inter_District1_leg1.csv',header=None)
         df9.columns = ['Tagging']
@@ -4189,79 +4185,84 @@ def processFile_leg1():
 
                 
 
-                Output_File = open('Backend//Inter_District4.csv', 'w')
-                for v in model.variables():
-                    if v.value() > 0:
-                        Output_File.write(v.name + '\t' + str(v.value()) + '\n')
-
-                Output_File = open('Backend//Inter_District4.csv', 'w')
-                for v in model.variables():
-                    if v.value() > 0:
-                        Output_File.write(v.name + '\t' + str(v.value()) + '\n')                          
+                with open('Backend//Inter_District4.csv', 'w') as Output_File:
+                    for v in model.variables():
+                        if v.value() > 0:
+                            Output_File.write(v.name + '\t' + str(v.value()) + '\n')
 
                 # ================= PROCESS OUTPUT =================
-                df9 = pd.read_csv('Backend//Inter_District4.csv', header=None)
-                df9.columns = ['Tagging']
+                # Check if any allocations were written
+                if os.path.getsize('Backend//Inter_District4.csv') > 0:
+                    df9 = pd.read_csv('Backend//Inter_District4.csv', header=None)
+                    df9.columns = ['Tagging']
 
-                df9[['Var','PC_ID','P_D','SW_ID','SW_D','commodity_Value']] = df9['Tagging'].str.split('_', n=5, expand=True)
-                df9[['commodity','Values']] = df9['commodity_Value'].str.split('\t', expand=True)
-                
-               
+                    df9[['Var','PC_ID','P_D','SW_ID','SW_D','commodity_Value']] = df9['Tagging'].str.split('_', n=5, expand=True)
+                    df9[['commodity','Values']] = df9['commodity_Value'].str.split('\t', expand=True)
+                    
 
-                df9 = df9[df9['commodity'] != 'Wheat1']
-                
-                def convert_to_numeric(value):
-                    try:
-                        return pd.to_numeric(value)
-                    except ValueError:
-                        return value
-                
+                   
 
-                df9['PC_ID'] = df9['PC_ID'].apply(convert_to_numeric)
-                df9['SW_ID'] = df9['SW_ID'].apply(convert_to_numeric)
-                
-                df9.to_excel('Backend//Tagging_Sheet_Pre_Final.xlsx', sheet_name='BG_FPS')
-                df32 = pd.read_excel('Backend//Tagging_Sheet_Pre_Final.xlsx')
+                    df9 = df9[df9['commodity'] != 'Wheat1']
+                    
+                    def convert_to_numeric(value):
+                        try:
+                            return pd.to_numeric(value)
+                        except ValueError:
+                            return value
+                    
 
-                
-                USN = pd.ExcelFile('Backend//Data_2.xlsx')
-                FCI = pd.read_excel(USN, sheet_name='A.2 FCI', index_col=None)
-                FPS = pd.read_excel(USN, sheet_name='A.1 Warehouse', index_col=None)
+                    df9['PC_ID'] = df9['PC_ID'].apply(convert_to_numeric)
+                    df9['SW_ID'] = df9['SW_ID'].apply(convert_to_numeric)
+                    
+                    df9.to_excel('Backend//Tagging_Sheet_Pre_Final.xlsx', sheet_name='BG_FPS')
+                    df32 = pd.read_excel('Backend//Tagging_Sheet_Pre_Final.xlsx')
 
-                # ================= MERGE =================
-                df41 = pd.merge(df32, FCI, on='PC_ID')
-                df41 = pd.merge(df41, FPS, on='SW_ID')
+                    
+                    USN = pd.ExcelFile('Backend//Data_2.xlsx')
+                    FCI = pd.read_excel(USN, sheet_name='A.2 FCI', index_col=None)
+                    FPS = pd.read_excel(USN, sheet_name='A.1 Warehouse', index_col=None)
 
-                df511 = df41[[
-                    'PC_ID','PC_Name','PC_District','PC_Lat','PC_Long','Storage_Point_P',
-                    'SW_ID','SW_Name','SW_District','SW_Lat','SW_Long','Values','Storage_Point_W'
-                ]]
+                    # ================= MERGE =================
+                    df41 = pd.merge(df32, FCI, on='PC_ID')
+                    df41 = pd.merge(df41, FPS, on='SW_ID')
 
-                # Add columns
-                df511.insert(0, 'Scenario', 'Optimized')
-                df511.insert(1, 'From', 'PC')
-                df511.insert(2, 'From_State', 'Punjab')
-                df511.insert(7, 'To', 'Depot')
-                df511.insert(8, 'To_State', 'Punjab')
-                df511.insert(9, 'Commodity', 'Paddy')
+                    df511 = df41[[
+                        'PC_ID','PC_Name','PC_District','PC_Lat','PC_Long','Storage_Point_P',
+                        'SW_ID','SW_Name','SW_District','SW_Lat','SW_Long','Values','Storage_Point_W'
+                    ]]
 
-                # Rename
-                df511.rename(columns={
-                    'PC_ID':'From_ID','PC_Name':'From_Name','PC_Lat':'From_Lat','PC_Long':'From_Long',
-                    'SW_ID':'To_ID','SW_Name':'To_Name','SW_Lat':'To_Lat','SW_Long':'To_Long',
-                    'Values':'Quantity',
-                    'PC_District':'From_District','SW_District':'To_District', 'Storage_Point_P': 'From_Centre','Storage_Point_W':'To_Centre'
-                }, inplace=True)
+                    # Add columns
+                    df511.insert(0, 'Scenario', 'Optimized')
+                    df511.insert(1, 'From', 'PC')
+                    df511.insert(2, 'From_State', 'Punjab')
+                    df511.insert(7, 'To', 'Depot')
+                    df511.insert(8, 'To_State', 'Punjab')
+                    df511.insert(9, 'Commodity', 'Paddy')
 
-                df511 = df511[[
-                    'Scenario','From','From_State','From_District','From_Centre','From_ID','From_Name','From_Lat','From_Long',
-                    'To','To_ID','To_Name','To_State','To_District','To_Centre','To_Lat','To_Long','Commodity','Quantity'
-                ]]
+                    # Rename
+                    df511.rename(columns={
+                        'PC_ID':'From_ID','PC_Name':'From_Name','PC_Lat':'From_Lat','PC_Long':'From_Long',
+                        'SW_ID':'To_ID','SW_Name':'To_Name','SW_Lat':'To_Lat','SW_Long':'To_Long',
+                        'Values':'Quantity',
+                        'PC_District':'From_District','SW_District':'To_District', 'Storage_Point_P': 'From_Centre','Storage_Point_W':'To_Centre'
+                    }, inplace=True)
 
-                df511 = df511[df511['Quantity'] != 0]
+                    df511 = df511[[
+                        'Scenario','From','From_State','From_District','From_Centre','From_ID','From_Name','From_Lat','From_Long',
+                        'To','To_ID','To_Name','To_State','To_District','To_Centre','To_Lat','To_Long','Commodity','Quantity'
+                    ]]
 
-                # Save final
-                df511.to_excel('Backend/Tagging_Sheet_Pre13.xlsx', sheet_name='BG_FPS', index=False)
+                    df511 = df511[df511['Quantity'] != 0]
+
+                    # Save final
+                    df511.to_excel('Backend/Tagging_Sheet_Pre13.xlsx', sheet_name='BG_FPS', index=False)
+                else:
+                    print("⚠️ No inter-district allocations found (empty CSV), writing empty output")
+                    columns_18 = [
+                        'Scenario','From','From_State','From_District','From_Centre','From_ID','From_Name','From_Lat','From_Long',
+                        'To','To_ID','To_Name','To_State','To_District','To_Centre','To_Lat','To_Long','Commodity','Quantity'
+                    ]
+                    pd.DataFrame(columns=columns_18).to_excel('Backend/Tagging_Sheet_Pre13.xlsx', index=False)
 
 
                 

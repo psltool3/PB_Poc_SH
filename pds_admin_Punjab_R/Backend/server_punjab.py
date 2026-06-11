@@ -2375,15 +2375,10 @@ def processFile():
 
         total_commodity = int(wheat_total)
 
-        Output_File = open('Backend//Inter_District1.csv', 'w')
-        for v in model.variables():
-            if v.value() > 0:
-                Output_File.write(v.name + '\t' + str(v.value()) + '\n')
-
-        Output_File = open('Backend//Inter_District1.csv', 'w')
-        for v in model.variables():
-            if v.value() > 0:
-                Output_File.write(v.name + '\t' + str(v.value()) + '\n')
+        with open('Backend//Inter_District1.csv', 'w') as Output_File:
+            for v in model.variables():
+                if v.value() > 0:
+                    Output_File.write(v.name + '\t' + str(v.value()) + '\n')
 
 
         if stop_process==True:
@@ -2393,6 +2388,9 @@ def processFile():
             json_data = json.dumps(data)
             json_object = json.loads(json_data)
             return json.dumps(json_object, indent=1)
+
+        if os.path.getsize('Backend//Inter_District1.csv') == 0:
+            raise Exception("Optimization produced no allocations (empty Inter_District1.csv)")
 
         df9 = pd.read_csv('Backend//Inter_District1.csv',header=None)
         df9.columns = ['Tagging']
@@ -3334,15 +3332,10 @@ def processFile_leg1():
         #data['Demand'] = int(FPS['Allocation_Wheat'].sum())
 
         
-        Output_File = open('Backend//Inter_District1_leg1.csv', 'w')
-        for v in model.variables():
-            if v.value() > 0:
-                Output_File.write(v.name + '\t' + str(v.value()) + '\n')
-
-        Output_File = open('Backend//Inter_District1_leg1.csv', 'w')
-        for v in model.variables():
-            if v.value() > 0:
-                Output_File.write(v.name + '\t' + str(v.value()) + '\n')
+        with open('Backend//Inter_District1_leg1.csv', 'w') as Output_File:
+            for v in model.variables():
+                if v.value() > 0:
+                    Output_File.write(v.name + '\t' + str(v.value()) + '\n')
 
 
         if stop_process==True:
@@ -3352,6 +3345,9 @@ def processFile_leg1():
             json_data = json.dumps(data)
             json_object = json.loads(json_data)
             return json.dumps(json_object, indent=1)
+
+        if os.path.getsize('Backend//Inter_District1_leg1.csv') == 0:
+            raise Exception("Optimization produced no allocations (empty Inter_District1_leg1.csv)")
 
         df9 = pd.read_csv('Backend//Inter_District1_leg1.csv',header=None)
         df9.columns = ['Tagging']
