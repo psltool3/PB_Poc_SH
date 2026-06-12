@@ -293,6 +293,9 @@ while($row = mysqli_fetch_array($result))
 										<th style="font-size:16px">Distance(Km)</th>
 										<th style="font-size:16px">Implemented / Non Implemented</th>
 										<th style="font-size:16px">District Reason for not Implementing</th>
+										<th style="font-size:16px">District Change Approve / Not Approve</th>
+										<th style="font-size:16px">New Distance Admin</th>
+										<th style="font-size:16px">New Id Admin</th>
 										<th style="font-size:16px">Approve/Not Approve</th>
 										<th style="font-size:16px">Reset</th>
 									</tr>
@@ -778,10 +781,10 @@ while($row = mysqli_fetch_array($result))
 								}
 
 								if(approve_district==""){
-									subpart1 = subpart1 + approve_district_part + "<td></td>" + approve_admin_part;
+									subpart1 = subpart1 + approve_district_part + "<td></td>" + approve_district_change + distance_admin_part + newid_admin_part + approve_admin_part;
 								}
 								else{
-									subpart1 = subpart1 + approve_district_part + "<td>" + reason_district + "</td>" + approve_admin_part;
+									subpart1 = subpart1 + approve_district_part + "<td>" + reason_district + "</td>" + approve_district_change + distance_admin_part + newid_admin_part + approve_admin_part;
 								}
 
 								if (approve_admin !== "") {

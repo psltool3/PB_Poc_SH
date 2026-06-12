@@ -60,7 +60,7 @@ if (isset($_GET['format'])) {
 			}
             $temp = array();
             for($i=0;$i<count($columns);$i++){
-               array_push($temp,$row[$columns[$i]]);
+               array_push($temp, isset($row[$columns[$i]]) ? $row[$columns[$i]] : "");
             }
             array_push($tableData,$temp);
         }

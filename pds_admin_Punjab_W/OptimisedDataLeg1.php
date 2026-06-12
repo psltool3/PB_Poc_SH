@@ -280,6 +280,9 @@ if($currentTimestamp >= $targetTimestamp) {
 												<th style="font-size:16px">Distance</th>
 												<th style="font-size:16px">Implemented / Non Implemented</th>
 												<th style="font-size:16px">District Reason for not Implementing</th>
+												<th style="font-size:16px">District Change Approve / Not Approve</th>
+												<th style="font-size:16px">New Distance Admin</th>
+												<th style="font-size:16px">New Id Admin</th>
 												<th style="font-size:16px">Approve/Not Approve</th>
 												<th style="font-size:16px">Reset</th>
                                             </tr>
@@ -441,6 +444,14 @@ if($currentTimestamp >= $targetTimestamp) {
 			modifiedReasonData[selectedId] = newvalue;
 			if(newvalue==''){
 				delete modifiedReasonData[selectedId];
+			}
+		}
+		
+		function enableDisableApprove(selectedId){
+			newvalue = document.getElementById(selectedId).value;
+			modifiedApproveData[selectedId] = newvalue;
+			if(newvalue==''){
+				delete modifiedApproveData[selectedId];
 			}
 		}
 		
@@ -681,9 +692,12 @@ if($currentTimestamp >= $targetTimestamp) {
 								
 								var approve_admin = obj[datafield]["approve_admin"] ? obj[datafield]["approve_admin"] : "";
 								var approve_district = obj[datafield]["approve_district"] ? obj[datafield]["approve_district"] : "";
+								var newid_district = obj[datafield]["new_id_district"] ? obj[datafield]["new_id_district"] : "";
 								var newid_admin = obj[datafield]["new_id_admin"] ? obj[datafield]["new_id_admin"] : "";
+								var distance_admin = obj[datafield]["new_distance_admin"] ? obj[datafield]["new_distance_admin"] : "";
 								var newname_admin = obj[datafield]["new_name_admin"] ? obj[datafield]["new_name_admin"] : "";
 								var reason_district = obj[datafield]["reason_district"] ? obj[datafield]["reason_district"] : "";
+								var district_change_approve = obj[datafield]["district_change_approve"] ? obj[datafield]["district_change_approve"] : "";
 								
 								var subpart1 = "<tr><td>" +  obj[datafield]["scenario"] +  "</td><td>"  + obj[datafield]["from"] +  "</td><td>"  + obj[datafield]["from_state"] +  "</td><td>"  + obj[datafield]["from_id"] +  "</td><td>"  + obj[datafield]["from_name"] +  "</td><td>"  + obj[datafield]["from_district"] +  "</td><td>"  + (obj[datafield]["from_centre"] !== undefined && obj[datafield]["from_centre"] !== null ? obj[datafield]["from_centre"] : "") + "</td><td>"  + obj[datafield]["from_lat"] +  "</td><td>"  + obj[datafield]["from_long"] +  "</td><td>"  + (obj[datafield]["wb_id"] !== undefined && obj[datafield]["wb_id"] !== null ? obj[datafield]["wb_id"] : "") +  "</td><td>"  + (obj[datafield]["wb_lat"] !== undefined && obj[datafield]["wb_lat"] !== null ? obj[datafield]["wb_lat"] : "") +  "</td><td>"  + (obj[datafield]["wb_long"] !== undefined && obj[datafield]["wb_long"] !== null ? obj[datafield]["wb_long"] : "") +  "</td><td>"  + obj[datafield]["to"] +  "</td><td>"  + obj[datafield]["to_state"] +  "</td><td>"  + obj[datafield]["to_id"] +  "</td><td>"  + obj[datafield]["to_name"] +  "</td><td>"  + obj[datafield]["to_district"] +  "</td><td>"  + (obj[datafield]["to_centre"] !== undefined && obj[datafield]["to_centre"] !== null ? obj[datafield]["to_centre"] : "") + "</td><td>"  + obj[datafield]["to_lat"] +  "</td><td>"  + obj[datafield]["to_long"] +  "</td><td>"  + obj[datafield]["commodity"] +  "</td><td>"  + obj[datafield]["quantity"] +  "</td><td>"  + obj[datafield]["distance"] + "</td>";
 
@@ -695,6 +709,40 @@ if($currentTimestamp >= $targetTimestamp) {
 								}
 								else if(approve_district==""){
 									var approve_district_part = "<td><button class='btn btn-warning'>Pending</button></td>";
+								}
+								
+								if(newid_district.length>0){
+									if(district_change_approve=="yes"){
+										var approve_district_change = "<td><button class='btn btn-info'>Already Approved</button></td>";
+									}
+									else if(district_change_approve=="no"){
+										var approve_district_change = "<td><button class='btn btn-danger'>Not Approved</button></td>";
+									}
+									else{
+										if(approve_district=="yes"){
+											var approve_district_change = "<td><select class='form-control' onchange='enableDisableApprove(\"" + uniqueid_idapprove + "\")' id='" + uniqueid_idapprove + "' name='" + uniqueid_idapprove + "' required><option value=''>Select</option><option value='yes'>Approve</option><option value='no'>Not Approve</option></select></td>";
+										}
+										else{
+											var approve_district_change = "<td><button class='btn btn-warning' disabled>District Implementation Pending</button></td>";
+										}
+									}
+								}
+								else{
+									var approve_district_change = "<td></td>";
+								}
+								
+								if(distance_admin==null || distance_admin==""){
+									var distance_admin_part = "<td><input type='text' onchange='handleDistanceChange(\"" + uniqueid_iddistance + "\")' id='" + uniqueid_iddistance + "' name='" + uniqueid_iddistance + "' disabled required /></td>";
+								}
+								else{
+									var distance_admin_part = "<td>" + distance_admin + "</td>"
+								}
+								
+								if(newid_admin.length>0){
+									var newid_admin_part = "<td>" + newid_admin + "</td>";
+								}
+								else{
+									var newid_admin_part = "<td><select class='form-control' onchange='handleNewIdChange(\"" + uniqueid + "\")' id='" + uniqueid + "' name='" + uniqueid + "' disabled required><option value=''>Select Id</option>" + warehousepart + "</select></td>";
 								}
 								
 								if(approve_admin=="yes"){
@@ -714,10 +762,10 @@ if($currentTimestamp >= $targetTimestamp) {
 								}
 
 								if(approve_district==""){
-									subpart1 = subpart1 + approve_district_part + "<td></td>" + approve_admin_part;
+									subpart1 = subpart1 + approve_district_part + "<td></td>" + approve_district_change + distance_admin_part + newid_admin_part + approve_admin_part;
 								}
 								else{
-									subpart1 = subpart1 + approve_district_part + "<td>" + reason_district + "</td>" + approve_admin_part;
+									subpart1 = subpart1 + approve_district_part + "<td>" + reason_district + "</td>" + approve_district_change + distance_admin_part + newid_admin_part + approve_admin_part;
 								}
 
 								if (approve_admin !== "") {

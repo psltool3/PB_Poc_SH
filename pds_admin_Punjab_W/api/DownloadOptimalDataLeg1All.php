@@ -85,10 +85,10 @@ if (isset($_GET['format'])) {
             $temp = array();
             $temp_pdf = array();
             for($i=0;$i<count($columns);$i++){
-                array_push($temp,$row[$columns[$i]]);
+                array_push($temp, isset($row[$columns[$i]]) ? $row[$columns[$i]] : "");
             }
             for($i=0;$i<count($columns_pdf);$i++){
-                array_push($temp_pdf,$row[$columns_pdf[$i]]);
+                array_push($temp_pdf, isset($row[$columns_pdf[$i]]) ? $row[$columns_pdf[$i]] : "");
             }
             array_push($tableData,$temp);
             array_push($tableData_pdf,$temp_pdf);

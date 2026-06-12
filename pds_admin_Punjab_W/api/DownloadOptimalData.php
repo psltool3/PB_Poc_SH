@@ -14,7 +14,7 @@ if (isset($_GET['format'])) {
     #$columns = ["scenario","from","from_state","from_id","from_name","from_district","from_centre","from_lat","from_long","wb_id","wb_lat","wb_long","to","to_state","to_id","to_name","to_district","to_centre","to_lat","to_long",
 	#$columns = ["commodity","quantity","distance","new_id_district","reason_district","new_distance_district","approve_district","approve_admin","reason_admin","new_id_admin","new_distance_admin"];
 	#$columns = ["scenario","from","from_state","from_id","from_name","from_district","from_centre","from_lat","from_long","wb_id","wb_lat","wb_long","to","to_state","to_id","to_name","to_district","to_centre","to_lat","to_long","commodity","quantity","distance","status"];
-	$columns = ["scenario","from","from_state","from_id","from_name","from_district","from_centre","from_lat","from_long","wb_id","wb_lat","wb_long","to","to_state","to_id","to_name","to_district","to_centre","to_lat","to_long","commodity","quantity","distance"];
+	$columns = ["scenario","from","from_state","from_id","from_name","from_district","from_centre","from_lat","from_long","wb_id","wb_lat","wb_long","to","to_state","to_id","to_name","to_district","to_centre","to_lat","to_long","commodity","quantity","distance","new_id_district","reason_district","new_distance_district","approve_district","approve_admin","reason_admin","new_id_admin","new_distance_admin"];
 	$columns_pdf = ["scenario","from","from_id","from_name","from_district","from_lat","from_long","to","to_id","to_name","to_district","to_lat","to_long","commodity","quantity","distance"];
 
     $month = $_GET['month'];
@@ -33,9 +33,9 @@ if (isset($_GET['format'])) {
 	}
 
 	$tablename = "optimiseddata_".$id;
-	$query = "SELECT * FROM ".$tablename." WHERE to_district='$district' AND status='implemented'";
+	$query = "SELECT * FROM ".$tablename." WHERE to_district='$district'";
 	if($district=="" OR $district=="all"){
-		$query = "SELECT * FROM ".$tablename." WHERE status='implemented'";
+		$query = "SELECT * FROM ".$tablename." WHERE 1";
 	}
 	
     $result = mysqli_query($con,$query);
@@ -80,10 +80,10 @@ if (isset($_GET['format'])) {
             $temp = array();
             $temp_pdf = array();
             for($i=0;$i<count($columns);$i++){
-                array_push($temp,$row[$columns[$i]]);
+               array_push($temp, isset($row[$columns[$i]]) ? $row[$columns[$i]] : "");
             }
 			for($i=0;$i<count($columns_pdf);$i++){
-                array_push($temp_pdf,$row[$columns_pdf[$i]]);
+                array_push($temp_pdf, isset($row[$columns_pdf[$i]]) ? $row[$columns_pdf[$i]] : "");
             }
             array_push($tableData,$temp);
             array_push($tableData_pdf,$temp_pdf);
