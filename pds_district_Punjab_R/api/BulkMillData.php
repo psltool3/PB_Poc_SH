@@ -124,7 +124,7 @@ try{
             }
             // Injected Name Validation
             if (isset($name) && $name >= 0 && isset($column[$name])) {
-                if (!preg_match('/^[a-zA-Z0-9_\-\s\/,\.\\&]+$/', $column[$name])) {
+                if (!preg_match('/^[a-zA-Z0-9_\-\s\/,\.\\&\(\)]+$/', $column[$name])) {
                     echo "Error : Name should only contain alphanumeric characters and allowed symbols: " . htmlspecialchars($column[$name]) . "<br>";
                     $redirect = 0;
                 }

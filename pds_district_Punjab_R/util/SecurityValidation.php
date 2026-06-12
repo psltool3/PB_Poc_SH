@@ -2,7 +2,7 @@
 
 class SecurityValidation {
     public static function validateNameField($value, $fieldName) {
-        if (preg_match('/^[a-zA-Z0-9_\-\s\/,\.\\\&]+$/', $value) !== 1) {
+        if (preg_match('/^[a-zA-Z0-9_\-\s\/,\.\\\&\(\)]+$/', $value) !== 1) {
             http_response_code(400);
             echo "Error : $fieldName should only contain alphanumeric characters and allowed symbols";
             exit();
@@ -31,7 +31,7 @@ class SecurityValidation {
     
     // For bulk uploads, we return boolean or normalized string instead of exiting
     public static function isValidName($value) {
-        return preg_match('/^[a-zA-Z0-9_\-\s\/,\.\\\&]+$/', $value) === 1;
+        return preg_match('/^[a-zA-Z0-9_\-\s\/,\.\\\&\(\)]+$/', $value) === 1;
     }
 
     public static function isValidID($value) {

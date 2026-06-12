@@ -13,15 +13,19 @@ function escapeHTML($input) {
     return preg_match($allowedCharacters, $input) ? $input : false;
 }*/
 
-function whitelistInput($input) {
+function whitelistInput($input, $allowParentheses = false) {
     // Define a whitelist of allowed characters for alphanumeric and spaces
-	$allowedCharacters = "/[^a-zA-Z0-9@\.\s\-_#\$]+/";
+    if ($allowParentheses) {
+        $allowedCharacters = "/[^a-zA-Z0-9@\.\s\-_#\$\(\)]+/";
+    } else {
+        $allowedCharacters = "/[^a-zA-Z0-9@\.\s\-_#\$]+/";
+    }
     
     // Remove disallowed characters from the input
     $sanitizedInput = preg_replace($allowedCharacters, "", $input);
 
     // Return the sanitized input
-    return $sanitizedInput;;
+    return $sanitizedInput;
 }
 
 
@@ -63,12 +67,16 @@ foreach ($_GET as $key => $value) {
 
 // Apply positive input validation to all elements in $_POST
 foreach ($_POST as $key => $value) {
-    $_POST[$key] = whitelistInput($value);
+    $lower_key = strtolower($key);
+    $allowParentheses = in_array($lower_key, ['name', 'pc_name', 'mill_name', 'warehouse_name']);
+    $_POST[$key] = whitelistInput($value, $allowParentheses);
 }
 
 // Apply positive input validation to all elements in $_GET
 foreach ($_GET as $key => $value) {
-    $_GET[$key] = whitelistInput($value);
+    $lower_key = strtolower($key);
+    $allowParentheses = in_array($lower_key, ['name', 'pc_name', 'mill_name', 'warehouse_name']);
+    $_GET[$key] = whitelistInput($value, $allowParentheses);
 }
 
 // Apply HTML and URL decoding followed by validation to all elements in $_POST
@@ -86,7 +94,7 @@ foreach ($_GET as $key => $value) {
 foreach ($_POST as $key => $value) {
     $lower_key = strtolower($key);
     if (in_array($lower_key, ['name', 'pc_name', 'mill_name', 'warehouse_name'])) {
-        if (!preg_match('/^[a-zA-Z0-9_\-\s\/,\.\\&]+$/', $value)) {
+        if (!preg_match('/^[a-zA-Z0-9_\-\s\/,\.\\&\(\)]+$/', $value)) {
             http_response_code(400);
             die("Error : Name should only contain alphanumeric characters, spaces, and allowed symbols.");
         }
