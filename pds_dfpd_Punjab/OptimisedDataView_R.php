@@ -3,7 +3,7 @@ require('util/Connection.php');
 require('util/SessionCheck.php');
 require('Header.php');
 
-$id = $_POST['id'];
+$id = strtolower($_POST['id']);
 if (isset($_POST['step']) && $_POST['step'] == 'leg1') {
     $tablename = "optimiseddata_leg1_".$id;
 } else {

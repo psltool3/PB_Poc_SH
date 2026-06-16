@@ -3,7 +3,7 @@ require('util/Connection.php');
 require('util/SessionCheck.php');
 require('Header.php');
 
-$id = $_POST['id'];
+$id = strtolower($_POST['id']);
 if (isset($_POST['step']) && $_POST['step'] == 'leg1') {
     $tablename = "mill_leg1_".$id;
 } else {
@@ -53,20 +53,12 @@ if (isset($_POST['step']) && $_POST['step'] == 'leg1') {
                                             <tr>
 												<th style="font-size:15px">Unique ID</th>
 												<th style="font-size:15px">District</th>
-												<th style="font-size:15px">Name</th> 
+												<th style="font-size:15px">Name</th>
 												<th style="font-size:15px">Mill ID</th>
-												<th style="font-size:15px">Type</th>
 												<th style="font-size:15px">Latitude</th>
 												<th style="font-size:15px">Longitude</th>
-												<th style="font-size:15px">Incoming Mota</th>
-												<th style="font-size:15px">Incoming Patla</th>
-												<th style="font-size:15px">Incoming Saran</th>
-												<th style="font-size:15px">Outgoing Mota</th>
-												<th style="font-size:15px">Outgoing Patla</th>
-												<th style="font-size:15px">Outgoing Saran</th>
-												<th style="font-size:15px">Milling Capacity Mota</th>
-												<th style="font-size:15px">Milling Capacity Patla</th>
-												<th style="font-size:15px">Milling Capacity Saran</th>
+												<th style="font-size:15px">Milling Centre</th>
+												<th style="font-size:15px">Milling Capacity</th>
 												<th style="font-size:15px">Active</th>
                                             </tr>
                                         </thead>
@@ -76,26 +68,26 @@ if (isset($_POST['step']) && $_POST['step'] == 'leg1') {
 										$query = "SELECT * FROM ".$tablename." WHERE 1";
 										
 										$result = mysqli_query($con,$query);
-										$numrows = mysqli_num_rows($result);
-										while($row = mysqli_fetch_array($result))
-										{
-											echo "<tr><td>{$row['uniqueid']}</td>".
-											"<td>{$row['district']}</td>".
-											"<td>{$row['name']}</td>".
-											"<td>{$row['id']}</td>".
-											"<td>{$row['type']}</td>".
-											"<td>{$row['latitude']}</td>".
-											"<td>{$row['longitude']}</td>".
-											"<td>{$row['incoming_min_mota']}</td>".
-											"<td>{$row['incoming_min_patla']}</td>".
-											"<td>{$row['incoming_min_saran']}</td>".
-											"<td>{$row['outgoing_min_mota']}</td>".
-											"<td>{$row['outgoing_min_patla']}</td>".
-											"<td>{$row['outgoing_min_saran']}</td>".
-											"<td>{$row['milling_capacity']}</td>".
-											"<td>{$row['milling_capacity1']}</td>".
-											"<td>{$row['milling_capacity2']}</td>".
-											"<td>{$row['active']}</td></tr>";
+										if ($result === false) {
+											echo "<tr><td colspan='14' style='text-align:center;color:red;'>No Mill data available for this optimisation run. (Table not found)</td></tr>";
+										} else {
+											$numrows = mysqli_num_rows($result);
+											if ($numrows == 0) {
+												echo "<tr><td colspan='14' style='text-align:center;'>No records found.</td></tr>";
+											} else {
+												while($row = mysqli_fetch_array($result))
+												{
+													echo "<tr><td>{$row['uniqueid']}</td>".
+													"<td>{$row['Mill_District']}</td>".
+													"<td>{$row['Mill_Name']}</td>".
+													"<td>{$row['Mill_ID']}</td>".
+													"<td>{$row['Mill_Latitute']}</td>".
+													"<td>{$row['Mill_Longitute']}</td>".
+													"<td>{$row['Mill_Milling_Centre']}</td>".
+													"<td>{$row['Milling_capacity']}</td>".
+													"<td>{$row['active']}</td></tr>";
+												}
+											}
 										}
 										
 										?>

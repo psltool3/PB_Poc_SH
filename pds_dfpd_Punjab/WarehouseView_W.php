@@ -3,7 +3,7 @@ require('util/Connection.php');
 require('util/SessionCheck.php');
 require('Header.php');
 
-$id = $_POST['id'];
+$id = strtolower($_POST['id']);
 if (isset($_POST['step']) && $_POST['step'] == 'leg1') {
     $tablename = "warehouse_leg1_".$id;
 } else {
@@ -68,24 +68,32 @@ if (isset($_POST['step']) && $_POST['step'] == 'leg1') {
 										$query = "SELECT * FROM ".$tablename." WHERE 1";
 										
 										$result = mysqli_query($con,$query);
-										$numrows = mysqli_num_rows($result);
-										while($row = mysqli_fetch_array($result))
-										{
-											$storage = 0;
-											if (isset($row['storage'])) { $storage = $row['storage']; }
-											elseif (isset($row['incoming_min_mota'])) { $storage = $row['incoming_min_mota'] + $row['incoming_min_patla'] + $row['incoming_min_saran']; }
-											elseif (isset($row['mota'])) { $storage = $row['mota'] + $row['patla'] + $row['saran']; }
-											
-											$wtype = isset($row['type']) ? $row['type'] : (isset($row['warehousetype']) ? $row['warehousetype'] : 'N/A');
-											
-											echo "<tr><td>{$row['district']}</td>".
-											"<td>{$row['name']}</td>".
-											"<td>{$row['id']}</td>".
-											
-											"<td>{$wtype}</td>".
-											"<td>{$row['latitude']}</td>".
-											"<td>{$row['longitude']}</td>".
-											"<td>{$storage}</td></tr>";
+										if ($result === false) {
+											echo "<tr><td colspan='7' style='text-align:center;color:red;'>No Warehouse data available for this optimisation run. (Table not found)</td></tr>";
+										} else {
+											$numrows = mysqli_num_rows($result);
+											if ($numrows == 0) {
+												echo "<tr><td colspan='7' style='text-align:center;'>No records found.</td></tr>";
+											} else {
+												while($row = mysqli_fetch_array($result))
+												{
+													$storage = 0;
+													if (isset($row['storage'])) { $storage = $row['storage']; }
+													elseif (isset($row['incoming_min_mota'])) { $storage = $row['incoming_min_mota'] + $row['incoming_min_patla'] + $row['incoming_min_saran']; }
+													elseif (isset($row['mota'])) { $storage = $row['mota'] + $row['patla'] + $row['saran']; }
+													
+													$wtype = isset($row['type']) ? $row['type'] : (isset($row['warehousetype']) ? $row['warehousetype'] : 'N/A');
+													
+													echo "<tr><td>{$row['district']}</td>".
+													"<td>{$row['name']}</td>".
+													"<td>{$row['id']}</td>".
+													
+													"<td>{$wtype}</td>".
+													"<td>{$row['latitude']}</td>".
+													"<td>{$row['longitude']}</td>".
+													"<td>{$storage}</td></tr>";
+												}
+											}
 										}
 										
 										?>

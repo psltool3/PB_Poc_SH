@@ -9,7 +9,7 @@ $columns_pdf = ["scenario","from","from_state","from_id","from_name","from_distr
 
 $filename = 'Chhattisgarh_data';
 
-$id = $_POST['id'];
+$id = strtolower($_POST['id']);
 $tablename = "optimiseddata_leg1_".$id;
 $leg = 0;
 

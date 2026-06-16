@@ -3,8 +3,8 @@ require('util/Connection.php');
 require('util/SessionCheck.php');
 require('Header.php');
 
-$id = $_POST['id'];
-$tablename = "pc_".$id;
+$id = strtolower($_POST['id']);
+$tablename = "pc1_leg1_".$id;
 
 ?>
 <style>
@@ -50,10 +50,11 @@ $tablename = "pc_".$id;
 												<th style="font-size:15px">Unique ID</th>
 												<th style="font-size:15px">District</th>
 												<th style="font-size:15px">Name</th>
-												<th style="font-size:15px">PC ID</th> 
+												<th style="font-size:15px">PC ID</th>
 												<th style="font-size:15px">Latitude</th>
 												<th style="font-size:15px">Longitude</th>
-												<th style="font-size:15px">Paddy Arrival</th>
+												<th style="font-size:15px">Storage Point</th>
+												<th style="font-size:15px">Paddy</th>
 												<th style="font-size:15px">Active</th>
                                             </tr>
                                         </thead>
@@ -63,17 +64,26 @@ $tablename = "pc_".$id;
 										$query = "SELECT * FROM ".$tablename." WHERE 1";
 										
 										$result = mysqli_query($con,$query);
-										$numrows = mysqli_num_rows($result);
-										while($row = mysqli_fetch_array($result))
-										{
-											echo "<tr><td>{$row['uniqueid']}</td>".
-											"<td>{$row['district']}</td>".
-											"<td>{$row['name']}</td>".
-											"<td>{$row['id']}</td>".
-											"<td>{$row['latitude']}</td>".
-											"<td>{$row['longitude']}</td>".
-												"<td>{$row['Paddy_Arrival']}</td>".
-											"<td>{$row['active']}</td></tr>";
+										if ($result === false) {
+											echo "<tr><td colspan='8' style='text-align:center;color:red;'>No PC data available for this optimisation run. (Table not found)</td></tr>";
+										} else {
+											$numrows = mysqli_num_rows($result);
+											if ($numrows == 0) {
+												echo "<tr><td colspan='8' style='text-align:center;'>No records found.</td></tr>";
+											} else {
+												while($row = mysqli_fetch_array($result))
+												{
+													echo "<tr><td>{$row['uniqueid']}</td>".
+													"<td>{$row['PC_District']}</td>".
+													"<td>{$row['PC_Name']}</td>".
+													"<td>{$row['PC_ID']}</td>".
+													"<td>{$row['PC_Lat']}</td>".
+													"<td>{$row['PC_Long']}</td>".
+													"<td>{$row['Storage_Point']}</td>".
+													"<td>{$row['PC_Paddy']}</td>".
+													"<td>{$row['active']}</td></tr>";
+												}
+											}
 										}
 										
 										?>
