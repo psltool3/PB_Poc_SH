@@ -25,38 +25,34 @@ if (isset($_GET['format'])) {
     }
     
     if (empty($columns)) {
-        $columns = ["Mill_District", "Mill_Name", "Mill_ID", "Mill_Latitute", "Mill_Longitute", "Mill_Milling_Centre", "Milling_capacity", "uniqueid", "active"];
+        $columns = ["district", "name", "id", "warehousetype", "latitude", "longitude", "Storage_Point_W", "Warehouse_Capacity_Available", "active"];
     }
 
     // Map database keys to user-friendly display headers
     $header_map = [
         'uniqueid' => 'Unique ID',
-        'Mill_District' => 'District',
         'district' => 'District',
-        'Mill_Name' => 'Name',
         'name' => 'Name',
-        'Mill_ID' => 'Mill ID',
         'id' => 'ID',
-        'Mill_Latitute' => 'Latitude',
+        'warehousetype' => 'Warehouse Type',
+        'type' => 'Type',
         'latitude' => 'Latitude',
-        'Mill_Longitute' => 'Longitude',
         'longitude' => 'Longitude',
-        'Mill_Milling_Centre' => 'Milling Centre',
-        'Milling_capacity' => 'Milling Capacity',
-        'milling_capacity' => 'Milling Capacity',
-        'milling_capacity1' => 'Milling Capacity 1',
-        'milling_capacity2' => 'Milling Capacity 2',
+        'Storage_Point_W' => 'Storage Point W',
+        'Warehouse_Capacity_Available' => 'Warehouse Capacity Available',
         'active' => 'Active',
-        'incoming_min_mota' => 'Incoming Min Mota',
-        'incoming_min_patla' => 'Incoming Min Patla',
-        'incoming_min_saran' => 'Incoming Min Saran',
-        'outgoing_min_mota' => 'Outgoing Min Mota',
-        'outgoing_min_patla' => 'Outgoing Min Patla',
-        'outgoing_min_saran' => 'Outgoing Min Saran'
+        'storage' => 'Storage'
     ];
 
+    // Compute storage dynamically if relevant columns exist
+    $has_mota_etc = in_array('incoming_min_mota', $columns) || in_array('mota', $columns) || in_array('storage', $columns);
+    $extra_columns = $columns;
+    if ($has_mota_etc && !in_array('storage', $columns)) {
+        $extra_columns[] = 'storage';
+    }
+
     $display_headers = array();
-    foreach ($columns as $col) {
+    foreach ($extra_columns as $col) {
         if (isset($header_map[$col])) {
             $display_headers[] = $header_map[$col];
         } else {
@@ -74,8 +70,20 @@ if (isset($_GET['format'])) {
         if($numrows>0){
             while($row = mysqli_fetch_array($result)){
                 $temp = array();
-                for($i=0;$i<count($columns);$i++){
-                    array_push($temp, isset($row[$columns[$i]]) ? $row[$columns[$i]] : '');
+                for($i=0;$i<count($extra_columns);$i++){
+                    $col = $extra_columns[$i];
+                    if ($col == 'storage') {
+                        $storage = 0;
+                        if (isset($row['storage'])) { $storage = $row['storage']; }
+                        elseif (isset($row['incoming_min_mota'])) { $storage = $row['incoming_min_mota'] + $row['incoming_min_patla'] + $row['incoming_min_saran']; }
+                        elseif (isset($row['mota'])) { $storage = $row['mota'] + $row['patla'] + $row['saran']; }
+                        $temp[] = $storage;
+                    } elseif ($col == 'warehousetype') {
+                        $wtype = isset($row['type']) ? $row['type'] : (isset($row['warehousetype']) ? $row['warehousetype'] : 'N/A');
+                        $temp[] = $wtype;
+                    } else {
+                        $temp[] = isset($row[$col]) ? $row[$col] : '';
+                    }
                 }
                 array_push($tableData,$temp);
             }
@@ -83,7 +91,6 @@ if (isset($_GET['format'])) {
     }
 	
 	
-    
     // Filename for the downloaded file
     $filename = 'table_data';
 
@@ -133,7 +140,7 @@ if (isset($_GET['format'])) {
             $pdf->SetTextColor(0); // Reset text color
             $case = 0;
 			$pdf->SetFont('helvetica', '', 7); // Font family, style (empty for regular), and size (8)
-            $numCols = count($columns) > 0 ? count($columns) : 1;
+            $numCols = count($extra_columns) > 0 ? count($extra_columns) : 1;
             $cellWidth = floor(190 / $numCols);
             foreach ($tableData as $row) {
                 foreach ($row as $col) {
@@ -166,5 +173,3 @@ function outputCSV($data) {
     }
     fclose($output);
 }
-
-//exit();

@@ -53,6 +53,10 @@ require('Header.php');
 							<div class="panel-heading">
                                     <h3 class="panel-title">Weighbridge</h3>
                                 </div>
+								<div style="float:right; margin:10px;">
+									<button id="downloadCSV" class="btn btn-warning" style="margin-bottom: 10px;" type="button">Download CSV</button>
+									<button id="downloadXLSX" class="btn btn-success" style="margin-bottom: 10px;" type="button">Download XLSX</button>
+								</div>
                             
                                 <div class="panel-body">
                                  <div class="table-responsive">
@@ -139,7 +143,44 @@ require('Header.php');
         <!-- END PAGE PLUGINS -->
 
 		<script>
-		// Read-only view - no actions needed
+		function getDateString(){
+			var currentDate = new Date();
+			var year = currentDate.getFullYear();
+			var month = currentDate.getMonth() + 1; // Month is zero-based, so we add 1
+			var day = currentDate.getDate();
+			var str = year + "-" + month + "-" + day;
+			return str;
+		}
+		
+		document.getElementById('downloadCSV').addEventListener('click', async function() {
+			try {
+				const csvResponse = await fetch('api/DownloadOptimalDataWeighbridge.php?format=csv');
+				const csvBlob = await csvResponse.blob();
+				downloadFile(csvBlob, 'Punjab_Weighbridge_' + getDateString() + '.csv');
+			} catch (error) {
+				console.error('Error downloading CSV file:', error);
+			}
+		});
+
+		// Event listener for downloading XLSX
+		document.getElementById('downloadXLSX').addEventListener('click', async function() {
+			try {
+				const excelResponse = await fetch('api/DownloadOptimalDataWeighbridge.php?format=xlsx');
+				const excelBlob = await excelResponse.blob();
+				downloadFile(excelBlob, 'Punjab_Weighbridge_' + getDateString() + '.xlsx');
+			} catch (error) {
+				console.error('Error downloading XLSX file:', error);
+			}
+		});
+
+		function downloadFile(blob, fileName) {
+			const url = window.URL.createObjectURL(blob);
+			const link = document.createElement('a');
+			link.href = url;
+			link.download = fileName;
+			link.click();
+			window.URL.revokeObjectURL(url);
+		}
 		</script>
     </body>
 </html>

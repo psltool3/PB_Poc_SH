@@ -93,7 +93,7 @@ if (isset($_POST['step']) && $_POST['step'] == 'leg1') {
 							<div class="panel-heading">
                                     <h3 class="panel-title">Optimised Data View</h3>
                                 </div>
-								<div style="float:right" style="margin:10px">
+								<div style="float:right; margin:10px;">
 									<button id="downloadCSV" class="btn btn-warning" style="margin-bottom: 10px;" type="button">Download CSV</button>
 									<button id="downloadXLSX" class="btn btn-success" style="margin-bottom: 10px;" type="button">Download XLSX</button>
 								</div>
@@ -202,7 +202,7 @@ if (isset($_POST['step']) && $_POST['step'] == 'leg1') {
 				var district = document.getElementById('district').value;
 				const csvResponse = await fetch('api/DownloadOptimalDataOptimised.php?format=csv&tableName='+tableName+'&district='+district);
 				const csvBlob = await csvResponse.blob();
-				downloadFile(csvBlob, 'Chhattisgarh_Optimised_Data_' + getDateString() + '.csv');
+				downloadFile(csvBlob, 'Punjab_Optimised_Data_' + getDateString() + '.csv');
 			} catch (error) {
 				console.error('Error downloading CSV file:', error);
 			}
@@ -215,7 +215,7 @@ if (isset($_POST['step']) && $_POST['step'] == 'leg1') {
 				var district = document.getElementById('district').value;
 				const excelResponse = await fetch('api/DownloadOptimalDataOptimised.php?format=xlsx&tableName='+tableName+'&district='+district);
 				const excelBlob = await excelResponse.blob();
-				downloadFile(excelBlob, 'Chhattisgarh_Optimised_Data_' + getDateString() + '.xlsx');
+				downloadFile(excelBlob, 'Punjab_Optimised_Data_' + getDateString() + '.xlsx');
 			} catch (error) {
 				console.error('Error downloading XLSX file:', error);
 			}
@@ -231,7 +231,7 @@ if (isset($_POST['step']) && $_POST['step'] == 'leg1') {
 				const url = window.URL.createObjectURL(pdfBlob);
 				const link = document.createElement('a');
 				link.href = url;
-				link.download = 'Chhattisgarh_Optimised_Data_' + getDateString() + '.pdf';
+				link.download = 'Punjab_Optimised_Data_' + getDateString() + '.pdf';
 				link.click();
 				window.URL.revokeObjectURL(url);
 			} catch (error) {

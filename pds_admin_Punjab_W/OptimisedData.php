@@ -107,7 +107,7 @@ while($row = mysqli_fetch_array($result))
                 <!-- START BREADCRUMB -->
                 <ul class="breadcrumb">
                     <li><a href="#">Home</a></li>
-                    <li class="active">Chhattisgarh PDS Optimised Plan</li>
+                    <li class="active">Punjab PDS Optimised Plan</li>
                 </ul>
                 <!-- END BREADCRUMB -->
 

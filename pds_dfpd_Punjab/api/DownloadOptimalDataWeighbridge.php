@@ -11,48 +11,18 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 if (isset($_GET['format'])) {
     $format = $_GET['format'];
     
-    // Sanitize table name to prevent SQL injection
-    $tablename = preg_replace('/[^a-zA-Z0-9_]/', '', $_GET['tableName']);
-	
-    // Dynamically retrieve column names
-    $columns = array();
-    $query_cols = "DESCRIBE `".$tablename."`";
-    $result_cols = mysqli_query($con, $query_cols);
-    if ($result_cols) {
-        while ($col_row = mysqli_fetch_assoc($result_cols)) {
-            $columns[] = $col_row['Field'];
-        }
-    }
-    
-    if (empty($columns)) {
-        $columns = ["Mill_District", "Mill_Name", "Mill_ID", "Mill_Latitute", "Mill_Longitute", "Mill_Milling_Centre", "Milling_capacity", "uniqueid", "active"];
-    }
+    $columns = ["District", "Name", "ID", "Storage_Point", "Capacity", "Latitude", "Longitude", "active"];
 
     // Map database keys to user-friendly display headers
     $header_map = [
-        'uniqueid' => 'Unique ID',
-        'Mill_District' => 'District',
-        'district' => 'District',
-        'Mill_Name' => 'Name',
-        'name' => 'Name',
-        'Mill_ID' => 'Mill ID',
-        'id' => 'ID',
-        'Mill_Latitute' => 'Latitude',
-        'latitude' => 'Latitude',
-        'Mill_Longitute' => 'Longitude',
-        'longitude' => 'Longitude',
-        'Mill_Milling_Centre' => 'Milling Centre',
-        'Milling_capacity' => 'Milling Capacity',
-        'milling_capacity' => 'Milling Capacity',
-        'milling_capacity1' => 'Milling Capacity 1',
-        'milling_capacity2' => 'Milling Capacity 2',
-        'active' => 'Active',
-        'incoming_min_mota' => 'Incoming Min Mota',
-        'incoming_min_patla' => 'Incoming Min Patla',
-        'incoming_min_saran' => 'Incoming Min Saran',
-        'outgoing_min_mota' => 'Outgoing Min Mota',
-        'outgoing_min_patla' => 'Outgoing Min Patla',
-        'outgoing_min_saran' => 'Outgoing Min Saran'
+        'District' => 'District',
+        'Name' => 'Name',
+        'ID' => 'Weighbridge ID',
+        'Storage_Point' => 'Storage Point',
+        'Capacity' => 'Capacity',
+        'Latitude' => 'Latitude',
+        'Longitude' => 'Longitude',
+        'active' => 'Status'
     ];
 
     $display_headers = array();
@@ -67,7 +37,7 @@ if (isset($_GET['format'])) {
 	$tableData = array();
     array_push($tableData, $display_headers);
 
-	$query = "SELECT * FROM `".$tablename."` WHERE 1";
+	$query = "SELECT * FROM weighbridge WHERE 1 ORDER BY District";
     $result = mysqli_query($con,$query);
     if ($result) {
         $numrows = mysqli_num_rows($result);
@@ -75,7 +45,12 @@ if (isset($_GET['format'])) {
             while($row = mysqli_fetch_array($result)){
                 $temp = array();
                 for($i=0;$i<count($columns);$i++){
-                    array_push($temp, isset($row[$columns[$i]]) ? $row[$columns[$i]] : '');
+                    $col = $columns[$i];
+                    if ($col == 'active') {
+                        $temp[] = $row['active'] == 1 ? 'Active' : 'InActive';
+                    } else {
+                        $temp[] = isset($row[$col]) ? $row[$col] : '';
+                    }
                 }
                 array_push($tableData,$temp);
             }
@@ -83,7 +58,6 @@ if (isset($_GET['format'])) {
     }
 	
 	
-    
     // Filename for the downloaded file
     $filename = 'table_data';
 
@@ -166,5 +140,3 @@ function outputCSV($data) {
     }
     fclose($output);
 }
-
-//exit();

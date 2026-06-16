@@ -7,7 +7,10 @@ $tablename = $_POST['tablename'];
 $data = null;
 
 
-$query = "SELECT * FROM ".$tablename." WHERE to_district='".$district."'";
+$query = "SELECT * FROM `".$tablename."` WHERE to_district='".$district."'";
+if ($district == "all") {
+    $query = "SELECT * FROM `".$tablename."` WHERE 1";
+}
 $result = mysqli_query($con,$query);
 $numrows = mysqli_num_rows($result);
 while($row = mysqli_fetch_array($result))

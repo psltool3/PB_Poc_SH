@@ -7,7 +7,7 @@ require('api/fpdf/fpdf.php');
 
 $columns_pdf = ["scenario","from","from_state","from_id","from_name","from_district","from_lat","from_long","to","to_state","to_id","to_name","to_district","to_lat","to_long","commodity","quantity","distance","status"];
 
-$filename = 'Chhattisgarh_data';
+$filename = 'Punjab_data';
 
 $id = $_POST['id'];
 $tablename = "optimiseddata_leg1_".$id;
@@ -139,7 +139,7 @@ function addRow($pdf, $row, $colWidth, $isHeader = false) {
 // Add to lines
 $fontSize = 12;
 $pdf->SetFont('Arial', 'B', $fontSize);
-$text = "PDS report generated for state Chhattisgarh and applicable date ".ucfirst($month)." and Date ".$date;
+$text = "PDS report generated for state Punjab and applicable date ".ucfirst($month)." and Date ".$date;
 $pdf->Cell(0, 10, $text, 0, 1);
 
 $text = "Cost saving for L2";

@@ -11,33 +11,65 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 if (isset($_GET['format'])) {
     $format = $_GET['format'];
     
-    $columns = ["uniqueid","district","name","id","latitude","longitude","mota","patla","saran","active"];
-    $tablename = $_GET['tableName'];
+    // Sanitize table name to prevent SQL injection
+    $tablename = preg_replace('/[^a-zA-Z0-9_]/', '', $_GET['tableName']);
 	
-	$tableData = array();
-    array_push($tableData,$columns);
-
-	$query = "SELECT * FROM ".$tablename." WHERE 1";
-    $result = mysqli_query($con,$query);
-    $numrows = mysqli_num_rows($result);
+    // Dynamically retrieve column names
+    $columns = array();
+    $query_cols = "DESCRIBE `".$tablename."`";
+    $result_cols = mysqli_query($con, $query_cols);
+    if ($result_cols) {
+        while ($col_row = mysqli_fetch_assoc($result_cols)) {
+            $columns[] = $col_row['Field'];
+        }
+    }
     
-    if($numrows>0){
-        while($row = mysqli_fetch_array($result)){
-            $temp = array();
-            for($i=0;$i<count($columns);$i++){
-                if($columns[$i]=="from_id"){
-                    if(strlen($row["new_id"])>0 and $row["approve"]=="yes"){
-                        array_push($temp,$row["new_id"]);
-                    }
-                    else{
-                        array_push($temp,$row[$columns[$i]]);
-                    }
+    if (empty($columns)) {
+        $columns = ["uniqueid","PC_district","PC_Name","PC_ID","PC_Latitude","PC_Longitute","Paddy_Procure","PC_Milling_Centre","active"];
+    }
+
+    // Map database keys to user-friendly display headers
+    $header_map = [
+        'uniqueid' => 'Unique ID',
+        'PC_district' => 'District',
+        'PC_District' => 'District',
+        'PC_Name' => 'Name',
+        'PC_ID' => 'PC ID',
+        'PC_Latitude' => 'Latitude',
+        'PC_Lat' => 'Latitude',
+        'PC_Longitute' => 'Longitude',
+        'PC_Long' => 'Longitude',
+        'Paddy_Procure' => 'Paddy Procure',
+        'PC_Milling_Centre' => 'Milling Centre',
+        'Storage_Point' => 'Storage Point',
+        'PC_Paddy' => 'Paddy',
+        'active' => 'Active'
+    ];
+
+    $display_headers = array();
+    foreach ($columns as $col) {
+        if (isset($header_map[$col])) {
+            $display_headers[] = $header_map[$col];
+        } else {
+            $display_headers[] = ucwords(str_replace('_', ' ', $col));
+        }
+    }
+
+	$tableData = array();
+    array_push($tableData, $display_headers);
+
+	$query = "SELECT * FROM `".$tablename."` WHERE 1";
+    $result = mysqli_query($con,$query);
+    if ($result) {
+        $numrows = mysqli_num_rows($result);
+        if($numrows>0){
+            while($row = mysqli_fetch_array($result)){
+                $temp = array();
+                for($i=0;$i<count($columns);$i++){
+                    array_push($temp, isset($row[$columns[$i]]) ? $row[$columns[$i]] : '');
                 }
-                else{            
-                    array_push($temp,$row[$columns[$i]]);
-                }
+                array_push($tableData,$temp);
             }
-            array_push($tableData,$temp);
         }
     }
 	
@@ -59,26 +91,20 @@ if (isset($_GET['format'])) {
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
 
-            // Set column names as the first row
-            $columnIndex = 1;
-            foreach ($columns as $columnName) {
-                $sheet->setCellValueByColumnAndRow($columnIndex, 1, $columnName);
-                $columnIndex++;
-            }
-
             // Insert data tableData
             $rowIndex = 1;
             foreach ($tableData as $rowData) {
                 $columnIndex = 1;
                 foreach ($rowData as $value) {
-                    $sheet->setCellValueByColumnAndRow($columnIndex, $rowIndex, $value);
+                    $cellAddress = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($columnIndex) . $rowIndex;
+                    $sheet->setCellValue($cellAddress, $value);
                     $columnIndex++;
                 }
                 $rowIndex++;
             }
 
 
-            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
             header('Cache-Control: max-age=0');
 
@@ -98,9 +124,11 @@ if (isset($_GET['format'])) {
             $pdf->SetTextColor(0); // Reset text color
             $case = 0;
 			$pdf->SetFont('helvetica', '', 7); // Font family, style (empty for regular), and size (8)
+            $numCols = count($columns) > 0 ? count($columns) : 1;
+            $cellWidth = floor(190 / $numCols);
             foreach ($tableData as $row) {
                 foreach ($row as $col) {
-                    $pdf->Cell(22, 5, $col, 1, 0, 'C', true);
+                    $pdf->Cell($cellWidth, 5, $col, 1, 0, 'C', true);
                 }
                 $pdf->Ln();
                 $pdf->SetFillColor(255, 255, 255); 

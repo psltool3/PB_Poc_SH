@@ -38,7 +38,7 @@ $tablename = "pc_".$id;
 							<div class="panel-heading">
                                     <h3 class="panel-title">PC Data</h3>
                                 </div>
-								<div style="float:right" style="margin:10px">
+								<div style="float:right; margin:10px;">
 									<button id="downloadCSV" class="btn btn-warning" style="margin-bottom: 10px;" type="button">Download CSV</button>
 									<button id="downloadXLSX" class="btn btn-success" style="margin-bottom: 10px;" type="button">Download XLSX</button>
 								</div>

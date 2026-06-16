@@ -38,7 +38,7 @@ $tablename = "pc_".$id;
 							<div class="panel-heading">
                                     <h3 class="panel-title">PC Data</h3>
                                 </div>
-								<div style="float:right" style="margin:10px">
+								<div style="float:right; margin:10px;">
 									<button id="downloadCSV" class="btn btn-warning" style="margin-bottom: 10px;" type="button">Download CSV</button>
 									<button id="downloadXLSX" class="btn btn-success" style="margin-bottom: 10px;" type="button">Download XLSX</button>
 								</div>
@@ -138,7 +138,7 @@ $tablename = "pc_".$id;
 				var tableName = '<?php echo $tablename ?>';
 				const csvResponse = await fetch('api/DownloadOptimalDataPC.php?format=csv&tableName='+tableName);
 				const csvBlob = await csvResponse.blob();
-				downloadFile(csvBlob, 'Chhattisgarh_PC_' + getDateString() + '.csv');
+				downloadFile(csvBlob, 'Punjab_PC_' + getDateString() + '.csv');
 			} catch (error) {
 				console.error('Error downloading CSV file:', error);
 			}
@@ -150,7 +150,7 @@ $tablename = "pc_".$id;
 				var tableName = '<?php echo $tablename ?>';
 				const excelResponse = await fetch('api/DownloadOptimalDataPC.php?format=xlsx&tableName='+tableName);
 				const excelBlob = await excelResponse.blob();
-				downloadFile(excelBlob, 'Chhattisgarh_PC_' + getDateString() + '.xlsx');
+				downloadFile(excelBlob, 'Punjab_PC_' + getDateString() + '.xlsx');
 			} catch (error) {
 				console.error('Error downloading XLSX file:', error);
 			}
@@ -166,7 +166,7 @@ $tablename = "pc_".$id;
 				const url = window.URL.createObjectURL(pdfBlob);
 				const link = document.createElement('a');
 				link.href = url;
-				link.download = 'Chhattisgarh_PC_' + getDateString() + '.pdf';
+				link.download = 'Punjab_PC_' + getDateString() + '.pdf';
 				link.click();
 				window.URL.revokeObjectURL(url);
 			} catch (error) {
