@@ -31,34 +31,23 @@
         }
 
         .login-container {
+        background-size: cover;
+        background-position: center;
+        animation: slideshow 12s infinite;
+        transition: background-image 1s ease-in-out;
+      }
 
-            background-image: url('img/Punjab1.png');
-            background-image: url('img/Punjab2.png');
-            background-image: url('img/Punjab-login-backdrop.png');
-
-
-
-            background-size: cover;
-
+      @keyframes slideshow {
+        0%, 100% {
+          background-image: url("img/proc1.jpeg");
         }
-
-        .login-container {
-            background-size: cover;
-            background-position: center;
-            animation: slideshow 10s infinite;
+        33% {
+          background-image: url("img/proc2.jpeg");
         }
-
-        @keyframes slideshow {
-
-            0%,
-            100% {
-                background-image: url('img/Punjab1.png');
-            }
-
-            50% {
-                background-image: url('img/Punjab2.png');
-            }
+        66% {
+          background-image: url("img/proc3.jpeg");
         }
+      }
 
         .login-body {
             background: #000;
