@@ -106,7 +106,8 @@ require('Header.php');
                                         <tbody>
 										<?php
 										
-										$query = "SELECT * FROM mill WHERE 1 ORDER BY district";
+										$district_name = $_SESSION['district_district'];
+										$query = "SELECT * FROM mill WHERE district='$district_name' ORDER BY name";
 										$result = mysqli_query($con,$query);
 										$numrows = mysqli_num_rows($result);
 										while($row = mysqli_fetch_array($result))

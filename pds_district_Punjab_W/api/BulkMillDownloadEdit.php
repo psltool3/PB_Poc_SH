@@ -47,7 +47,8 @@ header('Cache-Control: max-age=0');
 // Display column names as first row 
 echo implode(",", array_keys($mapData)) . "\n";
 
-$query = "SELECT * FROM mill WHERE 1";
+$district = $_SESSION['district_district'];
+$query = "SELECT * FROM mill WHERE district='$district'";
 $result = mysqli_query($con,$query);
 $numrows = mysqli_num_rows($result);
 if($numrows>0){

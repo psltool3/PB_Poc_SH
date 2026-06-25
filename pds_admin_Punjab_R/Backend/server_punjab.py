@@ -47,6 +47,9 @@ ALLOWED_EXTENSIONS = {'xlsx', 'xls'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 stop_process = False
+# Track running background processes so we can terminate them on cancel
+_running_processes = {}  # job_id -> multiprocessing.Process
+_running_processes_lock = multiprocessing.Lock()
 
 def count_distinct_months(input_str):
     months_list = [month.strip() for month in input_str.split(',')]
@@ -267,6 +270,26 @@ def active_job():
     job = _job_get_active_for_client(client_id, endpoint=endpoint)
     return jsonify({"status": 1, "job": job})
 
+@app.route('/cancel_job/<job_id>', methods=['POST'])
+def cancel_job(job_id):
+    """Cancel a running optimization job by terminating its background process."""
+    job = _job_get(job_id)
+    if not job:
+        return jsonify({"status": 0, "message": "job not found"}), 404
+    if job.get("status") not in ("queued", "running"):
+        return jsonify({"status": 0, "message": "job is not running, current status: " + str(job.get("status"))})
+    # Terminate the background process if we have a reference
+    with _running_processes_lock:
+        proc = _running_processes.pop(job_id, None)
+    if proc is not None and proc.is_alive():
+        proc.terminate()
+        proc.join(timeout=5)
+        if proc.is_alive():
+            proc.kill()
+    # Mark job as failed/cancelled in the SQLite DB
+    _job_update(job_id, status="failed", message="Cancelled by user", error="Process cancelled by user")
+    return jsonify({"status": 1, "message": "Job cancelled successfully"})
+
 def _run_processfile_in_background(job_id: str, form_data: dict):
     try:
         _job_update(job_id, status="running", message="processing started")
@@ -285,6 +308,10 @@ def _run_processfile_in_background(job_id: str, form_data: dict):
         _job_update(job_id, status="completed", message="processing completed", result_json=result_text)
     except Exception:
         _job_update(job_id, status="failed", message="processing failed", error=traceback.format_exc())
+    finally:
+        # Clean up process tracker
+        with _running_processes_lock:
+            _running_processes.pop(job_id, None)
 
 def _run_processfileLeg1_in_background(job_id: str, form_data: dict):
     try:
@@ -301,6 +328,10 @@ def _run_processfileLeg1_in_background(job_id: str, form_data: dict):
         _job_update(job_id, status="completed", message="processing completed", result_json=result_text)
     except Exception:
         _job_update(job_id, status="failed", message="processing failed", error=traceback.format_exc())
+    finally:
+        # Clean up process tracker
+        with _running_processes_lock:
+            _running_processes.pop(job_id, None)
 
     
 def read_protected_excel(file_path, password, sheet_name=None):
@@ -1225,8 +1256,18 @@ def get_monthly_data():
 def processCancel():
     global stop_process
     stop_process = True
+    # Terminate ALL running background processes (legacy cancel without job_id)
+    with _running_processes_lock:
+        for jid, proc in list(_running_processes.items()):
+            if proc is not None and proc.is_alive():
+                proc.terminate()
+                proc.join(timeout=5)
+                if proc.is_alive():
+                    proc.kill()
+            _job_update(jid, status="failed", message="Cancelled by user", error="Process cancelled by user")
+        _running_processes.clear()
     data = {}
-    data['status'] = 0
+    data['status'] = 1
     data['message'] = "process stopped"
     json_data = json.dumps(data)
     json_object = json.loads(json_data)
@@ -1254,6 +1295,9 @@ def processFile():
         # so the Flask server thread stays responsive for polling.
         p = multiprocessing.Process(target=_run_processfile_in_background, args=(job_id, form_dict), daemon=True)
         p.start()
+        # Track the process so we can terminate it on cancel
+        with _running_processes_lock:
+            _running_processes[job_id] = p
         return jsonify({"status": 1, "job_id": job_id, "message": "processing started"})
     # END CHANGE (async start mode)
 
@@ -3035,6 +3079,9 @@ def processFile_leg1():
         # CHANGE: run heavy optimization in a separate OS process
         p = multiprocessing.Process(target=_run_processfileLeg1_in_background, args=(job_id, form_dict), daemon=True)
         p.start()
+        # Track the process so we can terminate it on cancel
+        with _running_processes_lock:
+            _running_processes[job_id] = p
         return jsonify({"status": 1, "job_id": job_id, "message": "processing started"})
     # END CHANGE (async start mode)
     scenario_type = request.form.get('type')

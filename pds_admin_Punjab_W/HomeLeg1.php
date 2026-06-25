@@ -1178,20 +1178,26 @@ require('Header.php');
 
 
 	function cancelRequest() {
-		if (controller) {
-			controller.abort(); // Abort the fetch request using the AbortController
+		if (typeof controller !== 'undefined' && controller) {
+			controller.abort();
 			console.log('Request cancelled.');
-			const formData = new FormData();
-			fetch(pythonUrl + 'processCancel', {
-				method: 'POST',
-				body: formData
-			})
-				.then(response => response.json())
-				.then(data => {
-				});
-		} else {
-			console.log('No request to cancel.');
 		}
+		const formData = new FormData();
+		fetch(pythonUrl + 'processCancel', {
+			method: 'POST',
+			body: formData
+		})
+			.then(response => response.json())
+			.then(data => {
+				console.log('Cancel response:', data);
+				resetUI();
+				alert("Optimization process has been cancelled.");
+			})
+			.catch(error => {
+				console.error('Cancel error:', error);
+				// Still reset UI even if cancel request fails
+				resetUI();
+			});
 	}
 
 
