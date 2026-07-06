@@ -13,7 +13,7 @@ $parts = explode('_', $month);
 
 $month = $parts[0];
 $year = $parts[1]; 
-$query = "SELECT * FROM optimised_table WHERE month='$month' AND year='$year'";
+$query = "SELECT * FROM optimised_table_leg1 WHERE month='$month' AND year='$year'";
 $result = mysqli_query($con,$query);
 $numrow = mysqli_num_rows($result);
 $id = "";
@@ -22,7 +22,7 @@ if($numrow>0){
 	$id = $row['id'];
 }
 
-$tablename = "optimiseddata_".$id;
+$tablename = "optimiseddata_leg1_".$id;
 
  ?>
 

@@ -70,6 +70,7 @@ require('Header.php');
 												<th style="font-size:16px">Year</th>
                                                 <th style="font-size:16px">PC</th>
                                                 <th style="font-size:16px">Mill</th>
+                                                <th style="font-size:16px">Milling Center</th>
                                                 <th style="font-size:16px">Optimised Data</th>
 												<th style="font-size:16px">Generate Data</th>
                                             </tr>
@@ -87,8 +88,9 @@ require('Header.php');
 											 "<td>{$row['month']}</td>".
 											 "<td>{$row['year']}</td>".
 											 "<td> <button class='btn btn-info btn-rounded' onclick=\"warehouse_open('{$temp_id}')\">View PCs</button></td>".
-             								 "<td> <button class='btn btn-warning btn-rounded' onclick=\"fps_open('{$temp_id}')\">View Mills</button></td>".
-             								 "<td> <button class='btn btn-danger btn-rounded' onclick=\"optimised_open('{$temp_id}')\">View Data</button></td>".
+              								 "<td> <button class='btn btn-warning btn-rounded' onclick=\"fps_open('{$temp_id}')\">View Mills</button></td>".
+              								 "<td> <button class='btn btn-success btn-rounded' onclick=\"milling_center_open('{$temp_id}')\">View Milling Center</button></td>".
+              								 "<td> <button class='btn btn-danger btn-rounded' onclick=\"optimised_open('{$temp_id}')\">View Data</button></td>".
 											 "<td> <button class='btn btn-danger btn-rounded' onclick=\"generate_report('{$temp_id}')\">View Report</button></td></tr>";
 											 
 											 
@@ -207,6 +209,10 @@ require('Header.php');
 		
 		function fps_open(temp_id){
 			post({id:temp_id} ,"MillView.php");
+		}
+		
+		function milling_center_open(temp_id){
+			post({id:temp_id} ,"MillingCenter_R.php");
 		}
 		
 		function optimised_open(temp_id){

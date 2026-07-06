@@ -35,7 +35,7 @@ $person->setUsername($_POST["username"]);
 $Encryption = new Encryption();
 $person->setPassword($Encryption->decrypt($_POST["password"], $nonceValue));
 
-if ($_SESSION['user'] !== $person->getUsername()) {
+if ($_SESSION['district_user'] !== $person->getUsername()) {
     echo "User is logged in with different credentials";
     exit();
 }
@@ -230,7 +230,7 @@ while (($column = fgetcsv($file, 10000, ",")) !== FALSE) {
 
         if (mysqli_num_rows(mysqli_query($con, $PC->checkInsert($PC))) == 0) {
             mysqli_query($con, $PC->insert($PC));
-            writeLog("PC Added -> ".$PC->getName()." by ".$_SESSION['user']);
+            writeLog("PC Added -> ".$PC->getName()." by ".$_SESSION['district_user']);
         } else {
             echo "Error : PC_ID ".$PC->getPCID()." already exists<br>";
         }

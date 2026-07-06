@@ -105,7 +105,7 @@ require('Header.php');
 										?>
                                         </tbody>
                                     </table>
-									<button class="btn btn-info btn-block pull-right" style="width:25%;margin-right:20px">Save</button>
+									<button type="submit" class="btn btn-info btn-block pull-right" style="width:25%;margin-right:20px">Save</button>
 									</form>
                                   </div>
                                 </div>

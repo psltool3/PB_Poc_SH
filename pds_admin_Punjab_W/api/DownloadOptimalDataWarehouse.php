@@ -25,16 +25,20 @@ if (isset($_GET['format'])) {
         while($row = mysqli_fetch_array($result)){
             $temp = array();
             for($i=0;$i<count($columns);$i++){
-                if($columns[$i]=="from_id"){
-                    if(strlen($row["new_id"])>0 and $row["approve"]=="yes"){
-                        array_push($temp,$row["new_id"]);
-                    }
-                    else{
-                        array_push($temp,$row[$columns[$i]]);
-                    }
+                $colName = $columns[$i];
+                if($colName == "warehousetype"){
+                    $val = isset($row['warehousetype']) ? $row['warehousetype'] : (isset($row['type']) ? $row['type'] : 'N/A');
+                    array_push($temp, $val);
                 }
-                else{            
-                    array_push($temp,$row[$columns[$i]]);
+                elseif($colName == "storage"){
+                    $val = 0;
+                    if (isset($row['storage'])) { $val = $row['storage']; }
+                    elseif (isset($row['incoming_min_mota'])) { $val = $row['incoming_min_mota'] + $row['incoming_min_patla'] + $row['incoming_min_saran']; }
+                    elseif (isset($row['mota'])) { $val = $row['mota'] + $row['patla'] + $row['saran']; }
+                    array_push($temp, $val);
+                }
+                else {
+                    array_push($temp, isset($row[$colName]) ? $row[$colName] : '');
                 }
             }
             array_push($tableData,$temp);

@@ -20,7 +20,7 @@ $mapData = [
     "Storage Point" => "Storage_Point",
     "Latitude" => "latitude",
     "Longitude" => "longitude",
-    "Paddy Procurement" => "Paddy_Procurement",
+    "Wheat Procurement" => "Paddy_Procurement",
     "Active/Not-Active" => "active"
 ];
 

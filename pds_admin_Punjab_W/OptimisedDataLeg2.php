@@ -76,7 +76,7 @@ require('Header.php');
                                         <tbody id="table_body">
 										<?php
 										
-										$query = "SELECT * FROM optimised_table WHERE 1";
+										$query = "SELECT * FROM optimised_table_leg1 WHERE 1";
 										$result = mysqli_query($con,$query);
 										$numrows = mysqli_num_rows($result);
 										while($row = mysqli_fetch_array($result))

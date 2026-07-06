@@ -14,7 +14,7 @@ $parts = explode('_', $month);
 $year = $parts[0]; 
 $month = $parts[1];
 $day = $parts[2]; 
-$query = "SELECT * FROM optimised_table WHERE year='$year' AND month='$month' AND day='$day'";
+$query = "SELECT * FROM optimised_table_leg1 WHERE year='$year' AND month='$month' AND day='$day'";
 $result = mysqli_query($con,$query);
 $numrow = mysqli_num_rows($result);
 $id = "";
@@ -23,7 +23,7 @@ if($numrow>0){
 	$id = $row['id'];
 }
 
-$tablename = "optimiseddata_".$id;
+$tablename = "optimiseddata_leg1_".$id;
 $result = $con->query("SELECT DISTINCT `to` from $tablename WHERE to_district='$district'");
 
 if ($result->num_rows > 0) {

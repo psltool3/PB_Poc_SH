@@ -9,7 +9,7 @@ set_time_limit(300); // Set to 300 seconds (5 minutes), or 0 for no limit
 
 //echo json_encode($_POST);
 
-$query = "SELECT * FROM optimised_table ORDER BY last_updated DESC LIMIT 1";
+$query = "SELECT * FROM optimised_table_leg1 ORDER BY last_updated DESC LIMIT 1";
 $result = mysqli_query($con,$query);
 $response = array();
 $id = "";
@@ -18,7 +18,7 @@ while($row = mysqli_fetch_array($result))
 	$id= $row["id"];
 }
 
-$tablename = "optimiseddata_".$id;
+$tablename = "optimiseddata_leg1_".$id;
 echo $tablename;
 echo "</br>";
 foreach ($_POST as $key => $value) {

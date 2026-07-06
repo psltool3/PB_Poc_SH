@@ -106,7 +106,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 				</li>
 				
 				<li <?php echo ($current_page === 'Performa.php') ? 'class="active"' : ''; ?>>
-					<a href="Performa.php" style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Performa Leg2</span></a>
+					<a href="Performa.php" style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Performa Leg</span></a>
 				</li>
 				
 				<li <?php echo ($current_page === 'api/Logout.php') ? 'class="active"' : ''; ?> style="margin-bottom: 30px;">

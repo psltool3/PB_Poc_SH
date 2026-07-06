@@ -265,7 +265,7 @@ if($currentTimestamp >= $targetTimestamp) {
 												<th style="font-size:16px">From_Name</th>
 												<th style="font-size:16px">From_District</th>
 												<th style="font-size:16px">From_Centre</th>`n<th style="font-size:16px">From_Lat</th>
-												<th style="font-size:16px">From_Long</th>`n<th style="font-size:16px">WB_ID</th>`n<th style="font-size:16px">WB_Lat</th>`n<th style="font-size:16px">WB_Long</th>
+												<th style="font-size:16px">From_Long</th>
 												<th style="font-size:16px">To</th>
 												<th style="font-size:16px">To_State</th>
 												<th style="font-size:16px">To_ID</th>
@@ -707,7 +707,7 @@ if($currentTimestamp >= $targetTimestamp) {
 									var district_change_approve = obj[datafield]["district_change_approve"] !== null ? obj[datafield]["district_change_approve"] : "";
 									
 									
-									var subpart1 = "<tr><td>" +  obj[datafield]["scenario"] +  "</td><td>"  + obj[datafield]["from"] +  "</td><td>"  + obj[datafield]["from_state"] +  "</td><td>"  + obj[datafield]["from_id"] +  "</td><td>"  + obj[datafield]["from_name"] +  "</td><td>"  + obj[datafield]["from_district"] +  "</td><td>"  + obj[datafield]["from_lat"] +  "</td><td>"  + obj[datafield]["from_long"] +  "</td><td>"  + obj[datafield]["to"] +  "</td><td>"  + obj[datafield]["to_state"] +  "</td><td>"  + obj[datafield]["to_id"] +  "</td><td>"  + obj[datafield]["to_name"] +  "</td><td>"  + obj[datafield]["to_district"] +  "</td><td>"  + obj[datafield]["to_lat"] +  "</td><td>"  + obj[datafield]["to_long"] +  "</td><td>"  + obj[datafield]["commodity"] +  "</td><td>"  + obj[datafield]["quantity"] +  "</td><td>"  + obj[datafield]["distance"] + "</td>";
+									var subpart1 = "<tr><td>" +  obj[datafield]["scenario"] +  "</td><td>"  + obj[datafield]["from"] +  "</td><td>"  + obj[datafield]["from_state"] +  "</td><td>"  + obj[datafield]["from_id"] +  "</td><td>"  + obj[datafield]["from_name"] +  "</td><td>"  + obj[datafield]["from_district"] +  "</td><td>"  + (obj[datafield]["from_centre"] !== undefined && obj[datafield]["from_centre"] !== null ? obj[datafield]["from_centre"] : "") + "</td><td>"  + obj[datafield]["from_lat"] +  "</td><td>"  + obj[datafield]["from_long"] +  "</td><td>"  + obj[datafield]["to"] +  "</td><td>"  + obj[datafield]["to_state"] +  "</td><td>"  + obj[datafield]["to_id"] +  "</td><td>"  + obj[datafield]["to_name"] +  "</td><td>"  + obj[datafield]["to_district"] +  "</td><td>"  + (obj[datafield]["to_centre"] !== undefined && obj[datafield]["to_centre"] !== null ? obj[datafield]["to_centre"] : "") + "</td><td>"  + obj[datafield]["to_lat"] +  "</td><td>"  + obj[datafield]["to_long"] +  "</td><td>"  + obj[datafield]["commodity"] +  "</td><td>"  + obj[datafield]["quantity"] +  "</td><td>"  + obj[datafield]["distance"] + "</td>";
 									
 									if(obj[datafield]["new_id"]==null){
 										obj[datafield]["new_id"] = "";

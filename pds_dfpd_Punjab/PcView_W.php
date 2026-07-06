@@ -54,7 +54,7 @@ $tablename = "pc1_leg1_".$id;
 												<th style="font-size:15px">Latitude</th>
 												<th style="font-size:15px">Longitude</th>
 												<th style="font-size:15px">Storage Point</th>
-												<th style="font-size:15px">Paddy</th>
+												<th style="font-size:15px">Wheat Procurement</th>
 												<th style="font-size:15px">Active</th>
                                             </tr>
                                         </thead>

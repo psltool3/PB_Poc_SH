@@ -7,11 +7,11 @@ if (isset($_POST['uniqueid'])) {
     $uniqueid = $_POST['uniqueid'];
     
     // Get the current active table
-    $query = "SELECT id FROM optimised_table ORDER BY last_updated DESC LIMIT 1";
+    $query = "SELECT id FROM optimised_table_leg1 ORDER BY last_updated DESC LIMIT 1";
     $result = mysqli_query($con, $query);
     if ($row = mysqli_fetch_array($result)) {
         $id = $row["id"];
-        $tablename = "optimiseddata_" . $id;
+        $tablename = "optimiseddata_leg1_" . $id;
 
         // format of uniqueid: fromid_toid_commodity
         $parts = explode("_", $uniqueid, 3);

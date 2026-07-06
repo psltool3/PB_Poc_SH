@@ -7,7 +7,7 @@ $id = $_POST['id'];
 if (isset($_POST['step']) && $_POST['step'] == 'leg1') {
     $tablename = "optimiseddata_leg1_".$id;
 } else {
-    $tablename = "optimiseddata_".$id;
+    $tablename = "optimiseddata_leg1_".$id;
 }
 
 ?>

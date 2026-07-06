@@ -94,7 +94,7 @@ require('Header.php');
 											$averagedistanceoptimised = $allocation > 0 ? round($qkm_optimised/$allocation,2) : 0;
 											$qkm = round($qkm,2);
 
-											$reset = "<input class='btn btn-info btn-block' style='width:50%' onclick='resetFunction(\"".$id."\")' value='Reset'></input>";
+											$reset = "<input type='button' class='btn btn-info btn-block' style='width:50%' onclick='resetFunction(\"".$id."\")' value='Reset' />";
 											
 											if($cost==null or $cost==""){
 												$temp = "cost_".$id;
@@ -108,7 +108,7 @@ require('Header.php');
 										?>
                                         </tbody>
                                     </table>
-									<button class="btn btn-info btn-block pull-right" style="width:25%;margin-right:20px">Save</button>
+									<button type="submit" class="btn btn-info btn-block pull-right" style="width:25%;margin-right:20px">Save</button>
 									</form>
                                   </div>
                                 </div>

@@ -8,7 +8,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 $month = "";
 $year = "";
-$query = "SELECT * FROM optimised_table ORDER BY last_updated DESC LIMIT 1";
+$query = "SELECT * FROM optimised_table_leg1 ORDER BY last_updated DESC LIMIT 1";
 $result = mysqli_query($con,$query);
 $response = array();
 while($row = mysqli_fetch_array($result))
@@ -27,7 +27,7 @@ if (isset($_GET['format'])) {
 	$columns = ["scenario","from","from_state","from_id","from_name","from_district","from_centre","from_lat","from_long","wb_id","wb_lat","wb_long","to","to_state","to_id","to_name","to_district","to_centre","to_lat","to_long","commodity","quantity","distance","status"];
 	$columns_pdf = ["scenario","from","from_id","from_name","from_district","from_lat","from_long","to","to_id","to_name","to_district","to_lat","to_long","commodity","quantity","distance","status"];
 
-    $query = "SELECT * FROM optimised_table WHERE month='$month' AND year='$year'";
+    $query = "SELECT * FROM optimised_table_leg1 WHERE month='$month' AND year='$year'";
 	$result = mysqli_query($con,$query);
 	$numrow = mysqli_num_rows($result);
 	$id = "";
@@ -36,7 +36,7 @@ if (isset($_GET['format'])) {
 		$id = $row['id'];
 	}
 
-	$tablename = "optimiseddata_".$id;
+	$tablename = "optimiseddata_leg1_".$id;
 	$query = "SELECT * FROM ".$tablename." WHERE 1";
 	
 	if($district!="" and $district!="all"){

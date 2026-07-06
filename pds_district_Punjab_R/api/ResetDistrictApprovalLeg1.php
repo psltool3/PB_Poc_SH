@@ -30,7 +30,7 @@ if (isset($_POST['uniqueid'])) {
                       WHERE from_id = '$fromid' AND to_id = '$toid' AND commodity = '$commodity'";
             
             if (mysqli_query($con, $query)) {
-                writeLog("District User -> Reset District Approval Leg 1 | " . $_SESSION['user'] . " | $fromid - $toid - $commodity");
+                writeLog("District User -> Reset District Approval Leg 1 | " . $_SESSION['district_user'] . " | $fromid - $toid - $commodity");
                 echo json_encode(['status' => 'success']);
             } else {
                 echo json_encode(['status' => 'error', 'message' => mysqli_error($con)]);

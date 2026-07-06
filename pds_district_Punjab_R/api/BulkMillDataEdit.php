@@ -31,7 +31,7 @@ $person->setUsername($_POST["username"]);
 $Encryption = new Encryption();
 $person->setPassword($Encryption->decrypt($_POST["password"], $nonceValue));
 
-if($_SESSION['user']!=$person->getUsername()){
+if($_SESSION['district_user']!=$person->getUsername()){
     echo "User is logged in with different username and password";
     return;
 }
@@ -271,7 +271,7 @@ try{
 					$query_insert_result = mysqli_query($con, $query_insert_check);
 					$numrows_insert = mysqli_num_rows($query_insert_result);
 					if($numrows_insert>0){
-						writeLog("User ->" ." Mill Updated -> ". $_SESSION['user'] . "| " . $Mill->getName());
+						writeLog("User ->" ." Mill Updated -> ". $_SESSION['district_user'] . "| " . $Mill->getName());
 						$query_add = $Mill->updateEdit($Mill);
 						mysqli_query($con, $query_add);
 					}

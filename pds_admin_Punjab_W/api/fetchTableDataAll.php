@@ -8,7 +8,7 @@ if(!SessionCheck()){
 	//return;
 }
 
-$query = "SELECT * FROM optimised_table ORDER BY last_updated DESC";
+$query = "SELECT * FROM optimised_table_leg1 ORDER BY last_updated DESC";
 $result = mysqli_query($con,$query);
 $response = array();
 while($row = mysqli_fetch_array($result))

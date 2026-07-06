@@ -42,7 +42,7 @@ $person->setUsername($_POST["username"]);
 $Encryption = new Encryption();
 $person->setPassword($Encryption->decrypt($_POST["password"], $nonceValue));
 
-if($_SESSION['user'] != $person->getUsername()){
+if($_SESSION['district_user'] != $person->getUsername()){
 	echo "User is logged in with different username and password";
 	return;
 }
@@ -69,7 +69,7 @@ if(password_verify($person->getPassword(), $dbHashedPassword)){
 	
 	$filteredPost = $_POST;
 	unset($filteredPost['username'], $filteredPost['password']);
-	writeLog("User -> Block deleted -> ".$_SESSION['user']."| Requested JSON -> ".json_encode($filteredPost)." | ".$log_name);
+	writeLog("User -> Block deleted -> ".$_SESSION['district_user']."| Requested JSON -> ".json_encode($filteredPost)." | ".$log_name);
 
 	echo "<script>window.location.href = '../Block.php';</script>";
 } else {
@@ -127,7 +127,7 @@ $person->setUsername($_POST["username"]);
 $Encryption = new Encryption();
 $person->setPassword($Encryption->decrypt($_POST["password"], $nonceValue));
 
-if($_SESSION['user'] != $person->getUsername()){
+if($_SESSION['district_user'] != $person->getUsername()){
 	echo "User is logged in with different username and password";
 	return;
 }
@@ -154,7 +154,7 @@ if(password_verify($person->getPassword(), $dbHashedPassword)){
 	
 	$filteredPost = $_POST;
 	unset($filteredPost['username'], $filteredPost['password']);
-	writeLog("User -> Block deleted -> ".$_SESSION['user']."| Requested JSON -> ".json_encode($filteredPost)." | ".$log_name);
+	writeLog("User -> Block deleted -> ".$_SESSION['district_user']."| Requested JSON -> ".json_encode($filteredPost)." | ".$log_name);
 
 	echo "<script>window.location.href = '../Block.php';</script>";
 } else {

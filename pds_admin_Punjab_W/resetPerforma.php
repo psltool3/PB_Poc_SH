@@ -7,7 +7,7 @@ if(!SessionCheck()){
 	return;
 }
 
-$log_query = "select id from optimised_table WHERE id='$uid'";
+$log_query = "select id from optimised_table_leg1 WHERE id='$uid'";
 $log_result = mysqli_query($con,$log_query);
 if ($log_result && $row = $log_result->fetch_assoc()) {
 	$user_id =  $row['id'];

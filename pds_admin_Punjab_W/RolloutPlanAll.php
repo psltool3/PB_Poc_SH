@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require('util/Connection.php');
 require('util/SessionCheck.php');
 require('Header.php');
@@ -155,9 +155,6 @@ require('Header.php');
 												<th style="font-size:16px">From_Centre</th>
 <th style="font-size:16px">From_Lat</th>
 												<th style="font-size:16px">From_Long</th>
-<th style="font-size:16px">WB_ID</th>
-<th style="font-size:16px">WB_Lat</th>
-<th style="font-size:16px">WB_Long</th>
 												<th style="font-size:16px">To</th>
 												<th style="font-size:16px">To_State</th>
 												<th style="font-size:16px">To_ID</th>
@@ -448,7 +445,7 @@ require('Header.php');
 								status = "Implemented"
 							}
 							
-							var subpart1 = "<tr><td>" +  obj[dataField]["scenario"] +  "</td><td>"  + obj[dataField]["from"] +  "</td><td>"  + obj[dataField]["from_state"] +  "</td><td>"  + obj[dataField]["from_id"] +  "</td><td>"  + obj[dataField]["from_name"] +  "</td><td>"  + obj[dataField]["from_district"] +  "</td><td>"  + (obj[dataField]["from_centre"] !== undefined && obj[dataField]["from_centre"] !== null ? obj[dataField]["from_centre"] : "") + "</td><td>" + obj[dataField]["from_lat"] +  "</td><td>"  + obj[dataField]["from_long"] +  "</td><td>"  + (obj[dataField]["wb_id"] !== undefined && obj[dataField]["wb_id"] !== null ? obj[dataField]["wb_id"] : "") + "</td><td>" + (obj[dataField]["wb_lat"] !== undefined && obj[dataField]["wb_lat"] !== null ? obj[dataField]["wb_lat"] : "") + "</td><td>" + (obj[dataField]["wb_long"] !== undefined && obj[dataField]["wb_long"] !== null ? obj[dataField]["wb_long"] : "") + "</td><td>" + obj[dataField]["to"] +  "</td><td>"  + obj[dataField]["to_state"] +  "</td><td>"  + obj[dataField]["to_id"] +  "</td><td>"  + obj[dataField]["to_name"] +  "</td><td>"  + obj[dataField]["to_district"] +  "</td><td>"  + (obj[dataField]["to_centre"] !== undefined && obj[dataField]["to_centre"] !== null ? obj[dataField]["to_centre"] : "") + "</td><td>" + obj[dataField]["to_lat"] +  "</td><td>"  + obj[dataField]["to_long"] +  "</td><td>"  + obj[dataField]["commodity"] +  "</td><td>"  + obj[dataField]["quantity"] +  "</td><td>"  + obj[dataField]["distance"] +  "</td><td>"  + status + "</td></tr>";
+							var subpart1 = "<tr><td>" +  obj[dataField]["scenario"] +  "</td><td>"  + obj[dataField]["from"] +  "</td><td>"  + obj[dataField]["from_state"] +  "</td><td>"  + obj[dataField]["from_id"] +  "</td><td>"  + obj[dataField]["from_name"] +  "</td><td>"  + obj[dataField]["from_district"] +  "</td><td>"  + (obj[dataField]["from_centre"] !== undefined && obj[dataField]["from_centre"] !== null ? obj[dataField]["from_centre"] : "") + "</td><td>" + obj[dataField]["from_lat"] +  "</td><td>"  + obj[dataField]["from_long"] +  "</td><td>" + obj[dataField]["to"] +  "</td><td>"  + obj[dataField]["to_state"] +  "</td><td>"  + obj[dataField]["to_id"] +  "</td><td>"  + obj[dataField]["to_name"] +  "</td><td>"  + obj[dataField]["to_district"] +  "</td><td>"  + (obj[dataField]["to_centre"] !== undefined && obj[dataField]["to_centre"] !== null ? obj[dataField]["to_centre"] : "") + "</td><td>" + obj[dataField]["to_lat"] +  "</td><td>"  + obj[dataField]["to_long"] +  "</td><td>"  + obj[dataField]["commodity"] +  "</td><td>"  + obj[dataField]["quantity"] +  "</td><td>"  + obj[dataField]["distance"] +  "</td><td>"  + status + "</td></tr>";
 							$('#table_body').append(subpart1);
 						}
 						

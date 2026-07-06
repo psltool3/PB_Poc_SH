@@ -5,7 +5,7 @@ require('Header.php');
 $district = $_SESSION['district_district'];
 
 
-$query = "SELECT * FROM optimised_table ORDER BY last_updated DESC LIMIT 1";
+$query = "SELECT * FROM optimised_table_leg1 ORDER BY last_updated DESC LIMIT 1";
 $result = mysqli_query($con,$query);
 $response = array();
 $id = "";
@@ -24,7 +24,7 @@ $totalidsapproved = 0;
 $districtSafe = mysqli_real_escape_string($con, $district);
 
 if (!empty($id)) {
-	$tablename = "optimiseddata_".$id;
+	$tablename = "optimiseddata_leg1_".$id;
 
 	$query = "SELECT to_district FROM `". $tablename ."` WHERE to_district='$districtSafe'";
 	$result = mysqli_query($con,$query);
@@ -284,9 +284,6 @@ if($currentTimestamp >= $targetTimestamp) {
 												<th style="font-size:16px">From_Centre</th>
 <th style="font-size:16px">From_Lat</th>
 												<th style="font-size:16px">From_Long</th>
-<th style="font-size:16px">WB_ID</th>
-<th style="font-size:16px">WB_Lat</th>
-<th style="font-size:16px">WB_Long</th>
 												<th style="font-size:16px">To</th>
 												<th style="font-size:16px">To_State</th>
 												<th style="font-size:16px">To_ID</th>
@@ -729,7 +726,7 @@ if($currentTimestamp >= $targetTimestamp) {
 									var district_change_approve = obj[datafield]["district_change_approve"] !== null ? obj[datafield]["district_change_approve"] : "";
 									
 									
-									var subpart1 = "<tr><td>" +  obj[datafield]["scenario"] +  "</td><td>"  + obj[datafield]["from"] +  "</td><td>"  + obj[datafield]["from_state"] +  "</td><td>"  + obj[datafield]["from_id"] +  "</td><td>"  + obj[datafield]["from_name"] +  "</td><td>"  + obj[datafield]["from_district"] +  "</td><td>"  + (obj[datafield]["from_centre"] !== undefined && obj[datafield]["from_centre"] !== null ? obj[datafield]["from_centre"] : "") + "</td><td>" + obj[datafield]["from_lat"] +  "</td><td>"  + obj[datafield]["from_long"] +  "</td><td>"  + (obj[datafield]["wb_id"] !== undefined && obj[datafield]["wb_id"] !== null ? obj[datafield]["wb_id"] : "") + "</td><td>" + (obj[datafield]["wb_lat"] !== undefined && obj[datafield]["wb_lat"] !== null ? obj[datafield]["wb_lat"] : "") + "</td><td>" + (obj[datafield]["wb_long"] !== undefined && obj[datafield]["wb_long"] !== null ? obj[datafield]["wb_long"] : "") + "</td><td>" + obj[datafield]["to"] +  "</td><td>"  + obj[datafield]["to_state"] +  "</td><td>"  + obj[datafield]["to_id"] +  "</td><td>"  + obj[datafield]["to_name"] +  "</td><td>"  + obj[datafield]["to_district"] +  "</td><td>"  + (obj[datafield]["to_centre"] !== undefined && obj[datafield]["to_centre"] !== null ? obj[datafield]["to_centre"] : "") + "</td><td>" + obj[datafield]["to_lat"] +  "</td><td>"  + obj[datafield]["to_long"] +  "</td><td>"  + obj[datafield]["commodity"] +  "</td><td>"  + obj[datafield]["quantity"] +  "</td><td>"  + obj[datafield]["distance"] + "</td>";
+									var subpart1 = "<tr><td>" +  obj[datafield]["scenario"] +  "</td><td>"  + obj[datafield]["from"] +  "</td><td>"  + obj[datafield]["from_state"] +  "</td><td>"  + obj[datafield]["from_id"] +  "</td><td>"  + obj[datafield]["from_name"] +  "</td><td>"  + obj[datafield]["from_district"] +  "</td><td>"  + (obj[datafield]["from_centre"] !== undefined && obj[datafield]["from_centre"] !== null ? obj[datafield]["from_centre"] : "") + "</td><td>" + obj[datafield]["from_lat"] +  "</td><td>"  + obj[datafield]["from_long"] +  "</td><td>"  + obj[datafield]["to"] +  "</td><td>"  + obj[datafield]["to_state"] +  "</td><td>"  + obj[datafield]["to_id"] +  "</td><td>"  + obj[datafield]["to_name"] +  "</td><td>"  + obj[datafield]["to_district"] +  "</td><td>"  + (obj[datafield]["to_centre"] !== undefined && obj[datafield]["to_centre"] !== null ? obj[datafield]["to_centre"] : "") + "</td><td>" + obj[datafield]["to_lat"] +  "</td><td>"  + obj[datafield]["to_long"] +  "</td><td>"  + obj[datafield]["commodity"] +  "</td><td>"  + obj[datafield]["quantity"] +  "</td><td>"  + obj[datafield]["distance"] + "</td>";
 									
 									if(obj[datafield]["new_id"]==null){
 										obj[datafield]["new_id"] = "";

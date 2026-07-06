@@ -537,7 +537,7 @@ require('Header.php');
 							<div class="col-md-4">
 								<div class="dashboard-stat" style="background-color:#F39C12;">
 									<div class="stat-val" id="procurement_paddy_sum"></div>
-									<div class="stat-lab">Procurement Paddy</div>
+									<div class="stat-lab">Procurement Wheat</div>
 								</div>
 							</div>
 							<div class="col-md-4">
@@ -977,12 +977,12 @@ require('Header.php');
 			if (type == "intra") {
 				if (district_names["District_Name_All"].length > 0) {
 					var concatenatedNames = district_names["District_Name_All"].join(', ');
-					document.getElementById("resultdistrict").innerHTML = "Intra district movement is infeasble For Paddy- " + concatenatedNames;
+					document.getElementById("resultdistrict").innerHTML = "Intra district movement is infeasble For Wheat- " + concatenatedNames;
 					document.getElementById("resultdistrict").style.color = "#ADFF2F";
 					isInfeasible = true;
 				}
 				else {
-					document.getElementById("resultdistrict").innerHTML = "Intra scenario in every district is feasible For Paddy";
+					document.getElementById("resultdistrict").innerHTML = "Intra scenario in every district is feasible For Wheat";
 					document.getElementById("resultdistrict").style.color = "#1111BB";
 				}
 

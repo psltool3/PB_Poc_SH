@@ -58,17 +58,17 @@ if($numrows>0){
                         </div>
                     </li>
 					<li <?php if ($currentFile == 'Home.php') echo 'class="active"'; ?>>
-						<a href="Home.php"> <span class="xn-text">Optimised Planning (PC to MILL)</span></a>
+						<a href="Home.php"> <span class="xn-text">Optimised Planning (PC to WH)</span></a>
 					</li>
 					<li <?php if ($currentFile == 'RolloutPlan.php') echo 'class="active"'; ?>>
-						<a href="RolloutPlan.php"> <span class="xn-text">Rollout Plan (PC to MILL)</span></a>
+						<a href="RolloutPlan.php"> <span class="xn-text">Rollout Plan (PC to WH)</span></a>
 					</li>
-					<li <?php if ($currentFile == 'HomeLeg1.php') echo 'class="active"'; ?>>
+					<!--<li <?php if ($currentFile == 'HomeLeg1.php') echo 'class="active"'; ?>>
 						<a href="HomeLeg1.php"> <span class="xn-text">Optimised Planning (Mill to Warehouse)</span></a>
 					</li>
 					<li <?php if ($currentFile == 'RolloutPlanLeg1.php') echo 'class="active"'; ?>>
 						<a href="RolloutPlanLeg1.php"> <span class="xn-text">Rollout Plan (Mill to Warehouse)</span></a>
-					</li>
+					</li>-->
 					<!--<li <?php if ($currentFile == 'DCP.php') echo 'class="active"'; ?>>
 						<a href="DCP.php"> <span class="xn-text">FCI</span></a>
 					</li>-->

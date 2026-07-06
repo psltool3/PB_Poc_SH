@@ -19,7 +19,7 @@ $mapData = [
     "PC ID"             => "id",
     "Latitude"          => "latitude",
     "Longitude"         => "longitude",
-	"Paddy Procurement" => "Paddy_Procurement",
+	"Wheat Procurement" => "Paddy_Procurement",
 	"Active/Not-Active" => "active"
 ];
 

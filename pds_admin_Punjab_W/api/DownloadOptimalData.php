@@ -23,7 +23,7 @@ if (isset($_GET['format'])) {
 	$year = $parts[0];
 	$month = $parts[1];
 	$day = $parts[2];
-	$query = "SELECT * FROM optimised_table WHERE year='$year' AND month='$month' AND day='$day'";
+	$query = "SELECT * FROM optimised_table_leg1 WHERE year='$year' AND month='$month' AND day='$day'";
 	$result = mysqli_query($con,$query);
 	$numrow = mysqli_num_rows($result);
 	$id = "";
@@ -32,7 +32,7 @@ if (isset($_GET['format'])) {
 		$id = $row['id'];
 	}
 
-	$tablename = "optimiseddata_".$id;
+	$tablename = "optimiseddata_leg1_".$id;
 	$query = "SELECT * FROM ".$tablename." WHERE to_district='$district'";
 	if($district=="" OR $district=="all"){
 		$query = "SELECT * FROM ".$tablename." WHERE 1";

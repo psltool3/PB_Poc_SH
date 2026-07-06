@@ -26,7 +26,7 @@ $mapData = [
     "Storage Point"      => "Storage_Point",
     "Latitude"           => "latitude",
     "Longitude"          => "longitude",
-    "Paddy Procurement"  => "Paddy_Procurement",
+    "Wheat Procurement"  => "Paddy_Procurement",
     "Active/Not-Active"  => "active"
 ];
 
@@ -134,7 +134,7 @@ try {
             }
 
             if (!isNumber($column[$Paddy_Procurement])) {
-                echo "Error : Paddy Procurement must be numeric<br>";
+                echo "Error : Wheat Procurement must be numeric<br>";
                 $redirect = 0;
             }
 

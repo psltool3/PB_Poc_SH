@@ -10,14 +10,14 @@ $columns_pdf = ["scenario","from","from_state","from_id","from_name","from_distr
 $filename = 'Punjab_data';
 
 $id = $_POST['id'];
-$tablename = "optimiseddata_".$id;
+$tablename = "optimiseddata_leg1_".$id;
 $leg = 0;
 
 $month = "";
 $date = "";
 $cost = "";
 
-$query = "SELECT * FROM optimised_table WHERE id='$id'";
+$query = "SELECT * FROM optimised_table_leg1 WHERE id='$id'";
 $result = mysqli_query($con,$query);
 $numrows = mysqli_num_rows($result);
 if($numrows>0){

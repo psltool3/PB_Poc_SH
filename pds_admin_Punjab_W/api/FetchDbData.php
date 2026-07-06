@@ -37,7 +37,7 @@ $parts = explode('_', $month_full);
 $year = $parts[0]; 
 $month = $parts[1];
 $day = $parts[2];
-$query = "SELECT * FROM optimised_table WHERE month='$month' AND year='$year' AND day='$day'";
+$query = "SELECT * FROM optimised_table_leg1 WHERE month='$month' AND year='$year' AND day='$day'";
 $result = mysqli_query($con,$query);
 $numrow = mysqli_num_rows($result);
 $id = "";
@@ -46,7 +46,7 @@ if($numrow>0){
 	$id = $row['id'];
 }
 
-$tablename = "optimiseddata_".$id;
+$tablename = "optimiseddata_leg1_".$id;
 
 $query = "SHOW TABLES LIKE '$tablename'";
 $result = $con->query($query);

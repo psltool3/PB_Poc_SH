@@ -128,13 +128,13 @@ else{
                                             </div>
 											
 											<div class="form-group">
-                                                <label class="col-md-3 control-label">Paddy Procurement*</label>
+                                                <label class="col-md-3 control-label">Wheat Procurement*</label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-info"></span></span>
                                                         <input type="text" class="form-control" id="Paddy_Procurement" name="Paddy_Procurement" value="<?php echo $Paddy_Procurement ?>" required />
                                                     </div>
-                                                    <span class="help-block">Paddy Procurement</span>
+                                                    <span class="help-block">Wheat Procurement</span>
                                                 </div>
                                             </div>
 

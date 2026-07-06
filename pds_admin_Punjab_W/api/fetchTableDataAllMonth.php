@@ -11,7 +11,7 @@ $message = "";
 $year = $_POST['year'];
 $month = $_POST['month'];
 $day = $_POST['day'];
-$query = "SELECT * FROM optimised_table WHERE year='$year' AND month='$month' AND day='$day'";
+$query = "SELECT * FROM optimised_table_leg1 WHERE year='$year' AND month='$month' AND day='$day'";
 $result = mysqli_query($con,$query);
 $response = array();
 $response_data = array();
@@ -24,7 +24,7 @@ while($row = mysqli_fetch_array($result))
 	$temp["id"] = $row["id"];
 	$temp["last_updated"] = $row["last_updated"];
 	array_push($response,$temp);
-	$query_count = "SELECT * FROM optimiseddata_".$row["id"]." WHERE status<>'implemented' OR status IS NULL";
+	$query_count = "SELECT * FROM optimiseddata_leg1_".$row["id"]." WHERE status<>'implemented' OR status IS NULL";
 	$result_count = mysqli_query($con,$query_count);
 	$numrows_count = mysqli_num_rows($result_count);
 	if($numrows_count!=0){

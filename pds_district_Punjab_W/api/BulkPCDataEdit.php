@@ -19,7 +19,7 @@ $mapData = [
     "Storage Point" => "Storage_Point",
     "Latitude" => "latitude",
     "Longitude" => "longitude",
-    "Paddy Procurement" => "Paddy_Procurement",
+    "Wheat Procurement" => "Paddy_Procurement",
     "Active/Not-Active" => "active"
 ];
 
@@ -127,7 +127,7 @@ try{
                     }
 
                     if(!isStringNumber($column[$Paddy_Procurement])){
-                        echo "Error : Check Paddy Procurement Value: ".$column[$Paddy_Procurement];
+                        echo "Error : Check Wheat Procurement Value: ".$column[$Paddy_Procurement];
                         echo "</br>";
                         $redirect = 0;
                     }
