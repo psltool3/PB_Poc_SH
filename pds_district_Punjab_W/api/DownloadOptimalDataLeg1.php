@@ -78,6 +78,7 @@ if (isset($_GET['format'])) {
 				$row["from_name"] = $row['new_name_district'];
 				$row["distance"] = $row['new_distance_district'];
 			}
+			$row["commodity"] = "Wheat";
             $temp = array();
             $temp_pdf = array();
             for($i=0;$i<count($columns);$i++){
