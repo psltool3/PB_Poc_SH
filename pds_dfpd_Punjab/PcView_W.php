@@ -146,7 +146,7 @@ $tablename = "pc1_leg1_".$id;
 		document.getElementById('downloadCSV').addEventListener('click', async function() {
 			try {
 				var tableName = '<?php echo $tablename ?>';
-				const csvResponse = await fetch('api/DownloadOptimalDataPC.php?format=csv&tableName='+tableName);
+				const csvResponse = await fetch('api/DownloadOptimalDataPC.php?format=csv&tableName='+tableName+'&type=W');
 				const csvBlob = await csvResponse.blob();
 				downloadFile(csvBlob, 'Punjab_PC_' + getDateString() + '.csv');
 			} catch (error) {
@@ -158,7 +158,7 @@ $tablename = "pc1_leg1_".$id;
 		document.getElementById('downloadXLSX').addEventListener('click', async function() {
 			try {
 				var tableName = '<?php echo $tablename ?>';
-				const excelResponse = await fetch('api/DownloadOptimalDataPC.php?format=xlsx&tableName='+tableName);
+				const excelResponse = await fetch('api/DownloadOptimalDataPC.php?format=xlsx&tableName='+tableName+'&type=W');
 				const excelBlob = await excelResponse.blob();
 				downloadFile(excelBlob, 'Punjab_PC_' + getDateString() + '.xlsx');
 			} catch (error) {
@@ -170,7 +170,7 @@ $tablename = "pc1_leg1_".$id;
 		document.getElementById('downloadPDF').addEventListener('click', async function() {
 			try {
 				var tableName = '<?php echo $tablename ?>';	
-				const pdfResponse = await fetch('api/DownloadOptimalDataPC.php?format=pdf&tableName='+tableName);
+				const pdfResponse = await fetch('api/DownloadOptimalDataPC.php?format=pdf&tableName='+tableName+'&type=W');
 				const pdfBlob = await pdfResponse.blob();
 
 				const url = window.URL.createObjectURL(pdfBlob);

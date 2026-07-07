@@ -28,6 +28,10 @@ if (isset($_GET['format'])) {
         $columns = ["uniqueid","PC_district","PC_Name","PC_ID","PC_Latitude","PC_Longitute","Paddy_Procure","PC_Milling_Centre","active"];
     }
 
+    $type = isset($_GET['type']) ? $_GET['type'] : '';
+    $paddyLabel = ($type === 'W') ? 'Wheat Procurement' : 'Paddy Procure';
+    $paddyLabelShort = ($type === 'W') ? 'Wheat Procurement' : 'Paddy';
+
     // Map database keys to user-friendly display headers
     $header_map = [
         'uniqueid' => 'Unique ID',
@@ -39,10 +43,10 @@ if (isset($_GET['format'])) {
         'PC_Lat' => 'Latitude',
         'PC_Longitute' => 'Longitude',
         'PC_Long' => 'Longitude',
-        'Paddy_Procure' => 'Paddy Procure',
+        'Paddy_Procure' => $paddyLabel,
         'PC_Milling_Centre' => 'Milling Centre',
         'Storage_Point' => 'Storage Point',
-        'PC_Paddy' => 'Paddy',
+        'PC_Paddy' => $paddyLabelShort,
         'active' => 'Active'
     ];
 

@@ -273,7 +273,7 @@ if (!empty($id)) {
 	document.getElementById('downloadCSV').addEventListener('click', async function() {
 		try {
 			var month = document.getElementById("month").value;
-			const csvResponse = await fetch('api/DownloadOptimalData.php?format=csv&month='+month);
+			const csvResponse = await fetch('api/DownloadOptimalDataLeg1.php?format=csv&month='+month);
 			const csvBlob = await csvResponse.blob();
 			downloadFile(csvBlob, 'Rollout_Plan_.csv');
 		} catch (error) {
@@ -285,7 +285,7 @@ if (!empty($id)) {
 	document.getElementById('downloadXLSX').addEventListener('click', async function() {
 		try {
 			var month = document.getElementById("month").value;
-			const excelResponse = await fetch('api/DownloadOptimalData.php?format=xlsx&month='+month);
+			const excelResponse = await fetch('api/DownloadOptimalDataLeg1.php?format=xlsx&month='+month);
 			const excelBlob = await excelResponse.blob();
 			downloadFile(excelBlob, 'Rollout_Plan_.xlsx');
 		} catch (error) {
@@ -297,7 +297,7 @@ if (!empty($id)) {
 	document.getElementById('downloadPDF').addEventListener('click', async function() {
 		try {
 			var month = document.getElementById("month").value;
-			const excelResponse = await fetch('api/DownloadOptimalData.php?format=pdf&month='+month);
+			const excelResponse = await fetch('api/DownloadOptimalDataLeg1.php?format=pdf&month='+month);
 			const excelBlob = await excelResponse.blob();
 			downloadFile(excelBlob, 'Rollout_Plan_.pdf');
 		} catch (error) {
@@ -328,7 +328,7 @@ if (!empty($id)) {
 	}
 	
 	function sendData(){
-		post(modifiedIdData ,"api/SaveDataRolloutPlan.php");
+		post(modifiedIdData ,"api/SaveDataRolloutPlanLeg1.php");
 	}
 	
 	var uniqueid_bool_array = [];
@@ -353,7 +353,7 @@ if (!empty($id)) {
 					$("#filter_button").attr("disabled",true);
 					$.ajax({
 						type: "POST",
-						url: "api/FetchRolloutPlan.php",
+						url: "api/FetchRolloutPlanLeg1.php",
 						data: dataString,
 						cache: false,
 						error: function(){
@@ -402,7 +402,7 @@ if (!empty($id)) {
 			var dataString = "";
 			$.ajax({
 				type: "POST",
-				url: "api/fetchTableData.php",
+				url: "api/fetchTableDataLeg1.php",
 				data: dataString,
 				cache: false,
 				error: function(){

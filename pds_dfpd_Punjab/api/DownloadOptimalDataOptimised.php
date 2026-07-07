@@ -58,9 +58,12 @@ if (isset($_GET['format'])) {
 				$row["from_name"] = $row['new_name_district'];
 				$row["distance"] = $row['new_distance_district'];
 			}
+			if (isset($_GET['type']) && $_GET['type'] == 'W') {
+				$row["commodity"] = "Wheat";
+			}
             $temp = array();
             for($i=0;$i<count($columns);$i++){
-               array_push($temp,$row[$columns[$i]]);
+               array_push($temp, isset($row[$columns[$i]]) ? $row[$columns[$i]] : '');
             }
             array_push($tableData,$temp);
         }

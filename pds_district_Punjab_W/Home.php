@@ -473,7 +473,7 @@ if($currentTimestamp >= $targetTimestamp) {
 				}
 			}
 			const mergedDict = Object.assign({}, modifiedData, modifiedIdData, modifiedDistanceData, modifiedReasonData, modifiedApproveData);
-			post(mergedDict ,"api/SaveData.php");
+			post(mergedDict ,"api/SaveDataLeg1.php");
 		}
 		
 		var uniqueid_bool_array = [];
@@ -489,7 +489,7 @@ if($currentTimestamp >= $targetTimestamp) {
 			if (confirm("Are you sure you want to reset this selection? This will clear your Implemented/Non-Implemented selection and reason.")) {
 				$.ajax({
 					type: "POST",
-					url: "api/ResetDistrictApproval.php",
+					url: "api/ResetDistrictApprovalLeg1.php",
 					data: { uniqueid: uniqueid },
 					success: function(response) {
 						var res = JSON.parse(response);
@@ -508,7 +508,7 @@ if($currentTimestamp >= $targetTimestamp) {
 		document.getElementById('downloadCSV').addEventListener('click', async function() {
 			try {
 				
-				const csvResponse = await fetch('api/DownloadOptimalData.php?format=csv');
+				const csvResponse = await fetch('api/DownloadOptimalDataLeg1.php?format=csv');
 				const csvBlob = await csvResponse.blob();
 				downloadFile(csvBlob, 'Optimised_Plan_' + getDateString() + '.csv');
 			} catch (error) {
@@ -529,7 +529,7 @@ if($currentTimestamp >= $targetTimestamp) {
 		document.getElementById('downloadXLSX').addEventListener('click', async function() {
 			try {
 				
-				const excelResponse = await fetch('api/DownloadOptimalData.php?format=xlsx');
+				const excelResponse = await fetch('api/DownloadOptimalDataLeg1.php?format=xlsx');
 				const excelBlob = await excelResponse.blob();
 				downloadFile(excelBlob, 'Optimised_Plan_' + getDateString() + '.xlsx');
 			} catch (error) {
@@ -540,7 +540,7 @@ if($currentTimestamp >= $targetTimestamp) {
 		document.getElementById('downloadPDF').addEventListener('click', async function() {
 			try {
 				
-				const excelResponse = await fetch('api/DownloadOptimalData.php?format=pdf');
+				const excelResponse = await fetch('api/DownloadOptimalDataLeg1.php?format=pdf');
 				const excelBlob = await excelResponse.blob();
 				downloadFile(excelBlob, 'Optimised_Plan_' + getDateString() + '.pdf');
 			} catch (error) {
@@ -582,7 +582,7 @@ if($currentTimestamp >= $targetTimestamp) {
 			var dataStringFromId = 'approved='+ approved + '&reviewed='+ reviewed + '&district='+ district;
 			$.ajax({
 				type: "POST",
-				url: "api/FetchFromId.php",
+				url: "api/FetchFromIdLeg1.php",
 				data: dataStringFromId,
 				cache: false,
 				error: function(){
@@ -623,7 +623,7 @@ if($currentTimestamp >= $targetTimestamp) {
 			var dataStringToId = 'approved='+ approved + '&reviewed='+ reviewed + '&district='+ district;
 			$.ajax({
 				type: "POST",
-				url: "api/FetchToId.php",
+				url: "api/FetchToIdLeg1.php",
 				data: dataStringToId,
 				cache: false,
 				error: function(){
@@ -681,7 +681,7 @@ if($currentTimestamp >= $targetTimestamp) {
 				$("#filter_button").attr("disabled",true);
 				$.ajax({
 					type: "POST",
-					url: "api/FetchDbData.php",
+					url: "api/FetchDbDataLeg1.php",
 					data: dataString,
 					cache: false,
 					error: function(){

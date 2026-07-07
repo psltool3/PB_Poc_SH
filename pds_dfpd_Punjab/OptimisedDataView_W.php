@@ -200,7 +200,7 @@ if (isset($_POST['step']) && $_POST['step'] == 'leg1') {
 			try {
 				var tableName = '<?php echo $tablename ?>';
 				var district = document.getElementById('district').value;
-				const csvResponse = await fetch('api/DownloadOptimalDataOptimised.php?format=csv&tableName='+tableName+'&district='+district);
+				const csvResponse = await fetch('api/DownloadOptimalDataOptimised.php?format=csv&tableName='+tableName+'&district='+district+'&type=W');
 				const csvBlob = await csvResponse.blob();
 				downloadFile(csvBlob, 'Punjab_Optimised_Data_' + getDateString() + '.csv');
 			} catch (error) {
@@ -213,7 +213,7 @@ if (isset($_POST['step']) && $_POST['step'] == 'leg1') {
 			try {
 				var tableName = '<?php echo $tablename ?>';
 				var district = document.getElementById('district').value;
-				const excelResponse = await fetch('api/DownloadOptimalDataOptimised.php?format=xlsx&tableName='+tableName+'&district='+district);
+				const excelResponse = await fetch('api/DownloadOptimalDataOptimised.php?format=xlsx&tableName='+tableName+'&district='+district+'&type=W');
 				const excelBlob = await excelResponse.blob();
 				downloadFile(excelBlob, 'Punjab_Optimised_Data_' + getDateString() + '.xlsx');
 			} catch (error) {
@@ -225,7 +225,7 @@ if (isset($_POST['step']) && $_POST['step'] == 'leg1') {
 		/*document.getElementById('downloadPDF').addEventListener('click', async function() {
 			try {
 				var tableName = '<?php echo $tablename ?>';	
-				const pdfResponse = await fetch('api/DownloadOptimalDataOptimised.php?format=pdf&tableName='+tableName);
+				const pdfResponse = await fetch('api/DownloadOptimalDataOptimised.php?format=pdf&tableName='+tableName+'&type=W');
 				const pdfBlob = await pdfResponse.blob();
 
 				const url = window.URL.createObjectURL(pdfBlob);
@@ -283,7 +283,7 @@ if (isset($_POST['step']) && $_POST['step'] == 'leg1') {
 						var resultarray = JSON.parse(result);
 						var obj = resultarray["data"];
 						for (var datafield in obj){
-							var subpart = "<tr><td>" +  obj[datafield]["scenario"] +  "</td><td>"  + obj[datafield]["from"] +  "</td><td>"  + obj[datafield]["from_state"] +  "</td><td>"  + obj[datafield]["from_id"] +  "</td><td>"  + obj[datafield]["from_name"] +  "</td><td>"  + obj[datafield]["from_district"] +  "</td><td>"  + obj[datafield]["from_lat"] + "</td><td>" + obj[datafield]["from_long"] + "</td><td>" + obj[datafield]["to"] + "</td><td>" + obj[datafield]["to_state"] + "</td><td>" + obj[datafield]["to_id"] + "</td><td>" + obj[datafield]["to_name"] + "</td><td>" + obj[datafield]["to_district"] + "</td><td>" + obj[datafield]["to_lat"] + "</td><td>" + obj[datafield]["to_long"] + "</td><td>" + obj[datafield]["commodity"] + "</td><td>" + obj[datafield]["quantity"] + "</td><td>" + obj[datafield]["distance"] + "</td></tr>";
+							var subpart = "<tr><td>" +  obj[datafield]["scenario"] +  "</td><td>"  + obj[datafield]["from"] +  "</td><td>"  + obj[datafield]["from_state"] +  "</td><td>"  + obj[datafield]["from_id"] +  "</td><td>"  + obj[datafield]["from_name"] +  "</td><td>"  + obj[datafield]["from_district"] +  "</td><td>"  + obj[datafield]["from_lat"] + "</td><td>" + obj[datafield]["from_long"] + "</td><td>" + obj[datafield]["to"] + "</td><td>" + obj[datafield]["to_state"] + "</td><td>" + obj[datafield]["to_id"] + "</td><td>" + obj[datafield]["to_name"] + "</td><td>" + obj[datafield]["to_district"] + "</td><td>" + obj[datafield]["to_lat"] + "</td><td>" + obj[datafield]["to_long"] + "</td><td>Wheat</td><td>" + obj[datafield]["quantity"] + "</td><td>" + obj[datafield]["distance"] + "</td></tr>";
 							
 							$('#optimised_table').append(subpart);
 						}
