@@ -35,6 +35,10 @@ if ($row['role'] == 'admin') {
 		echo "Error: Admins are not allowed to log in here.";
 		exit;
 }
+if ($row['role'] == 'dfpd') {
+		echo "Error: dfpd are not allowed to log in here.";
+		exit;
+}
 
 if ($row["verified"] == 0) {
 		echo "Error: Your account needs to be verified. Please contact admin.";

@@ -47,6 +47,10 @@ if(password_verify($person->getPassword(), $dbHashedPassword)){
 		mysqli_close($con);
 		echo "<script>window.location.href = '../Home.php';</script>";
     }
+	else{
+		echo "<script>alert('wrong role selected');window.location.href = './Home.php';</script>";
+		exit();
+	}
 } 
 else{
     recordLoginAttempt($con);
