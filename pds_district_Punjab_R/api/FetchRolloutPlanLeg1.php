@@ -27,7 +27,7 @@ $result = $con->query($query);
 
 
 if ($result && $result->num_rows > 0) {
-	$query_implemented = "SELECT * FROM ".$tablename." WHERE to_district='$district' AND status='implemented' AND (approve_admin='yes' OR approve_admin='no')";
+	$query_implemented = "SELECT * FROM ".$tablename." WHERE to_district='$district' AND status='implemented' AND approve_admin='yes' AND approve_district='yes' AND (approve_admin='yes' OR approve_admin='no')";
 	$result_implemented = mysqli_query($con,$query_implemented);
 	$count_implemented = mysqli_num_rows($result_implemented);
 	
@@ -37,7 +37,7 @@ if ($result && $result->num_rows > 0) {
 	
 	$query = "SELECT * FROM ".$tablename." WHERE to_district='$district' AND (approve_admin='yes' OR approve_admin='no')";
 	if($status=="implemented"){
-		$query = "SELECT * FROM ".$tablename." WHERE to_district='$district' AND status='implemented' AND (approve_admin='yes' OR approve_admin='no')";
+		$query = "SELECT * FROM ".$tablename." WHERE to_district='$district' AND status='implemented' AND approve_admin='yes' AND approve_district='yes' AND (approve_admin='yes' OR approve_admin='no')";
 	}
 	else if($status=="not implemented"){
 		$query = "SELECT * FROM ".$tablename." WHERE to_district='$district' AND status IS NULL AND (approve_admin='yes' OR approve_admin='no')";

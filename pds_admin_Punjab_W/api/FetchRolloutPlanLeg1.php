@@ -47,7 +47,7 @@ $query = "SHOW TABLES LIKE '$tablename'";
 $result = $con->query($query);
 
 if ($result && $result->num_rows > 0) {
-	$query = "SELECT * FROM ".$tablename." WHERE to_district='$district' AND status='implemented'";
+	$query = "SELECT * FROM ".$tablename." WHERE to_district='$district' AND status='implemented' AND approve_admin='yes' AND approve_district='yes'";
 	$result = mysqli_query($con,$query);
 	$numrows = mysqli_num_rows($result);
 	while($row = mysqli_fetch_assoc($result))
@@ -87,7 +87,7 @@ if ($result && $result->num_rows > 0) {
 	if($numrows==0){
 		$data = "";
 	}
-	$query = "SELECT * FROM ".$tablename." WHERE status='implemented'";
+	$query = "SELECT * FROM ".$tablename." WHERE status='implemented' AND approve_admin='yes' AND approve_district='yes'";
 	$result = mysqli_query($con,$query);
 	$numrows = mysqli_num_rows($result);
 	while($row = mysqli_fetch_assoc($result))
