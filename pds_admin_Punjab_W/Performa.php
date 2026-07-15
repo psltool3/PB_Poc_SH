@@ -41,7 +41,7 @@ require('Header.php');
 							</br></br>
 							
                                  <div class="table-responsive">
-									<form method="post" action="api/saveCost.php">
+									<form method="post" action="api/saveCost.php" onsubmit="return validateCostForm(this);">
                                     <table id="export_table" class="table">
                                         <thead>
                                             <tr>
@@ -150,6 +150,22 @@ require('Header.php');
         <!-- END TEMPLATE -->
 
 		<script>
+		function validateCostForm(form) {
+			var inputs = form.querySelectorAll('input[name^="cost_"]');
+			for (var i = 0; i < inputs.length; i++) {
+				var val = inputs[i].value.trim();
+				if (val === '') continue;
+				// Only allow positive numbers (integer or decimal)
+				if (!/^\d+(\.\d+)?$/.test(val)) {
+					alert('Error: Cost must be a valid positive number. Please remove any invalid characters.');
+					inputs[i].focus();
+					inputs[i].style.border = '2px solid red';
+					return false;
+				}
+			}
+			return true;
+		}
+
 		function post(params,file) {
 
 			method = "post";
