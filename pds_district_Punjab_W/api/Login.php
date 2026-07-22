@@ -12,16 +12,19 @@ if (empty($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_toke
         die("Something went wrong. Request denied.");
 }
 
-if (empty($_POST['captchainput'])||$_SESSION['captcha'] !=  $_POST['captchainput']){
+$userCaptcha = $_POST['captchainput'] ?? '';
+$sessionCaptcha = $_SESSION['captcha'] ?? '';
+unset($_SESSION['captcha']);
+
+if (empty($userCaptcha) || empty($sessionCaptcha) || $userCaptcha !== $sessionCaptcha) {
 	die("Please Check Captcha");
 }
 
 $person = new Login;
 $person->setUsername($_POST["username"]);
-$nonceValue = 'nonce_value';
 
 $Encryption = new Encryption();
-$person->setPassword($Encryption->decrypt($_POST["password"], $nonceValue));
+$person->setPassword($Encryption->decrypt($_POST["password"], $_SESSION['csrf_token']));
 
 $query = "SELECT * FROM login WHERE username='".$person->getUsername()."'";
 $result = mysqli_query($con, $query);

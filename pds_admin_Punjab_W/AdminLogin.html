@@ -28,41 +28,21 @@
     <script src="js/Encryption.js"></script>
 
     <script>
-      var captcha;
       function generateCaptcha() {
         document.getElementById("captchainput").value = "";
-        captcha = document.getElementById("image");
-        var uniquechar = "";
-        const randomchar =
-          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (let i = 1; i < 5; i++) {
-          uniquechar += randomchar.charAt(Math.random() * randomchar.length);
+        var captchaImg = document.getElementById("captcha_img");
+        if (captchaImg) {
+          captchaImg.src = "captcha.php?" + Math.random();
         }
-        captcha.innerHTML = uniquechar;
-        $.ajax({
-          url: "captcha.php",
-          method: "POST",
-          data: { captcha: uniquechar },
-          success: function (response) {
-            console.log("CAPTCHA stored in session: " + response);
-          },
-        });
       }
 
       function verifyCaptcha() {
-        const usr_input = document.getElementById("captchainput").value;
-        if (usr_input == captcha.innerHTML) {
-          var readableString = document.getElementById("password").value;
-          var nonceValue = "nonce_value";
-          let encryption = new Encryption();
-          var encrypted = encryption.encrypt(readableString, nonceValue);
-          document.getElementById("password").value = encrypted;
-          return true;
-        } else {
-          alert("Incorrect Captcha");
-          generateCaptcha();
-          return false;
-        }
+        var readableString = document.getElementById("password").value;
+        var csrfToken = document.getElementById("csrf_token").value;
+        let encryption = new Encryption();
+        var encrypted = encryption.encrypt(readableString, csrfToken);
+        document.getElementById("password").value = encrypted;
+        return true;
       }
     </script>
     <script>
@@ -201,21 +181,9 @@
               </div>
             </div>
             <div class="form-group">
-              <div class="row">
-                <div class="col-md-8">
-                  <center>
-                    <div id="image" selectable="False"></div>
-                  </center>
-                </div>
-                <div class="col-md-4">
-                  <center>
-                    <span
-                      class="fa fa-refresh"
-                      style="font-size: 30px; color: white; margin-top: 20px"
-                      onclick="generateCaptcha()"
-                    ></span>
-                  </center>
-                </div>
+              <div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
+                <img id="captcha_img" src="captcha.php" alt="CAPTCHA Image" style="border: 2px solid #2798d5; width: 120px; height: 40px;" />
+                <span class="fa fa-refresh" style="font-size: 24px; color: white; cursor: pointer;" onclick="generateCaptcha()"></span>
               </div>
             </div>
 
