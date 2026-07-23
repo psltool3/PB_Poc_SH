@@ -3,33 +3,24 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$captcha_code = substr(md5(rand()), 0, 5);
+$captcha_code = substr(md5(rand()), 0, 4);
 $_SESSION['captcha'] = $captcha_code;
 
-header('Content-Type: image/jpeg');
-header('Cache-Control: no-cache, no-store, must-revalidate');
+header("Content-Type: image/svg+xml");
 
-$width = 120;
-$height = 40;
-$image = imagecreatetruecolor($width, $height);
-
-$background_color = imagecolorallocate($image, 0, 0, 0);
-$text_color = imagecolorallocate($image, 255, 255, 255);
-$line_color = imagecolorallocate($image, 39, 152, 213);
-
-imagefill($image, 0, 0, $background_color);
-
+$lines = '';
 for ($i = 0; $i < 5; $i++) {
-    imageline($image, rand(0, $width), rand(0, $height), rand(0, $width), rand(0, $height), $line_color);
+    $x1 = rand(0, 140);
+    $y1 = rand(0, 45);
+    $x2 = rand(0, 140);
+    $y2 = rand(0, 45);
+    $lines .= "  <line x1=\"$x1\" y1=\"$y1\" x2=\"$x2\" y2=\"$y2\" stroke=\"rgb(39,152,213)\" stroke-width=\"2\" />\n";
 }
 
-$font = __DIR__ . '/arialbd.ttf';
-if (file_exists($font) && function_exists('imagettftext')) {
-    imagettftext($image, 18, rand(-5, 5), 20, 28, $text_color, $font, $captcha_code);
-} else {
-    imagestring($image, 5, 35, 12, $captcha_code, $text_color);
-}
-
-imagejpeg($image);
-imagedestroy($image);
+echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 ?>
+<svg width="140" height="45" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#060505"/>
+<?php echo $lines; ?>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="bold" letter-spacing="5"><?php echo $captcha_code; ?></text>
+</svg>
