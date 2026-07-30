@@ -196,7 +196,7 @@ if($currentTimestamp >= $targetTimestamp) {
 										<div class="col-md-12">  
 											<div class="input-group">
 											<span class="input-group-addon"><span class="fa fa-certificate"></span></span>						
-											<select class="form-control select" onClick="fetchDataFromServerId()" id="reviewed" name="reviewed" style="z-index:9999">
+											<select class="form-control" onchange="fetchDataFromServerId()" id="reviewed" name="reviewed" style="z-index:9999">
 												<option value=''>Select</option>
 												<option value='reviewed'>Reviewed</option>
 												<option value='notreviewed'>Not Reviewed</option>
@@ -211,7 +211,7 @@ if($currentTimestamp >= $targetTimestamp) {
 										<div class="col-md-12">  
 											<div class="input-group">
 											<span class="input-group-addon"><span class="fa fa-certificate"></span></span>						
-											<select class="form-control select" onClick="fetchDataFromServerId()" id="approved" name="approved" style="z-index:9999">
+											<select class="form-control" onchange="fetchDataFromServerId()" id="approved" name="approved" style="z-index:9999">
 												<option value=''>Select</option>
 												<option value='approved'>Admin Approved</option>
 												<option value='notapproved'>Admin not Approved</option>
