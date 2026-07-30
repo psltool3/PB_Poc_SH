@@ -1,7 +1,25 @@
-﻿<?php
+<?php
 require('util/Connection.php');
 require('util/SessionCheck.php');
 require('Header.php');
+
+$query = "SELECT * FROM optimised_table ORDER BY last_updated DESC LIMIT 1";
+$result = mysqli_query($con,$query);
+$id = "";
+while($row = mysqli_fetch_array($result))
+{
+	$id= $row["id"];
+}
+
+$is_implemented = false;
+if($id != ""){
+    $tablename = "optimiseddata_".$id;
+    $query_check = "SELECT status FROM ".$tablename." WHERE status='implemented' LIMIT 1";
+    $result_check = mysqli_query($con, $query_check);
+    if($result_check && mysqli_num_rows($result_check) > 0){
+        $is_implemented = true;
+    }
+}
 ?>
 <style>
         body {
@@ -82,6 +100,14 @@ require('Header.php');
                             <div class="panel panel-default">
 								<div class="panel-heading">
                                     <h3 class="panel-title" id="mainheading_big"></b></h3>
+									<br/><br/>
+									<div id="implementation_banner">
+										<?php if($is_implemented){
+											echo "<center><h3 style='color:green'>Rollout plan implemented by districts</h3></center>";
+										} else {
+											echo "<center><h3 style='color:red'>Rollout plan is yet to be implemented by districts</h3></center>";
+										} ?>
+									</div>
                                 </div>
                             </div>
 							<div class="row">
@@ -437,6 +463,18 @@ require('Header.php');
 					try{
 						var resultarray = JSON.parse(result);
 						var obj = resultarray["data"];
+						
+						if (obj && Object.keys(obj).length > 0) {
+							$("#implementation_banner").html("<center><h3 style='color:green'>Rollout plan implemented by districts</h3></center>");
+						} else {
+							$("#implementation_banner").html("<center><h3 style='color:red'>Rollout plan is yet to be implemented by districts</h3></center>");
+						}
+						
+						if(obj == "" || obj.length == 0){
+							var table = document.getElementById("optimisedtable");
+							table.innerHTML = "";
+							return;
+						}
 						
 						for (var dataField in obj) {
 							var status = "Not Implemented";

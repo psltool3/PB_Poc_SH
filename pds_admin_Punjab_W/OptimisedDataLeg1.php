@@ -12,6 +12,14 @@ while($row = mysqli_fetch_array($result))
 	$id= $row["id"];
 }
 
+$query = "SELECT rolled_out FROM optimised_table_leg1 WHERE id='$id'";
+$result = mysqli_query($con,$query);
+$rolled_out = "0";
+while($row = mysqli_fetch_array($result))
+{
+	$rolled_out= $row["rolled_out"];
+}
+
 
 $tablename = "optimiseddata_leg1_".$id;
 
@@ -136,6 +144,10 @@ if($currentTimestamp >= $targetTimestamp) {
 			}
 		}
 	}
+
+	function rolloutPlan(){
+		post({}, "api/RolloutPlanLeg1.php");
+	}
 </script>
                 <!-- START BREADCRUMB -->
                 <ul class="breadcrumb">
@@ -152,9 +164,17 @@ if($currentTimestamp >= $targetTimestamp) {
                         <div class="col-md-12">
 
                             <!-- START SIMPLE DATATABLE -->
-                            <div class="panel panel-default">
+                             <div class="panel panel-default">
 								<div class="panel-heading">
                                     <h3 class="panel-title">Punjab Intra MovementOptimization For PDS <div id="timer"> <b>Time Left &nbsp </b> <span id="countdown"></span></h3>
+									</br></br>
+									<?php if($rolled_out=='1'){
+											echo "<center><h3 style='color:green'>Plan already rolled out to districts</h3></center>";
+										}
+										else{
+											echo "<center><h3 style='color:red'>Plan yet to be rolled out to districts</h3></center>";
+										}
+									?>
                                 </div>
                             </div>
 							<div class="row">
@@ -247,6 +267,7 @@ if($currentTimestamp >= $targetTimestamp) {
 							</div>
 							</br></br></br>
                             <!-- END SIMPLE DATATABLE -->
+								<button class='btn btn-danger pull-right' onClick='rolloutPlan()' type='button' style='margin-left:10px;'>Send to District Verification</button>
 								<button id="downloadCSV" class="btn btn-warning pull-right" style="margin-left: 10px;" type="button">Download CSV</button>
 								<button id="downloadXLSX" class="btn btn-success pull-right" style="margin-left: 10px;" type="button">Download XLSX</button>
 								<button id="downloadPDF" class="btn btn-danger pull-right" style="margin-left: 10px;" type="button">Download PDF</button>

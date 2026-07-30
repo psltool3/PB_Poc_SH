@@ -87,7 +87,7 @@ if ($result && $result->num_rows > 0) {
 	if($numrows==0){
 		$data = "";
 	}
-	$query = "SELECT * FROM ".$tablename." WHERE status='implemented' AND approve_admin='yes' AND approve_district='yes'";
+	$query = "SELECT * FROM ".$tablename;
 	$result = mysqli_query($con,$query);
 	$numrows = mysqli_num_rows($result);
 	while($row = mysqli_fetch_assoc($result))

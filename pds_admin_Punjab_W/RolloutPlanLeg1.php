@@ -463,6 +463,13 @@ require('Header.php');
 						var resultarray = JSON.parse(result);
 						var obj = resultarray["data"];
 						
+						if(obj == "" || obj.length == 0){
+							alert("Rollout plan is yet to be implemented by districts");
+							var table = document.getElementById("optimisedtable");
+							table.innerHTML = "";
+							return;
+						}
+						
 						for (var dataField in obj) {
 							var uniqueid = obj[dataField]["from_id"] + "_" + obj[dataField]["to_id"] + "_" + obj[dataField]["commodity"];
 							

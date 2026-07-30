@@ -33,9 +33,9 @@ if (isset($_GET['format'])) {
 	}
 
 	$tablename = "optimiseddata_leg1_".$id;
-	$query = "SELECT * FROM ".$tablename." WHERE to_district='$district'";
+	$query = "SELECT * FROM ".$tablename." WHERE to_district='$district' AND status='implemented'";
 	if($district=="" OR $district=="all"){
-		$query = "SELECT * FROM ".$tablename." WHERE 1";
+		$query = "SELECT * FROM ".$tablename." WHERE status='implemented'";
 	}
 	
     $result = mysqli_query($con,$query);

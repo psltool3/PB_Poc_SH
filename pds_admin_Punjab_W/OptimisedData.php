@@ -3,7 +3,7 @@ require('util/Connection.php');
 require('util/SessionCheck.php');
 require('Header.php');
 
-$query = "SELECT * FROM optimised_table_leg1 ORDER BY last_updated DESC LIMIT 1";
+$query = "SELECT * FROM optimised_table ORDER BY last_updated DESC LIMIT 1";
 $result = mysqli_query($con,$query);
 $id = "";
 while($row = mysqli_fetch_array($result))
@@ -11,7 +11,7 @@ while($row = mysqli_fetch_array($result))
 	$id= $row["id"];
 }
 
-$query = "SELECT rolled_out FROM optimised_table_leg1 WHERE id='$id'";
+$query = "SELECT rolled_out FROM optimised_table WHERE id='$id'";
 $result = mysqli_query($con,$query);
 $rolled_out = "0";
 while($row = mysqli_fetch_array($result))
