@@ -36,19 +36,25 @@ if ($result->num_rows == 0) {
     exit();
 } 
 
-$query = "SELECT from_district FROM " . $tablename . " WHERE 1";
+$district = isset($_POST['district']) ? $_POST['district'] : '';
+$where = " WHERE 1";
+if ($district != "" && $district != "all") {
+    $where .= " AND to_district='$district'";
+}
+
+$query = "SELECT from_district FROM " . $tablename . $where;
 $result = mysqli_query($con,$query);
 $totalids = mysqli_num_rows($result);
 
-$query = "SELECT approve_district FROM " . $tablename . " WHERE approve_district='yes'";
+$query = "SELECT approve_district FROM " . $tablename . $where . " AND approve_district='yes'";
 $result = mysqli_query($con,$query);
 $totalidsreviewed = mysqli_num_rows($result);
 
-$query = "SELECT new_id_district FROM " . $tablename . " WHERE new_id_district<>''";
+$query = "SELECT new_id_district FROM " . $tablename . $where . " AND new_id_district<>''";
 $result = mysqli_query($con,$query);
 $totalidsrequested = mysqli_num_rows($result);
 
-$query = "SELECT approve_admin FROM " . $tablename . " WHERE approve_admin='yes'";
+$query = "SELECT approve_admin FROM " . $tablename . $where . " AND approve_admin='yes'";
 $result = mysqli_query($con,$query);
 $totalidsapproved = mysqli_num_rows($result);
 							

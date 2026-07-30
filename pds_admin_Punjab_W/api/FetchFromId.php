@@ -24,7 +24,11 @@ if($numrow>0){
 }
 
 $tablename = "optimiseddata_leg1_".$id;
-$result = $con->query("SELECT DISTINCT from_id,from_name from $tablename WHERE to_district='$district'");
+$query = "SELECT DISTINCT from_id,from_name from $tablename WHERE 1";
+if ($district != "" && $district != "all") {
+    $query .= " AND to_district='$district'";
+}
+$result = $con->query($query);
 
 if ($result->num_rows > 0) {
     $rows = array();
