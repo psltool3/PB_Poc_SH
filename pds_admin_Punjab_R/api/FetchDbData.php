@@ -140,4 +140,6 @@ if ($result && $result->num_rows > 0) {
 	$resultarray["warehouse"] = array();
 	echo json_encode($resultarray);
 }
+?>cho json_encode($resultarray);
+}
 ?>

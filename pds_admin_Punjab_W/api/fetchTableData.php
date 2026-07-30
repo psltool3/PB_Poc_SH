@@ -18,7 +18,7 @@ while($row = mysqli_fetch_array($result))
 	$check_query = "SHOW TABLES LIKE '$tablename'";
 	$check_res = $con->query($check_query);
 	if($check_res && $check_res->num_rows > 0) {
-		$data_query = "SELECT 1 FROM $tablename WHERE approve_admin='yes' AND approve_district='yes' LIMIT 1";
+		$data_query = "SELECT 1 FROM $tablename LIMIT 1";
 		$data_res = mysqli_query($con, $data_query);
 		if($data_res && mysqli_num_rows($data_res) > 0) {
 			$temp = array();

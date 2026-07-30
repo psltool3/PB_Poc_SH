@@ -982,28 +982,30 @@ while($row = mysqli_fetch_array($result))
 			success: function(result){
 				try{
 					var data = JSON.parse(result);
-					var monthYearCombinations = data.map(item => `${item.year}_${item.month}_${item.day}`);
-					var dropdown = document.getElementById("month");
+					if(data.length > 0){
+						var monthYearCombinations = data.map(item => `${item.year}_${item.month}_${item.day}`);
+						var dropdown = document.getElementById("month");
 
-					var year = data[0].year;
-					var month = data[0].month;
-					var date = data[0].day;
-					var lastUpdated = data[0].last_updated;
+						var year = data[0].year;
+						var month = data[0].month;
+						var date = data[0].day;
+						var lastUpdated = data[0].last_updated;
 
-					var resultString = "Optimised Data for Year <b>" + year + "</b> and Month <b>" + month + "</b>, date <b>" + date + "</b>. Last updated at <b>" + lastUpdated + "</b>";
-					document.getElementById("mainheading_big").innerHTML = resultString;
+						var resultString = "Optimised Data for Year <b>" + year + "</b> and Month <b>" + month + "</b>, date <b>" + date + "</b>. Last updated at <b>" + lastUpdated + "</b>";
+						document.getElementById("mainheading_big").innerHTML = resultString;
 
-					  // Clear existing options
-					  dropdown.innerHTML = '';
+						// Clear existing options
+						dropdown.innerHTML = '';
 
-					  // Add new options based on the array
-					  monthYearCombinations.forEach(function(item) {
-						var option = document.createElement("option");
-						option.value = item;
-						option.text = item;
-						dropdown.add(option);
-					  });
-					  fetchDataFromServer();
+						// Add new options based on the array
+						monthYearCombinations.forEach(function(item) {
+							var option = document.createElement("option");
+							option.value = item;
+							option.text = item;
+							dropdown.add(option);
+						});
+						fetchDataFromServer();
+					}
 				}
 				catch (error) {
 					console.log(error);
