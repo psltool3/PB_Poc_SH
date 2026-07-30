@@ -471,25 +471,28 @@ if($id != ""){
 						}
 						
 						if(obj == "" || obj.length == 0){
+							// do not clear table
+						} else {
+							for (var dataField in obj) {
+								var status = "Not Implemented";
+								if(obj[dataField]["status"]=="implemented"){
+									status = "Implemented"
+								}
+								
+								var subpart1 = "<tr><td>" +  obj[dataField]["scenario"] +  "</td><td>"  + obj[dataField]["from"] +  "</td><td>"  + obj[dataField]["from_state"] +  "</td><td>"  + obj[dataField]["from_id"] +  "</td><td>"  + obj[dataField]["from_name"] +  "</td><td>"  + obj[dataField]["from_district"] +  "</td><td>"  + (obj[dataField]["from_centre"] !== undefined && obj[dataField]["from_centre"] !== null ? obj[dataField]["from_centre"] : "") + "</td><td>" + obj[dataField]["from_lat"] +  "</td><td>"  + obj[dataField]["from_long"] +  "</td><td>"  + obj[dataField]["to"] +  "</td><td>"  + obj[dataField]["to_state"] +  "</td><td>"  + obj[dataField]["to_id"] +  "</td><td>"  + obj[dataField]["to_name"] +  "</td><td>"  + obj[dataField]["to_district"] +  "</td><td>"  + (obj[dataField]["to_centre"] !== undefined && obj[dataField]["to_centre"] !== null ? obj[dataField]["to_centre"] : "") + "</td><td>" + obj[dataField]["to_lat"] +  "</td><td>"  + obj[dataField]["to_long"] +  "</td><td>"  + obj[dataField]["commodity"] +  "</td><td>"  + obj[dataField]["quantity"] +  "</td><td>"  + obj[dataField]["distance"] +  "</td><td>"  + status + "</td></tr>";
+								$('#table_body').append(subpart1);
+							}
+						}
+						
+						var objTable = resultarray["table"];
+						if (!objTable || Object.keys(objTable).length === 0) {
 							var table = document.getElementById("optimisedtable");
 							table.innerHTML = "";
 							return;
 						}
-						
-						for (var dataField in obj) {
-							var status = "Not Implemented";
-							if(obj[dataField]["status"]=="implemented"){
-								status = "Implemented"
-							}
-							
-							var subpart1 = "<tr><td>" +  obj[dataField]["scenario"] +  "</td><td>"  + obj[dataField]["from"] +  "</td><td>"  + obj[dataField]["from_state"] +  "</td><td>"  + obj[dataField]["from_id"] +  "</td><td>"  + obj[dataField]["from_name"] +  "</td><td>"  + obj[dataField]["from_district"] +  "</td><td>"  + (obj[dataField]["from_millingcentre"] !== undefined && obj[dataField]["from_millingcentre"] !== null ? obj[dataField]["from_millingcentre"] : "") + "</td><td>" + obj[dataField]["from_lat"] +  "</td><td>"  + obj[dataField]["from_long"] +  "</td><td>"  + obj[dataField]["to"] +  "</td><td>"  + obj[dataField]["to_state"] +  "</td><td>"  + obj[dataField]["to_id"] +  "</td><td>"  + obj[dataField]["to_name"] +  "</td><td>"  + obj[dataField]["to_district"] +  "</td><td>"  + (obj[dataField]["to_millingcentre"] !== undefined && obj[dataField]["to_millingcentre"] !== null ? obj[dataField]["to_millingcentre"] : "") + "</td><td>" + obj[dataField]["to_lat"] +  "</td><td>"  + obj[dataField]["to_long"] +  "</td><td>"  + obj[dataField]["commodity"] +  "</td><td>"  + obj[dataField]["quantity"] +  "</td><td>"  + obj[dataField]["distance"] +  "</td><td>"  + status + "</td></tr>";
-							$('#table_body').append(subpart1);
-						}
-						
-						var obj = resultarray["table"];
 						var thead = document.createElement("thead");
 						var headerRow = document.createElement("tr");
-						var headers = ["Scenario", "PC_Used", "Mill_Used", "Total_Allocation", "Total_QKM", "Average Distance"];
+						var headers = ["Scenario", "WH_Used", "FPS_Used", "Total_Allocation", "Total_QKM", "Average Distance"];
 						headers.forEach(function(headerText) {
 							var th = document.createElement("th");
 							th.textContent = headerText;
@@ -508,12 +511,12 @@ if($id != ""){
 						var cell5 = newRow.insertCell(4);
 						var cell6 = newRow.insertCell(5);
 						
-						cell1.innerHTML = obj["Scenario_optimised"];
-						cell2.innerHTML = obj["WH_Used_Optimised"];
-						cell3.innerHTML = obj["FPS_Used"];
-						cell4.innerHTML = formatNumberWithCommas(obj["Demand"]);
-						cell5.innerHTML = formatNumberWithCommas(obj["Total_QKM_Optimised"]);
-						cell6.innerHTML = formatNumberWithCommas(obj["Average_Distance_Optimised"]);
+						cell1.innerHTML = objTable["Scenario_optimised"];
+						cell2.innerHTML = objTable["WH_Used_Optimised"];
+						cell3.innerHTML = objTable["FPS_Used"];
+						cell4.innerHTML = formatNumberWithCommas(objTable["Demand"]);
+						cell5.innerHTML = formatNumberWithCommas(objTable["Total_QKM_Optimised"]);
+						cell6.innerHTML = formatNumberWithCommas(objTable["Average_Distance_Optimised"]);
 
 						var newRow = table.insertRow();
 						var cell1 = newRow.insertCell(0);
@@ -523,27 +526,14 @@ if($id != ""){
 						var cell5 = newRow.insertCell(4);
 						var cell6 = newRow.insertCell(5);
 						
-						cell1.innerHTML = obj["Scenario"];
-						cell2.innerHTML = obj["WH_Used"];
-						cell3.innerHTML = obj["FPS_Used"];
-						cell4.innerHTML = formatNumberWithCommas(obj["Demand"]);
-						cell5.innerHTML = formatNumberWithCommas(obj["Total_QKM"]);
-						cell6.innerHTML = formatNumberWithCommas(obj["Average_Distance"]);
+						cell1.innerHTML = objTable["Scenario"];
+						cell2.innerHTML = objTable["WH_Used"];
+						cell3.innerHTML = objTable["FPS_Used"];
+						cell4.innerHTML = formatNumberWithCommas(objTable["Demand"]);
+						cell5.innerHTML = formatNumberWithCommas(objTable["Total_QKM"]);
+						cell6.innerHTML = formatNumberWithCommas(objTable["Average_Distance"]);
 						
-						var newRow = table.insertRow();
-						var cell1 = newRow.insertCell(0);
-						var cell2 = newRow.insertCell(1);
-						var cell3 = newRow.insertCell(2);
-						var cell4 = newRow.insertCell(3);
-						var cell5 = newRow.insertCell(4);
-						var cell6 = newRow.insertCell(5);
 
-						cell1.innerHTML = obj["Scenario_Baseline"];
-						cell2.innerHTML = obj["WH_Used_Baseline"];
-						cell3.innerHTML = obj["FPS_Used_Baseline"];
-						cell4.innerHTML = obj["Demand_Baseline"];
-						cell5.innerHTML = obj["Total_QKM_Baseline"];
-						cell6.innerHTML = obj["Average_Distance_Baseline"];
 						
 						table.style.padding = "20px";
 						table.style.marginBottom = "50px";
