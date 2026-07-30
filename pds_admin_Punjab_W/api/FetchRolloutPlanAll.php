@@ -132,8 +132,8 @@ if ($result && $result->num_rows >0) {
 		$qkm = $qkm + (float)$row["quantity"] * (float)$row["distance"];
 		$distance = $distance + (float)$row["distance"];
 	}
-	$averagedistance = $qkm/$allocation;
-	$averagedistanceoptimised = $qkm_optimised/$allocation;
+	$averagedistance = ($allocation != 0) ? $qkm/$allocation : 0;
+	$averagedistanceoptimised = ($allocation != 0) ? $qkm_optimised/$allocation : 0;
 	$tableData = array();
 	$tableData["WH_Used"] = count($warehouse);
 	$tableData["FPS_Used"] = count($fps);
