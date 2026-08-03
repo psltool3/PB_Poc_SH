@@ -1051,20 +1051,20 @@ require('Header.php');
 		cell1_5.innerHTML = formatNumberWithCommas(data["Total_QKM"]);
 		cell1_6.innerHTML = formatNumberWithCommas(data["Average_Distance"]);
 
-		var newRow2 = table.insertRow();
-		var cell2_1 = newRow2.insertCell(0);
-		var cell2_2 = newRow2.insertCell(1);
-		var cell2_3 = newRow2.insertCell(2);
-		var cell2_4 = newRow2.insertCell(3);
-		var cell2_5 = newRow2.insertCell(4);
-		var cell2_6 = newRow2.insertCell(5);
+		// var newRow2 = table.insertRow();
+		// var cell2_1 = newRow2.insertCell(0);
+		// var cell2_2 = newRow2.insertCell(1);
+		// var cell2_3 = newRow2.insertCell(2);
+		// var cell2_4 = newRow2.insertCell(3);
+		// var cell2_5 = newRow2.insertCell(4);
+		// var cell2_6 = newRow2.insertCell(5);
 
-		cell2_1.innerHTML = data["Scenario_Baseline"];
-		cell2_2.innerHTML = data["WH_Used_Baseline"];
-		cell2_3.innerHTML = (data["FPS_Used_Baseline"]);
-		cell2_4.innerHTML = (data["Demand_Baseline"]);
-		cell2_5.innerHTML = (data["Total_QKM_Baseline"]);
-		cell2_6.innerHTML = (data["Average_Distance_Baseline"]);
+		// cell2_1.innerHTML = data["Scenario_Baseline"];
+		// cell2_2.innerHTML = data["WH_Used_Baseline"];
+		// cell2_3.innerHTML = (data["FPS_Used_Baseline"]);
+		// cell2_4.innerHTML = (data["Demand_Baseline"]);
+		// cell2_5.innerHTML = (data["Total_QKM_Baseline"]);
+		// cell2_6.innerHTML = (data["Average_Distance_Baseline"]);
 
 		table.style.width = "100%";
 		table.style.padding = "20px";
