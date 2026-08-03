@@ -114,7 +114,7 @@ if($id != ""){
 							<table class="table" id="optimisedtable" style="width: 100%; text-align: center;">
 								<thead>
 									<tr>
-										<th>Scenario</th>
+
 										<th>WH_Used</th>
 										<th>FPS_Used</th>
 										<th>Total_Allocation</th>
@@ -171,7 +171,7 @@ if($id != ""){
                                     <table id="export_table" class="table" >
                                         <thead>
                                             <tr>												
-												<th style="font-size:16px">Scenario</th>
+
 												<th style="font-size:16px">From</th>
 												<th style="font-size:16px">From_State</th>
 												<th style="font-size:16px">From_ID</th>
@@ -479,7 +479,7 @@ if($id != ""){
 									status = "Implemented"
 								}
 								
-								var subpart1 = "<tr><td>" +  obj[dataField]["scenario"] +  "</td><td>"  + obj[dataField]["from"] +  "</td><td>"  + obj[dataField]["from_state"] +  "</td><td>"  + obj[dataField]["from_id"] +  "</td><td>"  + obj[dataField]["from_name"] +  "</td><td>"  + obj[dataField]["from_district"] +  "</td><td>"  + (obj[dataField]["from_centre"] !== undefined && obj[dataField]["from_centre"] !== null ? obj[dataField]["from_centre"] : "") + "</td><td>" + obj[dataField]["from_lat"] +  "</td><td>"  + obj[dataField]["from_long"] +  "</td><td>"  + obj[dataField]["to"] +  "</td><td>"  + obj[dataField]["to_state"] +  "</td><td>"  + obj[dataField]["to_id"] +  "</td><td>"  + obj[dataField]["to_name"] +  "</td><td>"  + obj[dataField]["to_district"] +  "</td><td>"  + (obj[dataField]["to_centre"] !== undefined && obj[dataField]["to_centre"] !== null ? obj[dataField]["to_centre"] : "") + "</td><td>" + obj[dataField]["to_lat"] +  "</td><td>"  + obj[dataField]["to_long"] +  "</td><td>"  + obj[dataField]["commodity"] +  "</td><td>"  + obj[dataField]["quantity"] +  "</td><td>"  + obj[dataField]["distance"] +  "</td><td>"  + status + "</td></tr>";
+								var subpart1 = "<tr><td>" + obj[dataField]["from"] +  "</td><td>"  + obj[dataField]["from_state"] +  "</td><td>"  + obj[dataField]["from_id"] +  "</td><td>"  + obj[dataField]["from_name"] +  "</td><td>"  + obj[dataField]["from_district"] +  "</td><td>"  + (obj[dataField]["from_centre"] !== undefined && obj[dataField]["from_centre"] !== null ? obj[dataField]["from_centre"] : "") + "</td><td>" + obj[dataField]["from_lat"] +  "</td><td>"  + obj[dataField]["from_long"] +  "</td><td>"  + obj[dataField]["to"] +  "</td><td>"  + obj[dataField]["to_state"] +  "</td><td>"  + obj[dataField]["to_id"] +  "</td><td>"  + obj[dataField]["to_name"] +  "</td><td>"  + obj[dataField]["to_district"] +  "</td><td>"  + (obj[dataField]["to_centre"] !== undefined && obj[dataField]["to_centre"] !== null ? obj[dataField]["to_centre"] : "") + "</td><td>" + obj[dataField]["to_lat"] +  "</td><td>"  + obj[dataField]["to_long"] +  "</td><td>"  + obj[dataField]["commodity"] +  "</td><td>"  + obj[dataField]["quantity"] +  "</td><td>"  + obj[dataField]["distance"] +  "</td><td>"  + status + "</td></tr>";
 								$('#table_body').append(subpart1);
 							}
 						}
@@ -492,7 +492,7 @@ if($id != ""){
 						}
 						var thead = document.createElement("thead");
 						var headerRow = document.createElement("tr");
-						var headers = ["Scenario", "WH_Used", "FPS_Used", "Total_Allocation", "Total_QKM", "Average Distance"];
+						var headers = ["WH_Used", "FPS_Used", "Total_Allocation", "Total_QKM", "Average Distance"];
 						headers.forEach(function(headerText) {
 							var th = document.createElement("th");
 							th.textContent = headerText;
@@ -509,29 +509,27 @@ if($id != ""){
 						var cell3 = newRow.insertCell(2);
 						var cell4 = newRow.insertCell(3);
 						var cell5 = newRow.insertCell(4);
-						var cell6 = newRow.insertCell(5);
 						
-						cell1.innerHTML = objTable["Scenario_optimised"];
-						cell2.innerHTML = objTable["WH_Used_Optimised"];
-						cell3.innerHTML = objTable["FPS_Used"];
-						cell4.innerHTML = formatNumberWithCommas(objTable["Demand"]);
-						cell5.innerHTML = formatNumberWithCommas(objTable["Total_QKM_Optimised"]);
-						cell6.innerHTML = formatNumberWithCommas(objTable["Average_Distance_Optimised"]);
+						cell1.innerHTML = objTable["WH_Used_Optimised"];
+						cell2.innerHTML = objTable["FPS_Used"];
+						cell3.innerHTML = formatNumberWithCommas(objTable["Demand"]);
+						cell4.innerHTML = formatNumberWithCommas(objTable["Total_QKM_Optimised"]);
+						cell5.innerHTML = formatNumberWithCommas(objTable["Average_Distance_Optimised"]);
 
-						var newRow = table.insertRow();
-						var cell1 = newRow.insertCell(0);
-						var cell2 = newRow.insertCell(1);
-						var cell3 = newRow.insertCell(2);
-						var cell4 = newRow.insertCell(3);
-						var cell5 = newRow.insertCell(4);
-						var cell6 = newRow.insertCell(5);
-						
-						cell1.innerHTML = objTable["Scenario"];
-						cell2.innerHTML = objTable["WH_Used"];
-						cell3.innerHTML = objTable["FPS_Used"];
-						cell4.innerHTML = formatNumberWithCommas(objTable["Demand"]);
-						cell5.innerHTML = formatNumberWithCommas(objTable["Total_QKM"]);
-						cell6.innerHTML = formatNumberWithCommas(objTable["Average_Distance"]);
+						// var newRow = table.insertRow();
+						// var cell1 = newRow.insertCell(0);
+						// var cell2 = newRow.insertCell(1);
+						// var cell3 = newRow.insertCell(2);
+						// var cell4 = newRow.insertCell(3);
+						// var cell5 = newRow.insertCell(4);
+						// var cell6 = newRow.insertCell(5);
+						// 
+						// cell1.innerHTML = objTable["Scenario"];
+						// cell2.innerHTML = objTable["WH_Used"];
+						// cell3.innerHTML = objTable["FPS_Used"];
+						// cell4.innerHTML = formatNumberWithCommas(objTable["Demand"]);
+						// cell5.innerHTML = formatNumberWithCommas(objTable["Total_QKM"]);
+						// cell6.innerHTML = formatNumberWithCommas(objTable["Average_Distance"]);
 						
 
 						
