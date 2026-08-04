@@ -144,6 +144,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
 					<a href="Timer.php" style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Edit Deadline</span></a>
 				</li>
 				<li>
+					<a href="/Proc_Tool/Proc_Manual/PB_Rms_Manual.pdf" download style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Manual</span></a>
+				</li>
+				<li>
 					<a style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Version V.1</span></a>
 				</li>
 			</ul>
