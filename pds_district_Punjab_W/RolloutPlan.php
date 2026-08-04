@@ -4,7 +4,7 @@ require('util/SessionCheck.php');
 require('Header.php');
 $district = $_SESSION['district_district'];
 
-$query = "SELECT * FROM optimised_table_leg1 ORDER BY last_updated DESC LIMIT 1";
+$query = "SELECT * FROM optimised_table ORDER BY last_updated DESC LIMIT 1";
 $result = mysqli_query($con,$query);
 $response = array();
 $id = "";
@@ -14,30 +14,23 @@ while($row = mysqli_fetch_array($result))
 }
 
 
-$tablename = "optimiseddata_leg1_" . $id;
+$tablename = "optimiseddata_".$id;
 
-$totalids = 0;
-$totalidsreviewed = 0;
-$totalidsrequested = 0;
-$totalidsapproved = 0;
+$query = "SELECT from_district FROM " . $tablename . " WHERE 1";
+$result = mysqli_query($con,$query);
+$totalids = mysqli_num_rows($result);
 
-if (!empty($id)) {
-    $query = "SELECT from_district FROM " . $tablename . " WHERE 1";
-    $result = mysqli_query($con, $query);
-    $totalids = ($result !== false) ? mysqli_num_rows($result) : 0;
+$query = "SELECT approve_district FROM " . $tablename . " WHERE approve_district='yes'";
+$result = mysqli_query($con,$query);
+$totalidsreviewed = mysqli_num_rows($result);
 
-    $query = "SELECT approve_district FROM " . $tablename . " WHERE approve_district='yes'";
-    $result = mysqli_query($con, $query);
-    $totalidsreviewed = ($result !== false) ? mysqli_num_rows($result) : 0;
+$query = "SELECT new_id_district FROM " . $tablename . " WHERE new_id_district<>''";
+$result = mysqli_query($con,$query);
+$totalidsrequested = mysqli_num_rows($result);
 
-    $query = "SELECT new_id_district FROM " . $tablename . " WHERE new_id_district<>''";
-    $result = mysqli_query($con, $query);
-    $totalidsrequested = ($result !== false) ? mysqli_num_rows($result) : 0;
-
-    $query = "SELECT approve_admin FROM " . $tablename . " WHERE approve_admin='yes'";
-    $result = mysqli_query($con, $query);
-    $totalidsapproved = ($result !== false) ? mysqli_num_rows($result) : 0;
-}
+$query = "SELECT approve_admin FROM " . $tablename . " WHERE approve_admin='yes'";
+$result = mysqli_query($con,$query);
+$totalidsapproved = mysqli_num_rows($result);
 							
 ?>
 <style>
@@ -188,7 +181,7 @@ if (!empty($id)) {
 												<th style="font-size:16px">From_ID</th>
 												<th style="font-size:16px">From_Name</th>
 												<th style="font-size:16px">From_District</th>
-												<th style="font-size:16px">From_Centre</th>
+												<th style="font-size:16px">From_Milling_Center</th>
 												<th style="font-size:16px">From_Lat</th>
 												<th style="font-size:16px">From_Long</th>
 												<th style="font-size:16px">To</th>
@@ -196,7 +189,7 @@ if (!empty($id)) {
 												<th style="font-size:16px">To_ID</th>
 												<th style="font-size:16px">To_Name</th>
 												<th style="font-size:16px">To_District</th>
-												<th style="font-size:16px">To_Centre</th>
+												<th style="font-size:16px">To_Milling_Center</th>
 												<th style="font-size:16px">To_Lat</th>
 												<th style="font-size:16px">To_Long</th>
 												<th style="font-size:16px">Commodity</th>
@@ -273,7 +266,7 @@ if (!empty($id)) {
 	document.getElementById('downloadCSV').addEventListener('click', async function() {
 		try {
 			var month = document.getElementById("month").value;
-			const csvResponse = await fetch('api/DownloadOptimalDataLeg1.php?format=csv&month='+month);
+			const csvResponse = await fetch('api/DownloadOptimalData.php?format=csv&month='+month);
 			const csvBlob = await csvResponse.blob();
 			downloadFile(csvBlob, 'Rollout_Plan_.csv');
 		} catch (error) {
@@ -285,7 +278,7 @@ if (!empty($id)) {
 	document.getElementById('downloadXLSX').addEventListener('click', async function() {
 		try {
 			var month = document.getElementById("month").value;
-			const excelResponse = await fetch('api/DownloadOptimalDataLeg1.php?format=xlsx&month='+month);
+			const excelResponse = await fetch('api/DownloadOptimalData.php?format=xlsx&month='+month);
 			const excelBlob = await excelResponse.blob();
 			downloadFile(excelBlob, 'Rollout_Plan_.xlsx');
 		} catch (error) {
@@ -297,7 +290,7 @@ if (!empty($id)) {
 	document.getElementById('downloadPDF').addEventListener('click', async function() {
 		try {
 			var month = document.getElementById("month").value;
-			const excelResponse = await fetch('api/DownloadOptimalDataLeg1.php?format=pdf&month='+month);
+			const excelResponse = await fetch('api/DownloadOptimalData.php?format=pdf&month='+month);
 			const excelBlob = await excelResponse.blob();
 			downloadFile(excelBlob, 'Rollout_Plan_.pdf');
 		} catch (error) {
@@ -328,7 +321,7 @@ if (!empty($id)) {
 	}
 	
 	function sendData(){
-		post(modifiedIdData ,"api/SaveDataRolloutPlanLeg1.php");
+		post(modifiedIdData ,"api/SaveDataRolloutPlan.php");
 	}
 	
 	var uniqueid_bool_array = [];
@@ -353,7 +346,7 @@ if (!empty($id)) {
 					$("#filter_button").attr("disabled",true);
 					$.ajax({
 						type: "POST",
-						url: "api/FetchRolloutPlanLeg1.php",
+						url: "api/FetchRolloutPlan.php",
 						data: dataString,
 						cache: false,
 						error: function(){
@@ -385,7 +378,7 @@ if (!empty($id)) {
 										status_part = "Already Implemented";
 									}
 									
-									var subpart1 = "<tr><td>" +  obj[dataField]["scenario"] +  "</td><td>"  + obj[dataField]["from"] +  "</td><td>"  + obj[dataField]["from_state"] +  "</td><td>"  + obj[dataField]["from_id"] +  "</td><td>"  + obj[dataField]["from_name"] +  "</td><td>"  + obj[dataField]["from_district"] +  "</td><td>"  + (obj[dataField]["from_centre"] !== undefined && obj[dataField]["from_centre"] !== null ? obj[dataField]["from_centre"] : "") + "</td><td>"  + obj[dataField]["from_lat"] +  "</td><td>"  + obj[dataField]["from_long"] +  "</td><td>"  + obj[dataField]["to"] +  "</td><td>"  + obj[dataField]["to_state"] +  "</td><td>"  + obj[dataField]["to_id"] +  "</td><td>"  + obj[dataField]["to_name"] +  "</td><td>"  + obj[dataField]["to_district"] +  "</td><td>"  + (obj[dataField]["to_centre"] !== undefined && obj[dataField]["to_centre"] !== null ? obj[dataField]["to_centre"] : "") + "</td><td>"  + obj[dataField]["to_lat"] +  "</td><td>"  + obj[dataField]["to_long"] +  "</td><td>Wheat</td><td>"  + obj[dataField]["quantity"] +  "</td><td>"  + obj[dataField]["distance"] + "</td><td>"  + status_part + "</td></tr>";
+									var subpart1 = "<tr><td>" +  obj[dataField]["scenario"] +  "</td><td>"  + obj[dataField]["from"] +  "</td><td>"  + obj[dataField]["from_state"] +  "</td><td>"  + obj[dataField]["from_id"] +  "</td><td>"  + obj[dataField]["from_name"] +  "</td><td>"  + obj[dataField]["from_district"] +  "</td><td>"  + (obj[dataField]["from_millingcentre"] !== undefined && obj[dataField]["from_millingcentre"] !== null ? obj[dataField]["from_millingcentre"] : "") + "</td><td>"  + obj[dataField]["from_lat"] +  "</td><td>"  + obj[dataField]["from_long"] +  "</td><td>"  + obj[dataField]["to"] +  "</td><td>"  + obj[dataField]["to_state"] +  "</td><td>"  + obj[dataField]["to_id"] +  "</td><td>"  + obj[dataField]["to_name"] +  "</td><td>"  + obj[dataField]["to_district"] +  "</td><td>"  + (obj[dataField]["to_millingcentre"] !== undefined && obj[dataField]["to_millingcentre"] !== null ? obj[dataField]["to_millingcentre"] : "") + "</td><td>"  + obj[dataField]["to_lat"] +  "</td><td>"  + obj[dataField]["to_long"] +  "</td><td>"  + obj[dataField]["commodity"] +  "</td><td>"  + obj[dataField]["quantity"] +  "</td><td>"  + obj[dataField]["distance"] + "</td><td>"  + status_part + "</td></tr>";
 									$('#table_body').append(subpart1);
 								}
 								
@@ -402,7 +395,7 @@ if (!empty($id)) {
 			var dataString = "";
 			$.ajax({
 				type: "POST",
-				url: "api/fetchTableDataLeg1.php",
+				url: "api/fetchTableData.php",
 				data: dataString,
 				cache: false,
 				error: function(){

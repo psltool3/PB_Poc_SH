@@ -76,6 +76,7 @@ if ($result && $result->num_rows > 0) {
 			$row["from_name"] = $row['new_name_district'];
 			$row["distance"] = $row['new_distance_district'];
 		}
+		$row["scenario"] = "Optimised";
 		$data[] = $row;			
 	}
 	$resultarray["data"] = $data;
