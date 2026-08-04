@@ -14,7 +14,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 		<!-- <script> var pythonUrl = "http://103.148.165.96:5000/"; var directory = "" </script> -->
-		<script> var pythonUrl = "http://localhost:5016/"; var directory = "" </script>
+		<script> var pythonUrl = "/proxy.php?api=api16&path="; var directory = "" </script>
 								
 		<style>
 		.popup {
@@ -145,6 +145,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
 				</li>
 				<li>
 					<a href="Timer.php" style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Edit Deadline</span></a>
+				</li>
+				<li>
+					<a href="/Proc_Tool/Proc_Manual/PB_Manual.pdf" download style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Manual</span></a>
 				</li>
 				<li>
 					<a style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Version V.1</span></a>
