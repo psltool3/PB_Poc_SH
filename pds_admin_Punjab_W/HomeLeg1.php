@@ -649,7 +649,7 @@ require('Header.php');
 					<table class="table" id="optimisedtable" style="display: none; width: 100%; text-align: center;">
 						<thead>
 							<tr>
-								<th>Scenario</th>
+								<!-- <th>Scenario</th> -->
 								<th>WH_Used</th>
 								<th>FPS_Used</th>
 								<th>Total_Allocation</th>
@@ -1013,7 +1013,7 @@ require('Header.php');
 		
 		var thead = document.createElement("thead");
 		var headerRow = document.createElement("tr");
-		var headers = ["Scenario", "Mill_Used", "Warehouse_Used", "Total_Allocation", "Total_QKM", "Average Distance"];
+		var headers = [/*"Scenario",*/ "Mill_Used", "Warehouse_Used", "Total_Allocation", "Total_QKM", "Average Distance"];
 		headers.forEach(function(headerText) {
 			var th = document.createElement("th");
 			th.textContent = headerText;
@@ -1024,14 +1024,14 @@ require('Header.php');
 		table.appendChild(thead);
 
 		var newRow1 = table.insertRow();
-		var cell1_1 = newRow1.insertCell(0);
-		var cell1_2 = newRow1.insertCell(1);
-		var cell1_3 = newRow1.insertCell(2);
-		var cell1_4 = newRow1.insertCell(3);
-		var cell1_5 = newRow1.insertCell(4);
-		var cell1_6 = newRow1.insertCell(5);
+		//var cell1_1 = newRow1.insertCell(0);
+		var cell1_2 = newRow1.insertCell(0);
+		var cell1_3 = newRow1.insertCell(1);
+		var cell1_4 = newRow1.insertCell(2);
+		var cell1_5 = newRow1.insertCell(3);
+		var cell1_6 = newRow1.insertCell(4);
 		
-		cell1_1.innerHTML = data["Scenario"] === "Inter" ? "Intra" : data["Scenario"];
+		//cell1_1.innerHTML = data["Scenario"] === "Inter" ? "Intra" : data["Scenario"];
 		cell1_2.innerHTML = data["WH_Used"];
 		cell1_3.innerHTML = data["FPS_Used"];
 		cell1_4.innerHTML = formatNumberWithCommas(data["Demand"]);
@@ -1039,14 +1039,14 @@ require('Header.php');
 		cell1_6.innerHTML = formatNumberWithCommas(data["Average_Distance"]);
 		
 		var newRow2 = table.insertRow();
-		var cell2_1 = newRow2.insertCell(0);
-		var cell2_2 = newRow2.insertCell(1);
-		var cell2_3 = newRow2.insertCell(2);
-		var cell2_4 = newRow2.insertCell(3);
-		var cell2_5 = newRow2.insertCell(4);
-		var cell2_6 = newRow2.insertCell(5);
+		//var cell2_1 = newRow2.insertCell(0);
+		var cell2_2 = newRow2.insertCell(0);
+		var cell2_3 = newRow2.insertCell(1);
+		var cell2_4 = newRow2.insertCell(2);
+		var cell2_5 = newRow2.insertCell(3);
+		var cell2_6 = newRow2.insertCell(4);
 
-		cell2_1.innerHTML = data["Scenario_Baseline"];
+		//cell2_1.innerHTML = data["Scenario_Baseline"];
 		cell2_2.innerHTML = data["WH_Used_Baseline"];
 		cell2_3.innerHTML = data["FPS_Used_Baseline"];
 		cell2_4.innerHTML = data["Demand_Baseline"];
