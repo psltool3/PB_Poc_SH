@@ -41,7 +41,7 @@ if (isset($_GET['format'])) {
 
 	$tablename = "optimiseddata_".$id;
 	if ($rolled_out == '1' && !empty($id)) {
-    	$query = "SELECT * FROM ".$tablename." WHERE to_district='$district' AND status='implemented'";
+    	$query = "SELECT * FROM ".$tablename." WHERE to_district='$district'";
     	$result = mysqli_query($con,$query);
     	$numrows = mysqli_num_rows($result);
 	} else {
