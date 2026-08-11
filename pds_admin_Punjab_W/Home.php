@@ -473,8 +473,8 @@ require('Header.php');
 						<div class="col-md-2"></div>
 						<div class="col-md-9">
 							<div class="input-group" style="width:100%;">
-								<input type="date" class="form-control" id="today_date" name="today_date"
-									style="border-radius:5px;font-weight:bold" value="<?php echo date('Y-m-d'); ?>">
+								<input type="text" class="form-control" id="today_date" name="today_date"
+									style="border-radius:5px;font-weight:bold" value="<?php echo date('Y-m-d'); ?>" readonly>
 							</div>
 							<span class="help-block">Selected Date</span>
 						</div>
