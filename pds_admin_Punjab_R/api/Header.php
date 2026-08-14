@@ -106,7 +106,7 @@
 					<a href="../Home.php" style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Step 1.1 Optimise Leg2</span></a>
 				</li>
 				<li>
-					<a href="../OptimisedData.php" style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Step 1.2 Optimise Plan Leg2</span></a>
+					<a href="../OptimisedData.php" style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Step 1.2 Optimised Plan Leg2</span></a>
 				</li>
 				<li>
 					<a href="../RolloutPlan.php" style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Step 1.3 Rollout Plan Leg2</span></a>
@@ -118,7 +118,7 @@
 					<a href="../HomeLeg1.php" style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Step 2.1 Optimise Leg1</span></a>
 				</li>
 				<li>
-					<a href="../OptimisedDataLeg1.php" style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Step 2.2 Optimise Plan Leg1</span></a>
+					<a href="../OptimisedDataLeg1.php" style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Step 2.2 Optimised Plan Leg1</span></a>
 				</li>
 				<li>
 					<a href="../RolloutPlanLeg1.php" style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Step 2.3 Rollout Plan Leg1</span></a>

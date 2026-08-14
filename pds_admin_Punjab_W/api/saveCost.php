@@ -13,10 +13,10 @@ foreach ($_POST as $key => $value) {
     if (substr($key, 0, 5) === 'cost_' && !empty($value)) {
         // Extract the ID — must be numeric only
         $id = substr($key, 5);
-        if (!ctype_digit((string)$id)) {
-            echo "Error : Invalid request.";
-            return;
-        }
+        // if (!ctype_digit((string)$id)) {
+        //     echo "Error : Invalid request.";
+        //     return;
+        // }
 
         $value_temp = $value;
 
@@ -29,7 +29,7 @@ foreach ($_POST as $key => $value) {
         $value = (float)$value_temp;
 
         // Log query with prepared statement
-        $log_query = "SELECT * FROM optimised_table WHERE id = ?";
+        $log_query = "SELECT * FROM optimised_table_leg1 WHERE id = ?";
         $log_stmt = $con->prepare($log_query);
         $log_stmt->bind_param("i", $id);
         $log_stmt->execute();
@@ -45,7 +45,7 @@ foreach ($_POST as $key => $value) {
         writeLog("User ->" ." Cost Added ->". $_SESSION['user'] . "| Requested JSON -> " . json_encode($filteredPost). " | " . $user_id." | " . $user_id1);
 
         // UPDATE with prepared statement (prevents SQL injection)
-        $sql = "UPDATE optimised_table SET cost = ? WHERE id = ?";
+        $sql = "UPDATE optimised_table_leg1 SET cost = ? WHERE id = ?";
         $stmt = $con->prepare($sql);
         $stmt->bind_param("di", $value, $id);
         if ($stmt->execute() !== TRUE) {

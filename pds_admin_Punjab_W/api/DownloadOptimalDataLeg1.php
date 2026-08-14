@@ -25,7 +25,7 @@ if (isset($_GET['format'])) {
 	$district = $_GET['district'];
     
     #$columns = ["scenario","from","from_state","from_id","from_name","from_district","from_centre","from_lat","from_long","wb_id","wb_lat","wb_long","to","to_state","to_id","to_name","to_district","to_centre","to_lat","to_long","commodity","quantity","distance","new_id_district","reason_district","new_distance_district","approve_district","approve_admin","reason_admin","new_id_admin","new_distance_admin"];
-	$columns = ["scenario","from","from_state","from_id","from_name","from_district","from_centre","from_lat","from_long","wb_id","wb_lat","wb_long","to","to_state","to_id","to_name","to_district","to_centre","to_lat","to_long","commodity","quantity","distance","status","new_id_district","reason_district","new_distance_district","approve_district","approve_admin","reason_admin","new_id_admin","new_distance_admin"];
+	$columns = ["scenario","from","from_state","from_id","from_name","from_district","from_centre","from_lat","from_long","wb_id","wb_lat","wb_long","to","to_state","to_id","to_name","to_district","to_centre","to_lat","to_long","commodity","quantity","distance","status"];
 	$columns_pdf = ["scenario","from","from_id","from_name","from_district","from_lat","from_long","to","to_id","to_name","to_district","to_lat","to_long","commodity","quantity","distance","status"];
 
 	$tablename = "optimiseddata_leg1_".$id;

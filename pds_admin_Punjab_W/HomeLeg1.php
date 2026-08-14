@@ -410,7 +410,7 @@ require('Header.php');
 			<div class="panel panel-default">
 				<div class="panel-heading" style="text-align: center;">
 					<h1 style="font-weight: bold; color: #335566;">Punjab PDS Movement Optimisation</h1>
-					<h1 style="font-weight: bold; color: #ff7066;">Kindly Optimised the Leg2-Mill to Warehouse</h1>
+					<h1 style="font-weight: bold; color: #ff7066;">Kindly Optimise the Leg2-Mill to Warehouse</h1>
 
 				</div>
 			</div>

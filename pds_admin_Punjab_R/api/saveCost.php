@@ -13,10 +13,10 @@ foreach ($_POST as $key => $value) {
     if (substr($key, 0, 5) === 'cost_' && !empty($value)) {
         // Extract the ID — must be numeric only
         $id = substr($key, 5);
-        if (!ctype_digit((string)$id)) {
-            echo "Error : Invalid request.";
-            return;
-        }
+        // if (!ctype_digit((string)$id)) {
+        //     echo "Error : Invalid request.";
+        //     return;
+        // }
 
         $value_temp = $value;
 

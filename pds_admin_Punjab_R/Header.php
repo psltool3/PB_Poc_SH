@@ -91,7 +91,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 					<a href="Home.php" style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Step 1.1 Optimise Leg1</span></a>
 				</li>
 				<li <?php echo ($current_page === 'OptimisedData.php') ? 'class="active"' : ''; ?>>
-					<a href="OptimisedData.php" style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Step 1.2 Optimise Plan Leg1</span></a>
+					<a href="OptimisedData.php" style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Step 1.2 Optimised Plan Leg1</span></a>
 				</li>
 				<li <?php echo ($current_page === 'RolloutPlan.php') ? 'class="active"' : ''; ?>>
 					<a href="RolloutPlan.php" style="padding-left:0px"><span class="xn-text" style="font-family:sans-serif;font-weight:italic;font-size:16px;">Step 1.3 Rollout Plan Leg1</span></a>

@@ -57,7 +57,7 @@ require('Header.php');
                                         </thead>
                                         <tbody>
 										<?php
-										$query_table = "SELECT * FROM optimised_table ORDER BY last_updated DESC LIMIT 1";
+										$query_table = "SELECT * FROM optimised_table_leg1 ORDER BY last_updated DESC LIMIT 1";
 										$result_table = mysqli_query($con, $query_table);
 										while($row_table = mysqli_fetch_assoc($result_table)){
 											$year = $row_table['year'];
@@ -71,7 +71,7 @@ require('Header.php');
 											$qkm_optimised = 0;
 											$averagedistance = 0;
 											
-											$tablename = "optimiseddata_".$id;
+											$tablename = "optimiseddata_leg1_".$id;
 
 											$query = "SELECT * FROM ".$tablename." WHERE 1";
 											$result = mysqli_query($con,$query);
