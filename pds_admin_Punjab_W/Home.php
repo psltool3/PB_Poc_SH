@@ -507,7 +507,7 @@ require('Header.php');
 						&nbsp
 						<div class="row">
 							<div
-								style="font-size: 20px; font-weight: 700; margin-top: 0px; padding: 5px; margin-bottom: 20px;">
+								style="font-size: 20px; font-weight: 700; margin-top: 0px; padding: 5px; margin-bottom: 20px; color:black">
 								<i class="fa fa-info-circle" aria-hidden="true"></i> Pre-Analysis
 							</div>
 						</div>
@@ -738,33 +738,28 @@ require('Header.php');
 	setInterval(checkServerStatus, 10000);
 
 	function formatNumberWithCommas(value) {
-		const formattedNumber = Number(value).toFixed(2);
+		const num = Number(value);
 
-		// Separate the integer and decimal parts
-		const parts = formattedNumber.split('.');
-		let integerPart = parts[0];
-		const decimalPart = parts[1] || '';
+		if (Number.isInteger(num)) {
+			return num.toLocaleString('en-IN');
+		}
 
-		// Add commas every two digits from the right in the integer part
-		integerPart = integerPart.replace(/\B(?=(\d{2})+(?!\d))/g, ',');
-
-		// Combine the integer and decimal parts and return the formatted number
-		return integerPart + '.' + decimalPart;
+		return num.toLocaleString('en-IN', {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2
+		});
 	}
 
 	function formatNumberWithCommasWithoutDecimal(value) {
-		const roundedNumber = Math.round(value);
+		const num = Number(value);
 
-		// Separate the integer and decimal parts
-		const parts = roundedNumber.toString().split('.');
-		let integerPart = parts[0];
+		const roundedNumber = Math.round(num * 100) / 100;
 
-		// Add commas every three digits from the right in the integer part
-		integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-		// Return the formatted number
-		return integerPart;
+		return roundedNumber.toLocaleString('en-IN', {
+			maximumFractionDigits: 0
+		});
 	}
+
 
 
 	function toggleState(element) {
@@ -1354,8 +1349,8 @@ require('Header.php');
 					var today_date = document.getElementById("today_date").value;
 
 					// Format the total demand and total capacity values with commas
-					var formattedTotalDemand = totalDemandPaddy.toLocaleString();
-					var formattedTotalCapacity = totalCapacity.toLocaleString();
+					var formattedTotalDemand = formatNumberWithCommas(totalDemandPaddy);
+					var formattedTotalCapacity = formatNumberWithCommas(totalCapacity);
 					var formattedTotalDemand1 = 0;
 					var formattedTotalCapacity1 = 0;
 					var formattedTotalDemand2 = 0;
@@ -1368,8 +1363,8 @@ require('Header.php');
 					var totalDemandFinal = Object.values(data.District_Demand_Mota || {})
 						.reduce((acc, demand) => acc + Number(demand), 0);
 
-					var formattedTotalCapacity3 = totalCapacityFinal.toLocaleString();
-					var formattedTotalDemand3 = totalDemandFinal.toLocaleString();
+					var formattedTotalCapacity3 = formatNumberWithCommas(totalCapacityFinal);
+					var formattedTotalDemand3 = formatNumberWithCommas(totalDemandFinal);
 
 					document.getElementById("totalFciSupply").innerHTML =
 						"<span style='color: white; font-size: 14px;'>Total PC Wheat: " +

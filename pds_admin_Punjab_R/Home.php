@@ -474,7 +474,7 @@ require('Header.php');
 						&nbsp
 						<div class="row">
 							<div
-								style="font-size: 20px; font-weight: 700; margin-top: 0px; padding: 5px; margin-bottom: 20px;">
+								style="font-size: 20px; font-weight: 700; margin-top: 0px; padding: 5px; margin-bottom: 20px; color:black">
 								<i class="fa fa-info-circle" aria-hidden="true"></i> Pre-Analysis
 							</div>
 						<!-- Row 1: Total PC, Total District, Total Mill -->
@@ -706,33 +706,28 @@ require('Header.php');
 	setInterval(checkServerStatus, 10000);
 	
 	function formatNumberWithCommas(value) {
-		const formattedNumber = Number(value).toFixed(2);
+		const num = Number(value);
 
-		// Separate the integer and decimal parts
-		const parts = formattedNumber.split('.');
-		let integerPart = parts[0];
-		const decimalPart = parts[1] || '';
+		if (Number.isInteger(num)) {
+			return num.toLocaleString('en-IN');
+		}
 
-		// Add commas every two digits from the right in the integer part
-		integerPart = integerPart.replace(/\B(?=(\d{2})+(?!\d))/g, ',');
-
-		// Combine the integer and decimal parts and return the formatted number
-		return integerPart + '.' + decimalPart;
+		return num.toLocaleString('en-IN', {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2
+		});
 	}
 	
 	function formatNumberWithCommasWithoutDecimal(value) {
-		const roundedNumber = Math.round(value);
+		const num = Number(value);
 
-		// Separate the integer and decimal parts
-		const parts = roundedNumber.toString().split('.');
-		let integerPart = parts[0];
-  
-		// Add commas every three digits from the right in the integer part
-		integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-	  
-		// Return the formatted number
-		return integerPart;
+		const roundedNumber = Math.round(num * 100) / 100;
+
+		return roundedNumber.toLocaleString('en-IN', {
+			maximumFractionDigits: 0
+		});
 	}
+
 	
 
 	function toggleState(element) {
@@ -1297,8 +1292,8 @@ function handleStateCheckboxChange() {
 				var today_date = document.getElementById("today_date").value;
 
 				// Format the total demand and total capacity values with commas
-				var formattedTotalDemand = totalDemand.toLocaleString();
-				var formattedTotalCapacity = totalCapacity.toLocaleString();
+				var formattedTotalDemand = formatNumberWithCommas(totalDemand);
+				var formattedTotalCapacity = formatNumberWithCommas(totalCapacity);
 
 				document.getElementById("totalFciDemand").innerHTML = "<span style='color: white; font-size: 14px;'>" + "Total Demand: " + formattedTotalDemand + " (Qtl)</span>";
 				document.getElementById("totalFciSupply").innerHTML = "<span style='color: white; font-size: 14px;'>" + "Total Supply: " + formattedTotalCapacity + " (Qtl)</span>";

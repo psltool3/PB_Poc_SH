@@ -57,6 +57,33 @@ require('Header.php');
                                         </thead>
                                         <tbody>
 										<?php
+										if (!function_exists('formatIndianNumber')) {
+											function formatIndianNumber($num, $decimals = 2) {
+												if ($num === null || $num === '') return '';
+												if (!is_numeric($num)) return $num;
+												$num = (float)$num;
+												$isNegative = $num < 0;
+												$num = abs($num);
+												
+												$formatted = number_format($num, $decimals, '.', '');
+												$parts = explode('.', $formatted);
+												$integerPart = $parts[0];
+												$decimalPart = isset($parts[1]) ? '.' . $parts[1] : '';
+												if ($decimalPart === '.00') {
+													$decimalPart = '';
+												}
+
+												if (strlen($integerPart) > 3) {
+													$lastThree = substr($integerPart, -3);
+													$otherNumbers = substr($integerPart, 0, -3);
+													$otherNumbers = preg_replace('/\B(?=(\d{2})+(?!\d))/', ',', $otherNumbers);
+													$integerPart = $otherNumbers . ',' . $lastThree;
+												}
+
+												return ($isNegative ? '-' : '') . $integerPart . $decimalPart;
+											}
+										}
+
 										$query_table = "SELECT * FROM optimised_table_leg1 WHERE 1";
 										$result_table = mysqli_query($con, $query_table);
 										while($row_table = mysqli_fetch_assoc($result_table)){
@@ -97,11 +124,17 @@ require('Header.php');
 											
 											if($cost==null or $cost==""){
 												$temp = "cost_".$id;
-												$cost = "<input type='text' id='".$temp."' name='".$temp."' />";
+												$formattedCost = "<input type='text' id='".$temp."' name='".$temp."' />";
 												$reset = "";
-											}											
+											} else {
+												$formattedCost = formatIndianNumber($cost, 2);
+											}
+
+											$formattedAllocation = formatIndianNumber($allocation, 2);
+											$formattedQkm = formatIndianNumber($qkm, 2);
+											$formattedAvgDistance = formatIndianNumber($averagedistanceoptimised, 2);
 											
-											echo "<tr><td>".$year."</td><td>".$month."</td><td>".$day."</td><td>".$allocation."</td><td>".$qkm."</td><td>".$averagedistanceoptimised."</td><td>".$cost."</td><td>".$reset."</td></tr>";
+											echo "<tr><td>".$year."</td><td>".$month."</td><td>".$day."</td><td>".$formattedAllocation."</td><td>".$formattedQkm."</td><td>".$formattedAvgDistance."</td><td>".$formattedCost."</td><td>".$reset."</td></tr>";
 									
 											}
 										?>
