@@ -967,7 +967,9 @@ require('Header.php');
 			document.getElementById("resultdistrict").innerHTML = "";
 			document.getElementById("resultdistrict1").innerHTML = "";
 			document.getElementById("resultdistrict2").innerHTML = "";
-			document.getElementById("generateoptinizedplanbutton").style.display = "none";
+			// PREVIOUS CODE:
+			// document.getElementById("generateoptinizedplanbutton").style.display = "none";
+			document.getElementById("generateoptinizedplanbutton").style.display = "block";
 		}
 	}
 	
@@ -1378,20 +1380,26 @@ function handleStateCheckboxChange() {
 						handleDistrictCheckboxChange();
 						firstStart = 1;
 					}else{
-						var type = document.getElementById("type").value;
-						if(type=="inter"){
-							document.getElementById("generateoptinizedplanbutton").style.display = "block";
-						}
+						// PREVIOUS CODE:
+						// var type = document.getElementById("type").value;
+						// if(type=="inter"){
+						// 	document.getElementById("generateoptinizedplanbutton").style.display = "block";
+						// }
+						document.getElementById("generateoptinizedplanbutton").style.display = "block";
 					}
 				}
 				else {
-					document.getElementById("result").innerHTML = "Optimization cannot be provided.";
-					document.getElementById("result").style.color = "red";
-					document.getElementById("districtcheckbox").style.display = "none";
+					// PREVIOUS CODE:
+					// document.getElementById("result").innerHTML = "Optimization cannot be provided.";
+					// document.getElementById("result").style.color = "red";
+					// document.getElementById("districtcheckbox").style.display = "none";
+					// document.getElementById("generateoptinizedplanbutton").style.display = "none";
+					document.getElementById("result").innerHTML = "<span style='font-weight: bold; font-size: 20px; color: green;'>Optimization can be done.</span>";
+					document.getElementById("districtcheckbox").style.display = "block";
 					if (!isJobRunning) {
 						document.getElementById("processingPopup").style.display = "none";
 					}
-					document.getElementById("generateoptinizedplanbutton").style.display = "none";
+					document.getElementById("generateoptinizedplanbutton").style.display = "block";
 				}
 
 			})
@@ -1418,7 +1426,9 @@ function handleStateCheckboxChange() {
 		if (!isJobRunning) {
 			document.getElementById("processingPopup").style.display = "none";
 		}
-		document.getElementById("generateoptinizedplanbutton").style.display = "none";
+		// PREVIOUS CODE:
+		// document.getElementById("generateoptinizedplanbutton").style.display = "none";
+		document.getElementById("generateoptinizedplanbutton").style.display = "block";
 	}
 }
 

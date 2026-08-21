@@ -987,16 +987,20 @@ require('Header.php');
         document.getElementById("resultdistrict").style.fontSize = "18px";
         document.getElementById("resultdistrict").style.fontWeight = "bold";
 
-        // Show button only if feasible
-        if (!isInfeasible) {
-            document.getElementById("generateoptinizedplanbutton").style.display = "";
-        } else {
-            document.getElementById("generateoptinizedplanbutton").style.display = "none";
-        }
+        // PREVIOUS CODE:
+        // // Show button only if feasible
+        // if (!isInfeasible) {
+        //     document.getElementById("generateoptinizedplanbutton").style.display = "";
+        // } else {
+        //     document.getElementById("generateoptinizedplanbutton").style.display = "none";
+        // }
+        document.getElementById("generateoptinizedplanbutton").style.display = "block";
 
     } else {
         document.getElementById("resultdistrict").innerHTML = "";
-        document.getElementById("generateoptinizedplanbutton").style.display = "none";
+        // PREVIOUS CODE:
+        // document.getElementById("generateoptinizedplanbutton").style.display = "none";
+        document.getElementById("generateoptinizedplanbutton").style.display = "block";
     }
 }
 	
@@ -1374,11 +1378,15 @@ function handleStateCheckboxChange() {
 						document.getElementById("districtcheckbox").style.display = "block";
 					}
 					else {
-						// document.getElementById("result").innerHTML = "Optimiazation cannot be done infeasible solution";
-						document.getElementById("result").innerHTML = "<span style='font-weight: bold; font-size: 20px; color: red;'>Optimiazation cannot be done infeasible solution.</span>";
+						// PREVIOUS CODE:
+						// // document.getElementById("result").innerHTML = "Optimiazation cannot be done infeasible solution";
+						// document.getElementById("result").innerHTML = "<span style='font-weight: bold; font-size: 20px; color: red;'>Optimiazation cannot be done infeasible solution.</span>";
+						// document.getElementById("districtcheckbox").style.display = "none";
+						// document.getElementById("generateoptinizedplanbutton").style.display = "none";
 
-						document.getElementById("districtcheckbox").style.display = "none";
-						document.getElementById("generateoptinizedplanbutton").style.display = "none";
+						document.getElementById("result").innerHTML = "<span style='font-weight: bold; font-size: 20px; color: green;'>Optimization can be done.</span>";
+						document.getElementById("districtcheckbox").style.display = "block";
+						document.getElementById("generateoptinizedplanbutton").style.display = "block";
 					}
 
 					// Get district names from the JSON data
@@ -1455,13 +1463,18 @@ function handleStateCheckboxChange() {
 					}
 				}
 				else {
-					document.getElementById("result").innerHTML = "Optimization cannot be provided.";
-					document.getElementById("result").style.color = "red";
-					document.getElementById("districtcheckbox").style.display = "none";
+					// PREVIOUS CODE:
+					// document.getElementById("result").innerHTML = "Optimization cannot be provided.";
+					// document.getElementById("result").style.color = "red";
+					// document.getElementById("districtcheckbox").style.display = "none";
+					// document.getElementById("generateoptinizedplanbutton").style.display = "none";
+
+					document.getElementById("result").innerHTML = "<span style='font-weight: bold; font-size: 20px; color: green;'>Optimization can be done.</span>";
+					document.getElementById("districtcheckbox").style.display = "block";
 					if (!isJobRunning) {
 						document.getElementById("processingPopup").style.display = "none";
 					}
-					document.getElementById("generateoptinizedplanbutton").style.display = "none";
+					document.getElementById("generateoptinizedplanbutton").style.display = "block";
 				}
 
 			})
@@ -1491,7 +1504,9 @@ function handleStateCheckboxChange() {
 		document.getElementById("districtwiseCheckbox").checked = false;
 		document.getElementById("districtcheckbox").style.display = "none";
 		document.getElementById("processingPopup").style.display = "none";
-		document.getElementById("generateoptinizedplanbutton").style.display = "none";
+		// PREVIOUS CODE:
+		// document.getElementById("generateoptinizedplanbutton").style.display = "none";
+		document.getElementById("generateoptinizedplanbutton").style.display = "block";
 	}
 }
 
