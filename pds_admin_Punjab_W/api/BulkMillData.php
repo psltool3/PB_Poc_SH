@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require('../util/Connection.php');
 require('../structures/Mill.php');
 require('../util/SessionFunction.php');
@@ -74,9 +74,9 @@ function isValidCoordinate($value, $coordinateType) {
     // Check if it's latitude or longitude and validate within the range
     switch ($coordinateType) {
         case 'latitude':
-            return ($coordinate >= -90 && $coordinate <= 90);
+            return ($coordinate > 0 && $coordinate < 40);
         case 'longitude':
-            return ($coordinate >= -180 && $coordinate <= 180);
+            return ($coordinate > 65);
         default:
             return false;
     }

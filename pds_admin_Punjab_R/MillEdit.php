@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require('util/Connection.php');
 require('util/SessionCheck.php');
 require('Header.php');
@@ -281,6 +281,27 @@ else{
                 alert('Please enter all fields');
                 return false;
             }
+			
+			var numRegex = /^\d+(\.\d+)?$/;
+			if (!numRegex.test(milling_process) || parseFloat(milling_process) < 0) {
+				alert("Milling Process must be a valid non-negative number.");
+				document.getElementById("milling_process").focus();
+				return false;
+			}
+			
+			var lat = parseFloat(latitude);
+			if (isNaN(lat) || lat <= 0 || lat >= 40) {
+				alert("Latitude must be greater than 0 and less than 40.");
+				document.getElementById("latitude").focus();
+				return false;
+			}
+			
+			var lon = parseFloat(longitude);
+			if (isNaN(lon) || lon <= 65) {
+				alert("Longitude must be greater than 65.");
+				document.getElementById("longitude").focus();
+				return false;
+			}
 			
             document.getElementById('popup').style.display = 'block';
         }

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require('../util/Connection.php');
 require('../structures/PC.php');
 require('../util/SessionFunction.php');
@@ -71,12 +71,12 @@ function isValidCoordinate($value, $type) {
     if (!is_numeric($value)) return false;
     $value = floatval($value);
     return $type === 'latitude'
-        ? ($value >= -90 && $value <= 90)
-        : ($value >= -180 && $value <= 180);
+        ? ($value > 0 && $value < 40)
+        : ($value >= -180 && $value <= 65);
 }
 
-function isNumber($value) {
-    return is_numeric($value);
+function isStringNumber($stringValue) {
+    return is_numeric($stringValue) && preg_match('/^\d+(\.\d+)?$/', trim($stringValue)) && floatval($stringValue) >= 0;
 }
 
 /* ================= CSV VALIDATION ================= */
@@ -125,12 +125,12 @@ try {
         else {
             if (!isValidCoordinate($column[$latitude], 'latitude') ||
                 !isValidCoordinate($column[$longitude], 'longitude')) {
-                echo "Error : Invalid Latitude/Longitude<br>";
+                echo "Error : Invalid Latitude/Longitude: Latitude must be greater than 0 and less than 40; Longitude must be greater than 65. Given: Lat: ".$column[$latitude].", Lon: ".$column[$longitude]."<br>";
                 $redirect = 0;
             }
 
-            if (!isNumber($column[$Paddy_Procurement])) {
-                echo "Error : Paddy Procurement must be numeric<br>";
+            if (!isStringNumber($column[$Paddy_Procurement])) {
+                echo "Error : Paddy Procurement must be a valid non-negative number. Given: ".$column[$Paddy_Procurement]."<br>";
                 $redirect = 0;
             }
 
@@ -143,17 +143,6 @@ try {
                 echo "Error : Invalid Milling Center - ".$column[$milling_center]."<br>";
                 $redirect = 0;
             }
-			if (!is_numeric($column[$latitude]) || $column[$latitude] >= 40) {
-				echo "Error : Latitude must be less than 40. Given: " . $column[$latitude];
-				echo "</br>";
-				$redirect = 0;
-			}
-
-			if (!is_numeric($column[$longitude]) || $column[$longitude] <= 65) {
-				echo "Error : Longitude must be more than 65. Given: " . $column[$longitude];
-				echo "</br>";
-				$redirect = 0;
-			}
 			if (
 				!isset($column[$PC_ID]) ||
 				!preg_match('/^[A-Za-z0-9]+$/', $column[$PC_ID])

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require('../util/Connection.php');
 require('../structures/Mill.php');
 require('../util/SessionFunction.php');
@@ -75,16 +75,16 @@ function isValidCoordinate($value, $coordinateType) {
 
     switch ($coordinateType) {
         case 'latitude':
-            return ($coordinate >= -90 && $coordinate <= 90);
+            return ($coordinate > 0 && $coordinate < 40);
         case 'longitude':
-            return ($coordinate >= -180 && $coordinate <= 180);
+            return ($coordinate > 65);
         default:
             return false;
     }
 }
 
 function isStringNumber($stringValue) {
-    return is_numeric($stringValue);
+    return is_numeric($stringValue) && preg_match('/^\d+(\.\d+)?$/', trim($stringValue)) && floatval($stringValue) >= 0;
 }
 
 $redirect = 1;
@@ -127,17 +127,16 @@ try{
 
             // Injected Milling Process Validation
             if (isset($milling_process) && $milling_process >= 0 && isset($column[$milling_process])) {
-                if (!is_numeric(trim($column[$milling_process]))) {
-                    echo "Error : Milling Process must be numeric: " . htmlspecialchars($column[$milling_process]) . "<br>";
+                if (!isStringNumber($column[$milling_process])) {
+                    echo "Error : Milling Process must be a valid non-negative number: " . htmlspecialchars($column[$milling_process]) . "<br>";
                     $redirect = 0;
                 }
             }
 				if(!isValidCoordinate($column[$latitude],'latitude') or !isValidCoordinate($column[$longitude],'longitude')){
-					echo "Error : Check Latitude and Longitude Value Latitude: ".$column[$latitude]." Longitude: ".$column[$longitude];
+					echo "Error : Check Latitude and Longitude Value Latitude: ".$column[$latitude]." Longitude: ".$column[$longitude]." (Latitude must be greater than 0 and less than 40; Longitude must be greater than 65)";
 					echo "</br>";
 					$redirect = 0;
 				}
-
 				if(!in_array(strtoupper(trim($column[$district])), array_map('strtoupper', $districts))){
 					echo "Error : Check District Name: ".$column[$district];
 					echo "</br>";
@@ -145,18 +144,6 @@ try{
 				}
 				if(!in_array(strtoupper(trim($column[$milling_center])), array_map('strtoupper', $milling_centers))){
 					echo "Error : Invalid Milling Center: ".$column[$milling_center];
-					echo "</br>";
-					$redirect = 0;
-				}
-				if (!is_numeric($column[$latitude]) || $column[$latitude] >= 40) {
-					echo "Error : Latitude must be less than 40. Given: " . $column[$latitude];
-					echo "</br>";
-					$redirect = 0;
-				}
-
-				// Longitude check (must be more than 65)
-				if (!is_numeric($column[$longitude]) || $column[$longitude] <= 65) {
-					echo "Error : Longitude must be more than 65. Given: " . $column[$longitude];
 					echo "</br>";
 					$redirect = 0;
 				}

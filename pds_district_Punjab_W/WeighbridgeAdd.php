@@ -237,7 +237,28 @@ $district = ucfirst($_SESSION['district_district']);
                 alert('Please enter all fields');
                 return false;
             }
-			
+
+			var capacityVal = parseFloat(Capacity);
+			if (isNaN(capacityVal) || capacityVal < 0 || !/^\d+(\.\d+)?$/.test(Capacity.trim())) {
+				alert('Capacity must be a non-negative number.');
+				document.getElementById('Capacity').focus();
+				return false;
+			}
+
+			var lat = parseFloat(Latitude);
+			if (isNaN(lat) || lat <= 0 || lat >= 40) {
+				alert('Latitude must be greater than 0 and less than 40.');
+				document.getElementById('Latitude').focus();
+				return false;
+			}
+
+			var lon = parseFloat(Longitude);
+			if (isNaN(lon) || lon <= 65) {
+				alert('Longitude must be greater than 65.');
+				document.getElementById('Longitude').focus();
+				return false;
+			}
+
             document.getElementById('popup').style.display = 'block';
         }
 		

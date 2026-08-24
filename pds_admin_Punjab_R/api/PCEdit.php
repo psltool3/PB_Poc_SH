@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 require('../util/Connection.php');
 require('../structures/PC.php');
@@ -30,16 +30,16 @@ function isValidCoordinate($value, $coordinateType) {
 
     switch ($coordinateType) {
         case 'latitude':
-            return ($coordinate >= -90 && $coordinate <= 90);
+            return ($coordinate > 0 && $coordinate < 40);
         case 'longitude':
-            return ($coordinate >= -180 && $coordinate <= 180);
+            return ($coordinate > 65);
         default:
             return false;
     }
 }
 
 function isStringNumber($stringValue) {
-    return is_numeric($stringValue);
+    return is_numeric($stringValue) && preg_match('/^\d+(\.\d+)?$/', trim($stringValue)) && floatval($stringValue) >= 0;
 }
 
 $person = new Login;
@@ -58,23 +58,13 @@ $row = mysqli_fetch_assoc($result);
 $numrows = mysqli_num_rows($result);
 
 
-if(!isValidCoordinate($_POST["latitude"],'latitude') or !isValidCoordinate($_POST["longitude"],'longitude')){
-	echo "Error : Check Latitude and Longitude Value";
+if(!isValidCoordinate($_POST["latitude"], 'latitude') || !isValidCoordinate($_POST["longitude"], 'longitude')){
+	echo "Error : Check Latitude and Longitude Value (Latitude must be greater than 0 and less than 40; Longitude must be greater than 65)";
 	exit();
 }
 
-if (
-    !isValidCoordinate($_POST["latitude"], 'latitude') ||
-    !isValidCoordinate($_POST["longitude"], 'longitude') ||
-    $_POST["latitude"] >= 40 ||
-    $_POST["longitude"] <= 65
-) {
-    echo "Error : Latitude must be less than 40 and Longitude must be greater than 65";
-    exit();
-}
-
 if(!isStringNumber($_POST["Paddy_Procurement"])){
-	echo "Error : Check Paddy Procurement Value";
+	echo "Error : Check Paddy Procurement Value (Must be a non-negative number)";
 	exit();
 }
 

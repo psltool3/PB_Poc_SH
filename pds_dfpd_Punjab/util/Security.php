@@ -39,10 +39,8 @@ function validateAndDecode($input) {
     // Decode HTML entities and URL encoding
     $decodedInput = urldecode(html_entity_decode($input, ENT_QUOTES, 'UTF-8'));
     
-    // Perform additional validation based on your requirements
-    // For example, you can check length, characters, format, etc.
-    // Here, we are just checking if the input is not empty
-    return !empty($decodedInput) ? $decodedInput : false;
+    // Check if input is not empty, strictly allowing '0' and 0
+    return ($decodedInput !== '' && $decodedInput !== null && $decodedInput !== false) ? $decodedInput : false;
 }
 
 // Apply positive input validation to all elements in $_POST

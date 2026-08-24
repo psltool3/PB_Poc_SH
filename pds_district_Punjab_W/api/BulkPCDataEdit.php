@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require('../util/Connection.php');
 require('../structures/PC.php');
 require('../util/SessionFunction.php');
@@ -69,27 +69,24 @@ function formatName($name) {
 }
 
 function isValidCoordinate($value, $coordinateType) {
-    // Check if the value is a number and not a string
     if (!is_numeric($value)) {
         return false;
     }
    
-    // Convert the value to a float
     $coordinate = floatval($value);
 
-    // Check if it's latitude or longitude and validate within the range
     switch ($coordinateType) {
         case 'latitude':
-            return ($coordinate >= -90 && $coordinate <= 90);
+            return ($coordinate > 0 && $coordinate < 40);
         case 'longitude':
-            return ($coordinate >= -180 && $coordinate <= 180);
+            return ($coordinate > 65);
         default:
             return false;
     }
 }
 
 function isStringNumber($stringValue) {
-    return is_numeric($stringValue);
+    return is_numeric($stringValue) && preg_match('/^\d+(\.\d+)?$/', trim($stringValue)) && floatval($stringValue) >= 0;
 }
 
 // Filter the excel data
@@ -121,29 +118,18 @@ try{
                         exit();
                     }
                     if(!isValidCoordinate($column[$latitude],'latitude') or !isValidCoordinate($column[$longitude],'longitude')){
-                        echo "Error : Check Latitude and Longitude Value Latitude: ".$column[$latitude]." Longitude: ".$column[$longitude];
+                        echo "Error : Check Latitude and Longitude Value Latitude: ".$column[$latitude]." Longitude: ".$column[$longitude]." (Latitude must be greater than 0 and less than 40; Longitude must be greater than 65)";
                         echo "</br>";
                         $redirect = 0;
                     }
 
                     if(!isStringNumber($column[$Paddy_Procurement])){
-                        echo "Error : Check Wheat Procurement Value: ".$column[$Paddy_Procurement];
+                        echo "Error : Check Wheat Procurement Value: ".$column[$Paddy_Procurement]." (Must be a non-negative number)";
                         echo "</br>";
                         $redirect = 0;
                     }
                     
-                    if (!is_numeric($column[$latitude]) || $column[$latitude] >= 40) {
-						echo "Error : Latitude must be less than 40. Given: " . $column[$latitude];
-						echo "</br>";
-						$redirect = 0;
-					}
 
-					// Longitude check (must be more than 65)
-					if (!is_numeric($column[$longitude]) || $column[$longitude] <= 65) {
-						echo "Error : Longitude must be more than 65. Given: " . $column[$longitude];
-						echo "</br>";
-						$redirect = 0;
-					}
 					if (
 						!isset($column[$id]) ||
 						!preg_match('/^[A-Za-z0-9]+$/', $column[$id])

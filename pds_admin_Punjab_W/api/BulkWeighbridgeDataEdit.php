@@ -73,16 +73,16 @@ function isValidCoordinate($value, $coordinateType) {
     $coordinate = floatval($value);
     switch ($coordinateType) {
         case 'latitude':
-            return ($coordinate >= -90 && $coordinate <= 90);
+            return ($coordinate > 0 && $coordinate < 40);
         case 'longitude':
-            return ($coordinate >= -180 && $coordinate <= 180);
+            return ($coordinate > 65);
         default:
             return false;
     }
 }
 
 function isStringNumber($stringValue) {
-    return is_numeric($stringValue);
+    return is_numeric($stringValue) && preg_match('/^\d+(\.\d+)?$/', trim($stringValue)) && floatval($stringValue) >= 0;
 }
 
 
@@ -124,9 +124,8 @@ if (!isset($column[$ID]) || !preg_match('/^[A-Za-z0-9]+$/', $column[$ID])) {
     $redirect = 0;
 }
 
-					if(!isValidCoordinate($column[$Latitude],'latitude') or !isValidCoordinate($column[$Longitude],'longitude')){
-						echo "Error : Check Latitude and Longitude Value Latitude: ".$column[$Latitude]." Longitude: ".$column[$Longitude];
-						echo "</br>";
+					if(!isValidCoordinate($column[$Latitude],'latitude') || !isValidCoordinate($column[$Longitude],'longitude')){
+						echo "Error : Check Latitude and Longitude Value Latitude: ".$column[$Latitude]." Longitude: ".$column[$Longitude]." (Latitude must be greater than 0 and less than 40; Longitude must be greater than 65)<br>";
 						$redirect = 0;
 					}
 
