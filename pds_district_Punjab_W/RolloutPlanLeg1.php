@@ -379,7 +379,7 @@ $totalidsapproved = mysqli_num_rows($result);
 										status_part = "<button class='btn btn-info' id=\"" + uniqueid + "\" onClick='markReview(\"" + uniqueid + "\")'>Mark as Implemented</button>"; 
 										uniqueid_bool_array.push(uniqueid);
 									}
-									else if(status=="implemented"){
+									else if(status && typeof status === 'string' && status.toLowerCase()=="implemented"){
 										status_part = "Already Implemented";
 									}
 									

@@ -133,30 +133,29 @@ if(isset($_SESSION['district_user'])){
                             </div>
                         </div>
                     </li>
-					<li>
-						<a href="../Home.php"> <span class="xn-text">Optimized Planning</span></a>
+					<li <?php if ($currentFile == 'Home.php') echo 'class="active"'; ?>>
+						<a href="Home.php"> <span class="xn-text">Optimised Planning (PC to WH)</span></a>
 					</li>
-					<li>
-						<a href="../RolloutPlan.php"> <span class="xn-text">Rollout Plan</span></a>
+					<li <?php if ($currentFile == 'RolloutPlanLeg1.php') echo 'class="active"'; ?>>
+						<a href="RolloutPlanLeg1.php"> <span class="xn-text">Rollout Plan (PC to WH)</span></a>
 					</li>
-					<li>
-						<a href="../PC.php"> <span class="xn-text">PC</span></a>
+					
+
+					<li <?php if ($currentFile == 'Warehouse.php') echo 'class="active"'; ?>>
+						<a href="Warehouse.php"> <span class="xn-text">Warehouse</span></a>
 					</li>
-					<li>
-						<a href="../Mill.php"> <span class="xn-text">Mill</span></a>
+					<li <?php if ($currentFile == 'Weighbridge.php') echo 'class="active"'; ?>>
+						<a href="Weighbridge.php"> <span class="xn-text">Weighbridge</span></a>
 					</li>
-					<li>
-						<a href="../Warehouse.php"> <span class="xn-text">Warehouse</span></a>
-					</li>
-					<li>
+					<li <?php if ($currentFile == 'Message.php') echo 'class="active"'; ?>>
 						<?php if ($newMessage==0){ ?>
 						<a href="Message.php"> <span class="xn-text">Message</span></a>
 						<?php }else{ ?>
-						<a href="Message.php"> <span class="xn-text">Message </span><img src="../assets/images/new.gif" /></a>
+						<a href="Message.php"> <span class="xn-text">Message </span><img src="assets/images/new.gif" /></a>
 						<?php } ?>
 					</li>
-					<li>
-						<a href="../api/Logout.php"> <span class="xn-text">Logout</span></a>
+					<li <?php if ($currentFile == 'api/Logout.php') echo 'class="active"'; ?>>
+						<a href="api/Logout.php"> <span class="xn-text">Logout</span></a>
 					</li>
                 </ul>
                 <!-- END X-NAVIGATION -->

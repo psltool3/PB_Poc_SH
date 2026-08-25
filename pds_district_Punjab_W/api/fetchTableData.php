@@ -8,13 +8,13 @@ if(!SessionCheck()){
 	return;
 }
 
-$query = "SELECT * FROM optimised_table ORDER BY last_updated DESC";
+$query = "SELECT * FROM optimised_table_leg1 ORDER BY last_updated DESC";
 $result = mysqli_query($con,$query);
 $response = array();
 while($row = mysqli_fetch_array($result))
 {
 	$id = $row["id"];
-	$tablename = "optimiseddata_".$id;
+	$tablename = "optimiseddata_leg1_".$id;
 	$check_query = "SHOW TABLES LIKE '$tablename'";
 	$check_res = $con->query($check_query);
 	if($check_res && $check_res->num_rows > 0) {
