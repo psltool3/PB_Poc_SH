@@ -60,10 +60,9 @@ if($numrows>0){
 					<li <?php if ($currentFile == 'Home.php') echo 'class="active"'; ?>>
 						<a href="Home.php"> <span class="xn-text">Optimised Planning (PC to WH)</span></a>
 					</li>
-					<li <?php if ($currentFile == 'RolloutPlanLeg1.php') echo 'class="active"'; ?>>
-						<a href="RolloutPlanLeg1.php"> <span class="xn-text">Rollout Plan (PC to WH)</span></a>
-					</li>
-					
+					<li <?php if ($currentFile == 'RolloutPlan.php') echo 'class="active"'; ?>>
+						<a href="RolloutPlan.php"> <span class="xn-text">Rollout Plan (PC to WH)</span></a>
+					</li>					
 
 					<li <?php if ($currentFile == 'Warehouse.php') echo 'class="active"'; ?>>
 						<a href="Warehouse.php"> <span class="xn-text">Warehouse</span></a>
