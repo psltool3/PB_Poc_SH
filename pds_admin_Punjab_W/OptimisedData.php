@@ -686,7 +686,7 @@ while($row = mysqli_fetch_array($result))
 								var distance_district = obj[datafield]["new_distance_district"] ? obj[datafield]["new_distance_district"] : "";
 								var district_change_approve = obj[datafield]["district_change_approve"] ? obj[datafield]["district_change_approve"] : "";
 								
-								var subpart1 = "<tr><td>" +  obj[datafield]["scenario"] +  "</td><td>"  + obj[datafield]["from"] +  "</td><td>"  + obj[datafield]["from_state"] +  "</td><td>"  + obj[datafield]["from_id"] +  "</td><td>"  + obj[datafield]["from_name"] +  "</td><td>"  + obj[datafield]["from_district"] +  "</td><td>"  + (obj[datafield]["from_centre"] !== undefined && obj[datafield]["from_centre"] !== null ? obj[datafield]["from_centre"] : "") + "</td><td>"  + obj[datafield]["from_lat"] +  "</td><td>"  + obj[datafield]["from_long"] +  "</td><td>"  + obj[datafield]["to"] +  "</td><td>"  + obj[datafield]["to_state"] +  "</td><td>"  + obj[datafield]["to_id"] +  "</td><td>"  + obj[datafield]["to_name"] +  "</td><td>"  + obj[datafield]["to_district"] +  "</td><td>"  + (obj[datafield]["to_centre"] !== undefined && obj[datafield]["to_centre"] !== null ? obj[datafield]["to_centre"] : "") + "</td><td>"  + obj[datafield]["to_lat"] +  "</td><td>"  + obj[datafield]["to_long"] +  "</td><td>"  + obj[datafield]["commodity"] +  "</td><td>"  + obj[datafield]["quantity"] +  "</td><td>"  + obj[datafield]["distance"] + "</td>";
+								var subpart1 = "<tr><td>" +  obj[datafield]["scenario"] +  "</td><td>"  + obj[datafield]["from"] +  "</td><td>"  + obj[datafield]["from_state"] +  "</td><td>"  + obj[datafield]["from_id"] +  "</td><td>"  + obj[datafield]["from_name"] +  "</td><td>"  + obj[datafield]["from_district"] +  "</td><td>"  + (obj[datafield]["from_millingcentre"] !== undefined && obj[datafield]["from_millingcentre"] !== null ? obj[datafield]["from_millingcentre"] : "") + "</td><td>"  + obj[datafield]["from_lat"] +  "</td><td>"  + obj[datafield]["from_long"] +  "</td><td>"  + obj[datafield]["to"] +  "</td><td>"  + obj[datafield]["to_state"] +  "</td><td>"  + obj[datafield]["to_id"] +  "</td><td>"  + obj[datafield]["to_name"] +  "</td><td>"  + obj[datafield]["to_district"] +  "</td><td>"  + (obj[datafield]["to_millingcentre"] !== undefined && obj[datafield]["to_millingcentre"] !== null ? obj[datafield]["to_millingcentre"] : "") + "</td><td>"  + obj[datafield]["to_lat"] +  "</td><td>"  + obj[datafield]["to_long"] +  "</td><td>"  + obj[datafield]["commodity"] +  "</td><td>"  + obj[datafield]["quantity"] +  "</td><td>"  + obj[datafield]["distance"] + "</td>";
 								
 								
 								if(approve_district=="yes"){
@@ -874,14 +874,14 @@ while($row = mysqli_fetch_array($result))
 						
 						if(result!=""){
 							var resultarray = JSON.parse(result);
-							var toidarray = resultarray.map(function(item) {
-								return item.to;
+							var toid_tonamearray = resultarray.map(function(item) {
+								return item.to_id.toString() + "_" + item.to_name.toString();
 							});
-							if (toidarray.length > 0) {
-								toidarray.forEach(function(toId) {
+							if (toid_tonamearray.length > 0) {
+								toid_tonamearray.forEach(function(toId_toName) {
 									var option = document.createElement("option");
-									option.text = toId;
-									option.value = toId;
+									option.text = toId_toName;
+									option.value = toId_toName.split('_')[0];
 									selectInput.appendChild(option);
 								});
 							}

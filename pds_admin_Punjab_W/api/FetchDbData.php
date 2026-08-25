@@ -53,35 +53,39 @@ $result = $con->query($query);
 $data = null;
 
 if ($result && $result->num_rows > 0) {
-	$query = "SELECT * FROM ".$tablename." WHERE 1";
+	if ($district == "" || $district == "all") {
+		$data = array();
+	} else {
+		$query = "SELECT * FROM ".$tablename." WHERE 1";
 
-	if ($district != "" && $district != "all") {
-		$query .= " AND to_district = '$district'";
-	}
+		if ($district != "" && $district != "all") {
+			$query .= " AND to_district = '$district'";
+		}
 
-	if ($from_id != "") {
-		$query .= " AND from_id = '$from_id'";
-	}
+		if ($from_id != "") {
+			$query .= " AND from_id = '$from_id'";
+		}
 
-	if ($to_id != "") {
-		$query .= " AND `to` = '$to_id'";
-	}
+		if ($to_id != "") {
+			$query .= " AND `to_id` = '$to_id'";
+		}
 
-	if ($reviewed == "reviewed") {
-		$query .= " AND approve_district='yes'";
-	} else if ($reviewed == "notreviewed") {
-		$query .= " AND (approve_district = '' OR approve_district IS NULL)";
-	}
+		if ($reviewed == "reviewed") {
+			$query .= " AND approve_district='yes'";
+		} else if ($reviewed == "notreviewed") {
+			$query .= " AND (approve_district = '' OR approve_district IS NULL)";
+		}
 
-	if ($approved == "approved") {
-		$query .= " AND approve_admin='yes'";
-	} else if ($approved == "notapproved") {
-		$query .= " AND (approve_admin='no' OR approve_admin IS NULL)";
-	}
-	$result = mysqli_query($con,$query);
-	while($row = mysqli_fetch_assoc($result))
-	{
-		$data[] = $row;
+		if ($approved == "approved") {
+			$query .= " AND approve_admin='yes'";
+		} else if ($approved == "notapproved") {
+			$query .= " AND (approve_admin='no' OR approve_admin IS NULL)";
+		}
+		$result = mysqli_query($con,$query);
+		while($row = mysqli_fetch_assoc($result))
+		{
+			$data[] = $row;
+		}
 	}
 
 	$query_warehouse = "SELECT id from warehouse WHERE active='1'";

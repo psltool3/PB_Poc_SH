@@ -328,10 +328,14 @@ $totalidsapproved = mysqli_num_rows($result);
 	
 	function acceptAll(){
 		for (let i = 0; i < uniqueid_bool_array.length; i++) {
-			markReview(uniqueid_bool_array[i]);
+			var selectedId = uniqueid_bool_array[i];
+			modifiedIdData[selectedId] = "yes";
+			var elements = document.querySelectorAll('[id="' + selectedId + '"]');
+			elements.forEach(function(el) {
+				el.className = "btn btn-danger";
+			});
 		}
 	}
-
 	function fetchDataFromServer(){
 				var month = document.getElementById("month").value;
 				var status = document.getElementById("status").value;

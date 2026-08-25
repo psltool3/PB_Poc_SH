@@ -24,7 +24,7 @@ if($numrow>0){
 }
 
 $tablename = "optimiseddata_leg1_".$id;
-$query = "SELECT DISTINCT `to` from $tablename WHERE 1";
+$query = "SELECT DISTINCT to_id, to_name from $tablename WHERE 1";
 if ($district != "" && $district != "all") {
     $query .= " AND to_district='$district'";
 }
