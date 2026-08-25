@@ -32,7 +32,7 @@ function isValidCoordinate($value, $coordinateType) {
         case 'latitude':
             return ($coordinate > 0 && $coordinate < 40);
         case 'longitude':
-            return ($coordinate >= 0 && $coordinate <= 65);
+            return ($coordinate > 65);
         default:
             return false;
     }

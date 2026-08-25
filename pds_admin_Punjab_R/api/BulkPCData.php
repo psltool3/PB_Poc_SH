@@ -72,7 +72,7 @@ function isValidCoordinate($value, $type) {
     $value = floatval($value);
     return $type === 'latitude'
         ? ($value > 0 && $value < 40)
-        : ($value >= -180 && $value <= 65);
+        : ($value > 65);
 }
 
 function isStringNumber($stringValue) {
