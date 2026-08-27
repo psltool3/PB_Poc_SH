@@ -13,32 +13,42 @@ if (isset($_GET['format'])) {
     
    $columns = ["to_district","total_tags","implemented_count","notimplemented_count","district_approved_count","notdistrict_approved_count","admin_approved_count","notadmin_approved_count"];
 
-    $month = $_GET['month'];
-	$parts = explode('_', $month);
+    $month_param = $_GET['month'];
+	$parts = explode('_', $month_param);
 
-	$month = $parts[0];
-	$year = $parts[1];
+	if (count($parts) >= 3) {
+		$year = $parts[0];
+		$month = $parts[1];
+		$day = $parts[2];
+		$query = "SELECT id FROM optimised_table WHERE year='$year' AND month='$month' AND day='$day'";
+	} else if (count($parts) == 2) {
+		$month = $parts[0];
+		$year = $parts[1];
+		$query = "SELECT id FROM optimised_table WHERE month='$month' AND year='$year' ORDER BY last_updated DESC LIMIT 1";
+	} else {
+		$query = "SELECT id FROM optimised_table ORDER BY last_updated DESC LIMIT 1";
+	}
 	
 	$tableData = array();
     array_push($tableData,$columns);
 	
-	
-	$query = "SELECT id FROM optimised_table WHERE month='$month' AND  year='$year'";
 	$result = mysqli_query($con, $query);
-	if($result!=NULL or $result!=false){
+	if($result!=NULL && $result!=false){
 		$row = mysqli_fetch_assoc($result);
-		$query = "SELECT to_district, SUM(CASE WHEN status = 'implemented' THEN 1 ELSE 0 END) AS implemented_count, SUM(CASE WHEN status = 'implemented' THEN 0 ELSE 1 END) AS notimplemented_count, SUM(CASE WHEN approve_district = 'yes' THEN 1 ELSE 0 END) AS district_approved_count, SUM(CASE WHEN approve_district = 'yes' THEN 0 ELSE 1 END) AS notdistrict_approved_count, SUM(CASE WHEN approve_admin = 'yes' THEN 1 ELSE 0 END) AS admin_approved_count, SUM(CASE WHEN approve_district = 'yes' THEN 0 ELSE 1 END) AS notadmin_approved_count, COUNT(*) AS total_tags FROM optimiseddata_".$row['id']." GROUP BY to_district;";
-		$result = mysqli_query($con,$query);
-		if($result!=NULL or $result!=false){
-			$numrows = mysqli_num_rows($result);
-			if($numrows>0){
-				while($row = mysqli_fetch_assoc($result))
-				{
-					$temp = array();
-					for($i=0;$i<count($columns);$i++){
-						array_push($temp,$row[$columns[$i]]);
+		if($row && isset($row['id'])){
+			$query = "SELECT to_district, SUM(CASE WHEN LOWER(TRIM(status)) = 'implemented' THEN 1 ELSE 0 END) AS implemented_count, SUM(CASE WHEN LOWER(TRIM(status)) = 'implemented' THEN 0 ELSE 1 END) AS notimplemented_count, SUM(CASE WHEN LOWER(TRIM(approve_district)) = 'yes' THEN 1 ELSE 0 END) AS district_approved_count, SUM(CASE WHEN LOWER(TRIM(approve_district)) = 'yes' THEN 0 ELSE 1 END) AS notdistrict_approved_count, SUM(CASE WHEN LOWER(TRIM(approve_admin)) = 'yes' THEN 1 ELSE 0 END) AS admin_approved_count, SUM(CASE WHEN LOWER(TRIM(approve_admin)) = 'yes' THEN 0 ELSE 1 END) AS notadmin_approved_count, COUNT(*) AS total_tags FROM optimiseddata_".$row['id']." GROUP BY to_district;";
+			$result = mysqli_query($con,$query);
+			if($result!=NULL && $result!=false){
+				$numrows = mysqli_num_rows($result);
+				if($numrows>0){
+					while($row = mysqli_fetch_assoc($result))
+					{
+						$temp = array();
+						for($i=0;$i<count($columns);$i++){
+							array_push($temp,$row[$columns[$i]]);
+						}
+						array_push($tableData,$temp);
 					}
-					array_push($tableData,$temp);
 				}
 			}
 		}
@@ -49,6 +59,22 @@ if (isset($_GET['format'])) {
 
     // Set headers for the chosen format
     switch ($format) {
+        case 'json':
+            header('Content-Type: application/json');
+            $rows = array();
+            if (count($tableData) > 1) {
+                $headers = $tableData[0];
+                for ($r = 1; $r < count($tableData); $r++) {
+                    $rowObj = array();
+                    for ($c = 0; $c < count($headers); $c++) {
+                        $rowObj[$headers[$c]] = $tableData[$r][$c];
+                    }
+                    $rows[] = $rowObj;
+                }
+            }
+            echo json_encode($rows);
+            break;
+
         case 'csv':
             header('Content-Type: text/csv');
             header('Content-Disposition: attachment; filename="' . $filename . '.csv"');

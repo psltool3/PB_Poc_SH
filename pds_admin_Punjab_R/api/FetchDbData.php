@@ -125,10 +125,13 @@ if ($result && $result->num_rows > 0) {
 		}
 	}
 
+	$warehouse = array();
 	$query_warehouse = "SELECT id from warehouse WHERE active='1'";
 	$result_warehouse = mysqli_query($con,$query_warehouse);
-	while($row_warehouse = mysqli_fetch_assoc($result_warehouse)){
-		$warehouse[] = $row_warehouse;
+	if ($result_warehouse) {
+		while($row_warehouse = mysqli_fetch_assoc($result_warehouse)){
+			$warehouse[] = $row_warehouse;
+		}
 	}
 	$resultarray = [];
 	if($data==null){

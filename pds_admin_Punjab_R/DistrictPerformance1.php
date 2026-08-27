@@ -19,8 +19,11 @@ function getYearMonth(){
 		array_push($response,$temp);
 	}
 
-	$month_year = strval($response[0]['month'])."_".strval($response[0]['year']);
-	return $month_year;
+	if(count($response) > 0){
+		$month_year = strval($response[0]['year'])."_".strval($response[0]['month'])."_".strval($response[0]['day']);
+		return $month_year;
+	}
+	return "";
 }
 
 
@@ -101,26 +104,39 @@ function getYearMonth(){
                                         <tbody>
 										<?php
 										$month_year = getYearMonth();
-										list($month, $year) = explode("_", $month_year);
-										$query = "SELECT id FROM optimised_table_leg1 WHERE month='$month' AND  year='$year'";
-										$result = mysqli_query($con, $query);
-										if($result!=NULL or $result!=false){
-											$row = mysqli_fetch_assoc($result);
-											$query = "SELECT to_district, SUM(CASE WHEN status = 'implemented' THEN 1 ELSE 0 END) AS implemented_count, SUM(CASE WHEN status = 'implemented' THEN 0 ELSE 1 END) AS notimplemented_count, SUM(CASE WHEN approve_district = 'yes' THEN 1 ELSE 0 END) AS district_approved_count, SUM(CASE WHEN approve_district = 'yes' THEN 0 ELSE 1 END) AS notdistrict_approved_count, SUM(CASE WHEN approve_admin = 'yes' THEN 1 ELSE 0 END) AS admin_approved_count, SUM(CASE WHEN approve_district = 'yes' THEN 0 ELSE 1 END) AS notadmin_approved_count, COUNT(*) AS total_tags FROM optimiseddata_leg1_".$row['id']." GROUP BY to_district;";
-											$result = mysqli_query($con,$query);
-											if($result!=NULL or $result!=false){
-												$numrows = mysqli_num_rows($result);
-												if($numrows>0){
-													while($row = mysqli_fetch_assoc($result))
-													{
-														echo "<tr><td>{$row['to_district']}</td>".
-														"<td>{$row['total_tags']}</td>".
-														"<td>{$row['implemented_count']}</td>".
-														"<td>{$row['notimplemented_count']}</td>".
-														"<td>{$row['district_approved_count']}</td>".
-														"<td>{$row['notdistrict_approved_count']}</td>".
-														"<td>{$row['admin_approved_count']}</td>".
-														"<td>{$row['notadmin_approved_count']}</td></tr>";
+										if (!empty($month_year)) {
+											$parts = explode("_", $month_year);
+											if (count($parts) >= 3) {
+												$year = $parts[0];
+												$month = $parts[1];
+												$day = $parts[2];
+												$query = "SELECT id FROM optimised_table_leg1 WHERE year='$year' AND month='$month' AND day='$day'";
+											} else {
+												$month = $parts[0];
+												$year = $parts[1];
+												$query = "SELECT id FROM optimised_table_leg1 WHERE month='$month' AND year='$year' ORDER BY last_updated DESC LIMIT 1";
+											}
+											$result = mysqli_query($con, $query);
+											if($result!=NULL && $result!=false){
+												$row = mysqli_fetch_assoc($result);
+												if($row && isset($row['id'])){
+													$query = "SELECT to_district, SUM(CASE WHEN LOWER(TRIM(status)) = 'implemented' THEN 1 ELSE 0 END) AS implemented_count, SUM(CASE WHEN LOWER(TRIM(status)) = 'implemented' THEN 0 ELSE 1 END) AS notimplemented_count, SUM(CASE WHEN LOWER(TRIM(approve_district)) = 'yes' THEN 1 ELSE 0 END) AS district_approved_count, SUM(CASE WHEN LOWER(TRIM(approve_district)) = 'yes' THEN 0 ELSE 1 END) AS notdistrict_approved_count, SUM(CASE WHEN LOWER(TRIM(approve_admin)) = 'yes' THEN 1 ELSE 0 END) AS admin_approved_count, SUM(CASE WHEN LOWER(TRIM(approve_admin)) = 'yes' THEN 0 ELSE 1 END) AS notadmin_approved_count, COUNT(*) AS total_tags FROM optimiseddata_leg1_".$row['id']." GROUP BY to_district;";
+													$result = mysqli_query($con,$query);
+													if($result!=NULL && $result!=false){
+														$numrows = mysqli_num_rows($result);
+														if($numrows>0){
+															while($row = mysqli_fetch_assoc($result))
+															{
+																echo "<tr><td>{$row['to_district']}</td>".
+																"<td>{$row['total_tags']}</td>".
+																"<td>{$row['implemented_count']}</td>".
+																"<td>{$row['notimplemented_count']}</td>".
+																"<td>{$row['district_approved_count']}</td>".
+																"<td>{$row['notdistrict_approved_count']}</td>".
+																"<td>{$row['admin_approved_count']}</td>".
+																"<td>{$row['notadmin_approved_count']}</td></tr>";
+															}
+														}
 													}
 												}
 											}
@@ -241,7 +257,7 @@ function getYearMonth(){
 		var dataString = "";
 		$.ajax({
 			type: "POST",
-			url: "api/fetchTableData.php",
+			url: "api/fetchTableDataLeg1.php",
 			data: dataString,
 			cache: false,
 			error: function(){
@@ -251,7 +267,7 @@ function getYearMonth(){
 			success: function(result){
 				try{
 					var data = JSON.parse(result);
-					var monthYearCombinations = data.map(item => `${item.month}_${item.year}`);
+					var monthYearCombinations = data.map(item => `${item.year}_${item.month}_${item.day}`);
 					var dropdown = document.getElementById("month");
 					
 					  // Clear existing options
@@ -269,6 +285,39 @@ function getYearMonth(){
 				}
 			}
 		});
+
+		function fetchDataFromServer() {
+			var month = document.getElementById("month").value;
+			if (!month) return;
+			$.ajax({
+				type: "GET",
+				url: "api/DistrictPerformance1.php?format=json&month=" + month,
+				cache: false,
+				success: function(result){
+					try{
+						var data = (typeof result === "object") ? result : JSON.parse(result);
+						var tbody = document.querySelector("#export_table tbody");
+						if (tbody) {
+							tbody.innerHTML = "";
+							data.forEach(function(row) {
+								var tr = document.createElement("tr");
+								tr.innerHTML = "<td>" + (row.to_district || '') + "</td>" +
+									"<td>" + (row.total_tags || 0) + "</td>" +
+									"<td>" + (row.implemented_count || 0) + "</td>" +
+									"<td>" + (row.notimplemented_count || 0) + "</td>" +
+									"<td>" + (row.district_approved_count || 0) + "</td>" +
+									"<td>" + (row.notdistrict_approved_count || 0) + "</td>" +
+									"<td>" + (row.admin_approved_count || 0) + "</td>" +
+									"<td>" + (row.notadmin_approved_count || 0) + "</td>";
+								tbody.appendChild(tr);
+							});
+						}
+					} catch(e) {
+						console.error(e);
+					}
+				}
+			});
+		}
 		
 		document.getElementById('downloadCSV').addEventListener('click', async function() {
 			try {
