@@ -1506,6 +1506,7 @@ fetchFromDb();
 checkActiveJob();
 
 </script>
+<div style="position: fixed; bottom: 8px; right: 15px; font-size: 11px; color: #666; font-weight: bold; z-index: 9999; background: rgba(255,255,255,0.8); padding: 2px 6px; border-radius: 3px; pointer-events: none;">COIN-OR</div>
 </body>
 
 </html>

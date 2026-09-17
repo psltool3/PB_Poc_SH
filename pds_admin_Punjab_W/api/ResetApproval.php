@@ -29,7 +29,8 @@ if (isset($_POST['uniqueid'])) {
                       new_id_admin = NULL, 
                       new_name_admin = NULL, 
                       new_distance_admin = NULL, 
-                      reason_admin = NULL 
+                      reason_admin = NULL, 
+                      status = NULL 
                       WHERE from_id = '$fromid' AND to_id = '$toid' AND commodity = '$commodity'";
             
             if (mysqli_query($con, $query)) {

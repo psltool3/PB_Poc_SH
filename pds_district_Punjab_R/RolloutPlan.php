@@ -20,7 +20,7 @@ $query = "SELECT from_district FROM " . $tablename . " WHERE 1";
 $result = mysqli_query($con,$query);
 $totalids = mysqli_num_rows($result);
 
-$query = "SELECT approve_district FROM " . $tablename . " WHERE approve_district='yes'";
+$query = "SELECT approve_district FROM " . $tablename . " WHERE (approve_district='yes' OR approve_district='no' OR approve_district='same')";
 $result = mysqli_query($con,$query);
 $totalidsreviewed = mysqli_num_rows($result);
 
@@ -45,9 +45,9 @@ $totalidsapproved = mysqli_num_rows($result);
 
         /* You can add similar styles for other elements as needed */
         /* For example: */
-        th
+        th,
         td {
-            font-size: 18px; /* Increase font size for table headers and data cells */
+            font-size: 14px; /* Increase font size for table headers and data cells */
         }
 
         .btn {
@@ -72,8 +72,8 @@ $totalidsapproved = mysqli_num_rows($result);
 		}
 
 		th,	td {
-			border: 2px solid black;
-			padding: 25px;
+			border: 1px solid black;
+			padding: 8px;
 			text-align: center;
 			color: black;
 			border-color: black !important;
@@ -105,7 +105,7 @@ $totalidsapproved = mysqli_num_rows($result);
 
 
 				<!-- PAGE CONTENT WRAPPER -->
-                <div class="page-content-wrap" style="background-color:#fff">
+                <div class="page-content-wrap" style="background-color:#fff; padding-bottom: 20px;">
 
                     <div class="row">
                         <div class="col-md-12">
@@ -266,7 +266,8 @@ $totalidsapproved = mysqli_num_rows($result);
 	document.getElementById('downloadCSV').addEventListener('click', async function() {
 		try {
 			var month = document.getElementById("month").value;
-			const csvResponse = await fetch('api/DownloadOptimalData.php?format=csv&month='+month);
+			var status = document.getElementById("status").value;
+			const csvResponse = await fetch('api/DownloadOptimalData.php?format=csv&month='+month+'&status='+status+'&type=rollout');
 			const csvBlob = await csvResponse.blob();
 			downloadFile(csvBlob, 'Rollout_Plan_.csv');
 		} catch (error) {
@@ -278,7 +279,8 @@ $totalidsapproved = mysqli_num_rows($result);
 	document.getElementById('downloadXLSX').addEventListener('click', async function() {
 		try {
 			var month = document.getElementById("month").value;
-			const excelResponse = await fetch('api/DownloadOptimalData.php?format=xlsx&month='+month);
+			var status = document.getElementById("status").value;
+			const excelResponse = await fetch('api/DownloadOptimalData.php?format=xlsx&month='+month+'&status='+status+'&type=rollout');
 			const excelBlob = await excelResponse.blob();
 			downloadFile(excelBlob, 'Rollout_Plan_.xlsx');
 		} catch (error) {
@@ -286,11 +288,12 @@ $totalidsapproved = mysqli_num_rows($result);
 		}
 	});
 	
-	// Event listener for downloading XLSX
+	// Event listener for downloading PDF
 	document.getElementById('downloadPDF').addEventListener('click', async function() {
 		try {
 			var month = document.getElementById("month").value;
-			const excelResponse = await fetch('api/DownloadOptimalData.php?format=pdf&month='+month);
+			var status = document.getElementById("status").value;
+			const excelResponse = await fetch('api/DownloadOptimalData.php?format=pdf&month='+month+'&status='+status+'&type=rollout');
 			const excelBlob = await excelResponse.blob();
 			downloadFile(excelBlob, 'Rollout_Plan_.pdf');
 		} catch (error) {
@@ -383,7 +386,7 @@ $totalidsapproved = mysqli_num_rows($result);
 										status_part = "Already Implemented";
 									}
 									
-									var subpart1 = "<tr><td>" +  obj[dataField]["scenario"] +  "</td><td>"  + obj[dataField]["from"] +  "</td><td>"  + obj[dataField]["from_state"] +  "</td><td>"  + obj[dataField]["from_id"] +  "</td><td>"  + obj[dataField]["from_name"] +  "</td><td>"  + obj[dataField]["from_district"] +  "</td><td>"  + (obj[dataField]["from_millingcentre"] !== undefined && obj[dataField]["from_millingcentre"] !== null ? obj[dataField]["from_millingcentre"] : "") + "</td><td>"  + obj[dataField]["from_lat"] +  "</td><td>"  + obj[dataField]["from_long"] +  "</td><td>"  + obj[dataField]["to"] +  "</td><td>"  + obj[dataField]["to_state"] +  "</td><td>"  + obj[dataField]["to_id"] +  "</td><td>"  + obj[dataField]["to_name"] +  "</td><td>"  + obj[dataField]["to_district"] +  "</td><td>"  + (obj[dataField]["to_millingcentre"] !== undefined && obj[dataField]["to_millingcentre"] !== null ? obj[dataField]["to_millingcentre"] : "") + "</td><td>"  + obj[dataField]["to_lat"] +  "</td><td>"  + obj[dataField]["to_long"] +  "</td><td>"  + obj[dataField]["commodity"] +  "</td><td>"  + obj[dataField]["quantity"] +  "</td><td>"  + obj[dataField]["distance"] + "</td><td>"  + status_part + "</td></tr>";
+									var subpart1 = "<tr><td>" +  obj[dataField]["scenario"] +  "</td><td>"  + obj[dataField]["from"] +  "</td><td>"  + obj[dataField]["from_state"] +  "</td><td>"  + obj[dataField]["from_id"] +  "</td><td>"  + obj[dataField]["from_name"] +  "</td><td>"  + obj[dataField]["from_district"] +  "</td><td>"  + obj[dataField]["from_millingcentre"] +  "</td><td>"  + obj[dataField]["from_lat"] +  "</td><td>"  + obj[dataField]["from_long"] +  "</td><td>"  + obj[dataField]["to"] +  "</td><td>"  + obj[dataField]["to_state"] +  "</td><td>"  + obj[dataField]["to_id"] +  "</td><td>"  + obj[dataField]["to_name"] +  "</td><td>"  + obj[dataField]["to_district"] +  "</td><td>"  + obj[dataField]["to_millingcentre"] +  "</td><td>"  + obj[dataField]["to_lat"] +  "</td><td>"  + obj[dataField]["to_long"] +  "</td><td>"  + obj[dataField]["commodity"] +  "</td><td>"  + obj[dataField]["quantity"] +  "</td><td>"  + obj[dataField]["distance"] + "</td><td>"  + status_part + "</td></tr>";
 									$('#table_body').append(subpart1);
 								}
 								

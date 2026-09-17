@@ -14,23 +14,6 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) >
 }
 $_SESSION['last_activity'] = time();
 
-// -----------------------------
-// Session Hijack Protection
-// -----------------------------
-$user_ip = $_SERVER['REMOTE_ADDR'];
-$user_agent = $_SERVER['HTTP_USER_AGENT'];
-
-if (!isset($_SESSION['USER_IP']) || !isset($_SESSION['USER_AGENT'])) {
-    $_SESSION['USER_IP'] = $user_ip;
-    $_SESSION['USER_AGENT'] = $user_agent;
-} else {
-    if ($_SESSION['USER_IP'] !== $user_ip || $_SESSION['USER_AGENT'] !== $user_agent) {
-        session_unset();
-        session_destroy();
-        header("Location: AdminLogin.html?error=session_hijacked");
-        exit();
-    }
-}
 
 // -----------------------------
 // Auth Check

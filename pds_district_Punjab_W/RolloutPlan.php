@@ -20,7 +20,7 @@ $query = "SELECT from_district FROM " . $tablename . " WHERE 1";
 $result = mysqli_query($con,$query);
 $totalids = mysqli_num_rows($result);
 
-$query = "SELECT approve_district FROM " . $tablename . " WHERE approve_district='yes'";
+$query = "SELECT approve_district FROM " . $tablename . " WHERE (approve_district='yes' OR approve_district='no' OR approve_district='same')";
 $result = mysqli_query($con,$query);
 $totalidsreviewed = mysqli_num_rows($result);
 
@@ -266,7 +266,7 @@ $totalidsapproved = mysqli_num_rows($result);
 	document.getElementById('downloadCSV').addEventListener('click', async function() {
 		try {
 			var month = document.getElementById("month").value;
-			const csvResponse = await fetch('api/DownloadOptimalDataLeg1.php?format=csv&month='+month);
+			const csvResponse = await fetch('api/DownloadOptimalDataLeg1.php?format=csv&month='+month+'&type=rollout');
 			const csvBlob = await csvResponse.blob();
 			downloadFile(csvBlob, 'Rollout_Plan_.csv');
 		} catch (error) {
@@ -278,7 +278,7 @@ $totalidsapproved = mysqli_num_rows($result);
 	document.getElementById('downloadXLSX').addEventListener('click', async function() {
 		try {
 			var month = document.getElementById("month").value;
-			const excelResponse = await fetch('api/DownloadOptimalDataLeg1.php?format=xlsx&month='+month);
+			const excelResponse = await fetch('api/DownloadOptimalDataLeg1.php?format=xlsx&month='+month+'&type=rollout');
 			const excelBlob = await excelResponse.blob();
 			downloadFile(excelBlob, 'Rollout_Plan_.xlsx');
 		} catch (error) {
@@ -286,11 +286,11 @@ $totalidsapproved = mysqli_num_rows($result);
 		}
 	});
 	
-	// Event listener for downloading XLSX
+	// Event listener for downloading PDF
 	document.getElementById('downloadPDF').addEventListener('click', async function() {
 		try {
 			var month = document.getElementById("month").value;
-			const excelResponse = await fetch('api/DownloadOptimalDataLeg1.php?format=pdf&month='+month);
+			const excelResponse = await fetch('api/DownloadOptimalDataLeg1.php?format=pdf&month='+month+'&type=rollout');
 			const excelBlob = await excelResponse.blob();
 			downloadFile(excelBlob, 'Rollout_Plan_.pdf');
 		} catch (error) {

@@ -57,6 +57,6 @@ foreach ($_POST as $key => $value) {
 	}
 }
 mysqli_close($con);
-echo "<script>window.location.href = '../RolloutPlanLeg1.php';</script>";
+echo "<script>window.location.href = '../RolloutPlan.php';</script>";
 ?>
 <?php require('Fullui.php');  ?>

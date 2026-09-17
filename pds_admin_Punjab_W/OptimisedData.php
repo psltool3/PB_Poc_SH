@@ -149,7 +149,7 @@ while($row = mysqli_fetch_array($result))
 									<div class="card h-100"
 										style="background-color:#FFC167; color:white; padding:20px; font-weight: bold;">
 										<div style="font-size:25px" id="totalidsrequested"></div>
-										<div style="font-size:15px">TOTAL TAGS CHANGE REQUESTED</div>
+										<div style="font-size:15px">TOTAL IMPLEMENTED</div>
 									</div>
 								</div>
 								<div class="col-md-3 mb-4">

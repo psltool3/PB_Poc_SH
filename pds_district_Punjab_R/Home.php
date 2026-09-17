@@ -22,11 +22,11 @@ $query = "SELECT to_district FROM ". $tablename ." WHERE to_district='$district'
 $result = mysqli_query($con,$query);
 $totalids = mysqli_num_rows($result);
 
-$query = "SELECT approve_district FROM ". $tablename ." WHERE to_district='$district' AND approve_district='yes'";
+$query = "SELECT approve_district FROM ". $tablename ." WHERE to_district='$district' AND ( approve_admin='no' OR (approve_district='yes' AND approve_admin='yes'))";
 $result = mysqli_query($con,$query);
 $totalidsreviewed = mysqli_num_rows($result);
 
-$query = "SELECT approve_district FROM ".$tablename." WHERE to_district='$district' AND approve_district != 'yes'";
+$query = "SELECT approve_district FROM ".$tablename." WHERE to_district='$district' AND (approve_district='no' AND approve_admin='yes')";
 $result = mysqli_query($con,$query);
 $totalidsrequested = mysqli_num_rows($result);
 
@@ -65,9 +65,9 @@ if($currentTimestamp >= $targetTimestamp) {
 
 	/* You can add similar styles for other elements as needed */
 	/* For example: */
-	th
+	th,
 	td {
-		font-size: 18px; /* Increase font size for table headers and data cells */
+		font-size: 14px; /* Increase font size for table headers and data cells */
 	}
 
 	.btn {
@@ -92,8 +92,8 @@ if($currentTimestamp >= $targetTimestamp) {
 	}
 
 	th,	td {
-		border: 2px solid black;
-		padding: 25px;
+		border: 1px solid black;
+		padding: 8px;
 		text-align: center;
 		color: black;
 		border-color: black !important;
@@ -148,7 +148,7 @@ if($currentTimestamp >= $targetTimestamp) {
 
 
 				<!-- PAGE CONTENT WRAPPER -->
-                <div class="page-content-wrap">
+                <div class="page-content-wrap" style="background-color:#fff; padding-bottom: 20px;">
 
                     <div class="row">
                         <div class="col-md-12">
@@ -298,6 +298,7 @@ if($currentTimestamp >= $targetTimestamp) {
 											echo "<button class='btn btn-primary pull-right' type='button'>Time Expired</button>";
 										}
 										?>
+                                        <div style="clear: both;"></div>
                                         &nbsp </br>
 									<div id="popup" class="popup">
 										<a class="close" onclick="hidePopup()" style="font-size:25px">Ã—</a>
@@ -745,7 +746,11 @@ if($currentTimestamp >= $targetTimestamp) {
 									
 									var reset_button = "";
 									if (approve_district !== "") {
-										reset_button = "<td><button class='btn btn-danger' onclick='resetDistrictApproval(\"" + uniqueid + "\")'>Reset</button></td>";
+										if (approve_admin === "yes" || approve_admin === "no") {
+											reset_button = "<td><button class='btn btn-secondary' disabled title='Admin has already taken action'>Reset</button></td>";
+										} else {
+											reset_button = "<td><button class='btn btn-danger' onclick='resetDistrictApproval(\"" + uniqueid + "\")'>Reset</button></td>";
+										}
 									} else {
 										reset_button = "<td></td>";
 									}
@@ -801,7 +806,8 @@ if($currentTimestamp >= $targetTimestamp) {
 			});
 		}
     </script>
-    </body>
+    <div style="position: fixed; bottom: 8px; right: 15px; font-size: 11px; color: #666; font-weight: bold; z-index: 9999; background: rgba(255,255,255,0.8); padding: 2px 6px; border-radius: 3px; pointer-events: none;">COIN-OR</div>
+</body>
 </html>
 
 

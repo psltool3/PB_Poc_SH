@@ -32,13 +32,13 @@ if (!empty($id)) {
 		$totalids = mysqli_num_rows($result);
 	}
 
-	$query = "SELECT approve_district FROM `". $tablename ."` WHERE to_district='$districtSafe' AND approve_district='yes'";
+	$query = "SELECT approve_district FROM ". $tablename ." WHERE to_district='$district' AND ( approve_admin='no' OR (approve_district='yes' AND approve_admin='yes'))";
 	$result = mysqli_query($con,$query);
 	if ($result) {
 		$totalidsreviewed = mysqli_num_rows($result);
 	}
 
-	$query = "SELECT approve_district FROM `".$tablename."` WHERE to_district='$districtSafe' AND approve_district != 'yes'";
+	$query = "SELECT approve_district FROM ".$tablename." WHERE to_district='$district' AND (approve_district='no' AND approve_admin='yes')";
 	$result = mysqli_query($con,$query);
 	if ($result) {
 		$totalidsrequested = mysqli_num_rows($result);
@@ -762,7 +762,11 @@ if($currentTimestamp >= $targetTimestamp) {
 									
 									var reset_button = "";
 									if (approve_district !== "") {
-										reset_button = "<td><button class='btn btn-danger' onclick='resetDistrictApproval(\"" + uniqueid + "\")'>Reset</button></td>";
+										if (approve_admin === "yes" || approve_admin === "no") {
+											reset_button = "<td><button class='btn btn-secondary' disabled title='Admin has already taken action'>Reset</button></td>";
+										} else {
+											reset_button = "<td><button class='btn btn-danger' onclick='resetDistrictApproval(\"" + uniqueid + "\")'>Reset</button></td>";
+										}
 									} else {
 										reset_button = "<td></td>";
 									}
@@ -818,7 +822,8 @@ if($currentTimestamp >= $targetTimestamp) {
 			});
 		}
     </script>
-    </body>
+    <div style="position: fixed; bottom: 8px; right: 15px; font-size: 11px; color: #666; font-weight: bold; z-index: 9999; background: rgba(255,255,255,0.8); padding: 2px 6px; border-radius: 3px; pointer-events: none;">COIN-OR</div>
+</body>
 </html>
 
 

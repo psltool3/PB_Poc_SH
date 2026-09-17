@@ -40,11 +40,11 @@ $query = "SELECT from_district FROM " . $tablename . " WHERE 1";
 $result = mysqli_query($con,$query);
 $totalids = mysqli_num_rows($result);
 
-$query = "SELECT approve_district FROM " . $tablename . " WHERE approve_district='yes'";
+$query = "SELECT approve_district FROM " . $tablename . " WHERE (approve_district='yes' OR approve_district='no' OR approve_district='same')";
 $result = mysqli_query($con,$query);
 $totalidsreviewed = mysqli_num_rows($result);
 
-$query = "SELECT new_id_district FROM " . $tablename . " WHERE new_id_district<>''";
+$query = "SELECT new_id_district FROM " . $tablename . " WHERE (approve_admin='no') OR (approve_district='yes' AND approve_admin='yes')";
 $result = mysqli_query($con,$query);
 $totalidsrequested = mysqli_num_rows($result);
 

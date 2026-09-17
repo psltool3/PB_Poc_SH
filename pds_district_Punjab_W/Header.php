@@ -41,7 +41,7 @@ if($numrows>0){
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
-                        <a href="index.php">District Panel</a>
+                        <a >District Panel</a>
                         <a href="#" class="x-navigation-control"></a>
                     </li>
                     <li class="xn-profile">
